@@ -1,6 +1,7 @@
 package algo3Ludo;
 
 
+import algo3Ludo.Casilla.Tipo;
 import algo3Ludo.Ficha.Estado;
 
 public class EleccionMoverFicha implements Eleccion {
@@ -26,7 +27,7 @@ public class EleccionMoverFicha implements Eleccion {
 			jugador.fichasEnJuego--;
 		}
 
-		if(tablero.fichaCome(ficha)) {
+		if(tablero.fichaCome(ficha) && ficha.casilla.tipoCasilla != Tipo.PROTEGIDO) {
 			tablero.comer(ficha);
 			jugador.comio = true;
 			ficha.fueComida = true;

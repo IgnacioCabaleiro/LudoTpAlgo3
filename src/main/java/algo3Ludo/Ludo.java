@@ -46,12 +46,12 @@ public class Ludo {
 		
 		while(!termino()) {	
 			jugadorActual.comio = false;
+			dado = Dado.lanzarDado();
 			System.out.println("----------------------------------------------------");
 			for(int i = 0; i < tablero.listaTablero.size();i++) {
 				System.out.print(i + "" + tablero.listaTablero.get(i).fichas);
 			}
 			System.out.println("");
-			dado = Dado.lanzarDado();
 			imprimirTurno(jugadorActual);
 			System.out.println("El resultado del dado es: " + dado);
 			jugadorActual.movimientoARealizar = dado;
@@ -71,13 +71,7 @@ public class Ludo {
 			if (cantidadDe6 == 0 && !jugadorActual.comio) {
 				jugadorActual = cambiarTurno();	
 			}
-			for(int i = 0; i < jugadores.size();i++) {
-				for(int j = 0; j < jugadores.get(i).fichas.size();j++) {
-					if(jugadores.get(i).fichas.get(j).fueComida) {
-						jugadores.get(i).fichasEnJuego--;
-					}
-				}
-			}
+			restarFichasEnJuego();
 		}
 	}
 	
@@ -172,4 +166,13 @@ public class Ludo {
         }
     }
 	
+	public void restarFichasEnJuego() {
+		for(int i = 0; i < jugadores.size();i++) {
+			for(int j = 0; j < jugadores.get(i).fichas.size();j++) {
+				if(jugadores.get(i).fichas.get(j).fueComida) {
+					jugadores.get(i).fichasEnJuego--;
+				}
+			}
+		}
+	}
 }

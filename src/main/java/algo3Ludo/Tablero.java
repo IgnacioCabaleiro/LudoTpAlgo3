@@ -165,7 +165,6 @@ public class Tablero {
 				return casillaActual;
 			
 			}
-			//cambiarEstado(ficha);
 			i++;
 		}
 		return casillaActual;
