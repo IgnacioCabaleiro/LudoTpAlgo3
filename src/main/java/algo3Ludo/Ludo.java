@@ -45,20 +45,21 @@ public class Ludo {
 	public void jugar() {
 		
 		while(!termino()) {	
+			jugadorActual.comio = false;
 			System.out.println("----------------------------------------------------");
 			for(int i = 0; i < tablero.listaTablero.size();i++) {
 				System.out.print(i + "" + tablero.listaTablero.get(i).fichas);
 			}
 			System.out.println("");
 			dado = Dado.lanzarDado();
-			System.out.println("El turno es del "+ jugadorActual.color);
-			System.out.println(dado);
+			imprimirTurno(jugadorActual);
+			System.out.println("El resultado del dado es: " + dado);
 			jugadorActual.movimientoARealizar = dado;
 			if(dado == 6) { //caso que sale 6
 				salioEl6();
 			}
 			else if(dado != 6 && jugadorActual.fichasEnJuego > 0) { // caso que no sale el 6
-				System.out.println("Puede mover "+jugadorActual.fichasEnJuego+" ficha");
+				System.out.println("Puede mover " + jugadorActual.fichasEnJuego + " ficha");
 				eleccion = new EleccionMoverFicha();
 				eleccion.ejecutar(jugadorActual, tablero);
 				cantidadDe6 = 0;
@@ -90,16 +91,22 @@ public class Ludo {
 				pantalla.println("Sacaste 6: elegi si queres sacar ficha o mover una existente (~mover ficha~ o ~sacar ficha~)");
 				rta = teclado.nextLine();
 			}
-			if(rta.equals("sacar ficha") && jugadorActual.fichasJugadas < 4) {
+			if(rta.equals("sacar ficha") && jugadorActual.fichasEnJuego < 4) {
 				System.out.println("Puede sacar una ficha");
 				eleccion = new EleccionSacarFicha();
 				eleccion.ejecutar(jugadorActual , tablero);
 			}
-			else {
+			else if(rta.equals("mover ficha") && jugadorActual.fichasEnJuego > 0){
 				System.out.println("Puede mover una ficha");
 				eleccion = new EleccionMoverFicha();
 				eleccion.ejecutar(jugadorActual, tablero);
 			}
+			else {
+				System.out.println("No puede mover niguna ficha, se le quitará una de la base automaticamente");
+                eleccion = new EleccionSacarFicha();
+                eleccion.ejecutar(jugadorActual , tablero);
+			}
+				
 		}
 		else {
 			cantidadDe6 = 0;
@@ -150,5 +157,19 @@ public class Ludo {
 		return false;
 	}
 	
+	public void imprimirTurno(Jugador jugador) {
+        if(jugadorActual.color == Color.ROJO) {
+            System.out.println("El turno es del " + "\u001B[31m" + jugadorActual.color + "\u001B[0m");
+        }
+        else if(jugadorActual.color == Color.AZUL) {
+            System.out.println("El turno es del " + "\u001B[34m" + jugadorActual.color + "\u001B[0m");
+        }
+        else if(jugadorActual.color == Color.AMARILLO) {
+            System.out.println("El turno es del " + "\u001B[33m" + jugadorActual.color + "\u001B[0m");
+        }
+        else if(jugadorActual.color == Color.VERDE) {
+            System.out.println("El turno es del " + "\u001B[32m" + jugadorActual.color + "\u001B[0m");
+        }
+    }
 	
 }

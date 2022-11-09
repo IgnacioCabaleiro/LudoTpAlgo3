@@ -213,10 +213,10 @@ public class Tablero {
 	public void comer(Ficha ficha) {
 		Casilla casilla = ficha.casilla;
 		Ficha fichaAComer = null;
-		for (Ficha fichaCasilla : casilla.fichas) {
+		for (Ficha fichaCasilla : this.listaTablero.get(casilla.posicion).fichas) {
 			if (fichaCasilla.color != ficha.color) {			
 				fichaAComer = fichaCasilla;
-				casilla.sacarFicha(fichaAComer);
+				//casilla.sacarFicha(fichaAComer);
 				listaTablero.get(casilla.posicion).fichas.remove(fichaAComer);
 				fichaAComer.estado = Estado.BASE;
 			}
@@ -230,6 +230,6 @@ public class Tablero {
 			}
 		}			
 		return comio;
-	}	
+	}
 	
 }
