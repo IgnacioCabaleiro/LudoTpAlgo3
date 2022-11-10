@@ -15,11 +15,12 @@ public class JugadorMaquina implements ITipoJugador{
 		for(Ficha ficha : fichas) {
 			if(fichas.get(i).estado != Estado.GANADO && fichas.get(i).estado != Estado.BASE) {
 				fichasASortear.add(ficha);
+				pantalla.println("-La ficha " + (i+1) + " que esta en la posicion " + ficha.casilla.posicion + "...");
+				
 			}
 			i++;
 		}
-		int numeroRand = (int)(Math.random()*fichasASortear.size());
 		
-		return fichasASortear.get(numeroRand);
+		return fichasASortear.get((int)(Math.random()*fichasASortear.size()));
 	}
 }

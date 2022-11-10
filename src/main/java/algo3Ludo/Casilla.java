@@ -24,9 +24,12 @@ public class Casilla {
 		this.color = color;
 		this.fichas = new ArrayList<Ficha>(3);
 	}
+	//se encarga de  eliminar la ficha que se le pasa por parametro de la lista de fichas
 	public void sacarFicha(Ficha ficha) {
 		fichas.remove(ficha);
 	}
+	
+	//se encarga de  agregar la ficha que se le pasa por parametro de la lista de fichas
 	public void ponerFicha(Ficha ficha) {
 		fichas.add(ficha);
 		ficha.casilla.posicion = this.posicion;

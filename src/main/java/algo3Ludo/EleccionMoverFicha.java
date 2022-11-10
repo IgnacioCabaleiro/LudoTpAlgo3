@@ -11,12 +11,14 @@ public class EleccionMoverFicha implements Eleccion {
 		Ficha ficha;
 		ITipoJugador jugadorNormal = new JugadorNormal();
 		ITipoJugador jugadorIA = new JugadorMaquina();
+		
 		if(jugador.tipoJugador.equals("normal")) {			
 			ficha = jugadorNormal.elegirFicha(jugador);
 		}
 		else {			
 			ficha = jugadorIA.elegirFicha(jugador);
 		}
+		
 		System.out.println("La ficha estaba en la posicion " + ficha.casilla.posicion);
 		System.out.println("El estado de la ficha es (antes de mover) " + ficha.estado);
 		tablero.moverFicha(ficha , movimiento);			
@@ -27,14 +29,12 @@ public class EleccionMoverFicha implements Eleccion {
 			jugador.fichasEnJuego--;
 		}
 
-		if(tablero.fichaCome(ficha) && ficha.casilla.tipoCasilla != Tipo.PROTEGIDO) {
+		if(tablero.fichaCome(ficha) && ficha.casilla.tipoCasilla == Tipo.NORMAL) {
 			tablero.comer(ficha);
 			jugador.comio = true;
-			ficha.fueComida = true;
 		}
 		else {
 			jugador.comio = false;
-			ficha.fueComida = false;
 		}
 
 	}

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import algo3Ludo.Ficha.Estado;
 
 public class JugadorNormal implements ITipoJugador{
-	//faltaria hacer validacion de que pasa si elige una ficha que no esta en juego (que esta en la base o ya gano)
 
 	public Ficha elegirFicha(Jugador jugador) {
 		ArrayList<Ficha> fichas = jugador.fichas;
@@ -14,7 +13,7 @@ public class JugadorNormal implements ITipoJugador{
 			int i = 0;
 			for(Ficha ficha:fichas) {
 				if(ficha.estado != Estado.BASE && ficha.estado != Estado.GANADO) {
-					pantalla.println("-La ficha " + (i+1) + " que esta en la posicion " + ficha.casilla.posicion + "...");
+					pantalla.println("-La ficha " + (i+1) +" que esta en la posicion " + ficha.casilla.posicion + "...");
 					numeros.add(String.valueOf(i+1));
 					
 				}

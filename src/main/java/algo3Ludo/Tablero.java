@@ -23,7 +23,7 @@ public class Tablero {
 	ArrayList<Ficha> fichasGanadasVerde;
 	ArrayList<Ficha> fichasGanadasAmarillo;
 	ArrayList<Ficha> fichasGanadasAzul;
-	
+
 	public Tablero() {
 		crearTablero();
 		crearRectasFinales();
@@ -217,7 +217,12 @@ public class Tablero {
 				fichaAComer = fichaCasilla;
 				//casilla.sacarFicha(fichaAComer);
 				listaTablero.get(casilla.posicion).fichas.remove(fichaAComer);
+				fichaAComer.fueComida = true;
 				fichaAComer.estado = Estado.BASE;
+			}
+			else {
+				fichaAComer.fueComida = false;
+				
 			}
 		}	
 	}

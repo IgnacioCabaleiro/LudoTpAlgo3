@@ -15,8 +15,8 @@ public class Jugador {
 	public Color color;
 	boolean comio;
 	int fichasEnJuego;
-	int movimientoARealizar;
 	int fichasJugadas;
+	int movimientoARealizar;
 	
 	
 	public Jugador(Color color, String tipoJugador){
@@ -39,25 +39,6 @@ public class Jugador {
 		}
 		return fichas;
 	}
-//	void cambiarEstado(Ficha ficha) {
-//		switch(estado) {
-//			case BASE:
-//				if(Dado.lanzarDado() == 6) {
-//					estado = Estado.PROTEGIDA;
-//				}
-//				break;
-//			case JUGANDO:
-//				break;
-//			case FINAL:
-//				break;
-//			case GANADO:
-//				break;
-//			case PROTEGIDA:
-//				break;
-//			default:
-//				break;
-//		}
-//	}
 	//te retorna la posicion de la primer ficha que este en base
 	public int primeroEnBase() {
 		int i;

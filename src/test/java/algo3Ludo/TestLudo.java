@@ -40,7 +40,6 @@ public class TestLudo {
 	@Test
 	public void testChequeaSiCome() {
 		System.out.println("---------------------------TEST 2----------------------------------");
-
 		var tablero = new Tablero();
 		var eleccionMover = new EleccionMoverFicha();
 		var eleccionSacar = new EleccionSacarFicha();
@@ -53,10 +52,16 @@ public class TestLudo {
 		eleccionMover.ejecutar(jugador1, tablero);//para sacarlo de la casilla protegida
 		eleccionSacar.ejecutar(jugador2, tablero);
 		eleccionMover.ejecutar(jugador2, tablero);
+		if(jugador1.fichas.get(0).fueComida) {
+			jugador1.fichasEnJuego--;
+		}
 		
 		assertEquals( 1, tablero.listaTablero.get(1).fichas.size());//verifica si comio
 		assertEquals(jugador2.fichas.get(0) , tablero.listaTablero.get(1).fichas.get(0));//verifica si la que quedo es la azul
 		assertEquals(jugador1.fichas.get(0).estado, Estado.BASE);//verifica que la ficha haya vuelto a base
+		assertEquals(4 , jugador1.fichas.size()); // para ver si no se elimino ninguna ficha
+		assertEquals(0,jugador1.fichasEnJuego);
+		assertEquals(1,jugador1.fichasJugadas);
 	}
 	
 	@Test
@@ -95,4 +100,56 @@ public class TestLudo {
 		assertEquals(jugador1.fichas.get(0).estado, Estado.PROTEGIDA);
 		assertEquals(jugador2.fichas.get(0).estado, Estado.PROTEGIDA);
 	}
+	
+	@Test
+	public void whenInicializarJuegothenValoresCorrectos() {
+		var ludo = new Ludo();
+		boolean esUnColorValido = false;
+		
+		ludo.inicializarJuego();
+		if(ludo.jugadorActual.color == Color.ROJO || ludo.jugadorActual.color == Color.AMARILLO || ludo.jugadorActual.color == Color.AZUL || ludo.jugadorActual.color == Color.VERDE ) {
+			esUnColorValido = true;
+		}
+		
+		assertEquals(4 , Ludo.jugadores.size());
+		assertEquals(52 , ludo.tablero.listaTablero.size());
+		assertTrue(esUnColorValido);
+	}
+	
+	@Test
+	public void whenTodasFichasGanadasthenTermina() {
+		System.out.println("---------------------------TEST 5----------------------------------");
+		var ludo = new Ludo();
+		var eleccionMover = new EleccionMoverFicha();
+		var eleccionSacar = new EleccionSacarFicha();
+		var jugador1 = new Jugador(Color.ROJO, "normal");
+		jugador1.movimientoARealizar = 56;		
+
+		eleccionSacar.ejecutar(jugador1, ludo.tablero);
+		eleccionSacar.ejecutar(jugador1, ludo.tablero);
+		eleccionSacar.ejecutar(jugador1, ludo.tablero);
+		eleccionSacar.ejecutar(jugador1, ludo.tablero);
+		eleccionMover.ejecutar(jugador1, ludo.tablero);
+		eleccionMover.ejecutar(jugador1, ludo.tablero);
+		eleccionMover.ejecutar(jugador1, ludo.tablero);
+		eleccionMover.ejecutar(jugador1, ludo.tablero);
+		
+		assertEquals(4, ludo.tablero.rectaFinalRojo.get(5).fichas.size());
+		assertEquals(4, ludo.tablero.fichasGanadasRojo.size());
+		for(int i = 0; i < ludo.tablero.rectaFinalRojo.get(5).fichas.size();i++) {
+			assertEquals(Estado.GANADO, ludo.tablero.fichasGanadasRojo.get(i).estado);			
+		}
+		assertTrue(ludo.termino());
+	}
+	
+	@Test
+	public void testCalcularDestino(){
+		var ludo = new Ludo();
+		var tablero = ludo.tablero;
+		var ficha = new Ficha(Color.VERDE, Estado.JUGANDO, new Casilla(Tipo.NORMAL,13));
+		int movimiento = 3;
+		
+		assertEquals(16,tablero.calcularDestino(ficha,movimiento).posicion);
+	}
+	
 }

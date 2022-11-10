@@ -7,6 +7,7 @@ import algo3Ludo.Ficha.Color;
 import algo3Ludo.Ficha.Estado;
 import algo3Ludo.Jugador;
 import algo3Ludo.Tablero;
+import algo3Ludo.Casilla.Tipo;
 import algo3Ludo.Eleccion;
 
 import algo3Ludo.ITipoJugador;
@@ -21,7 +22,9 @@ public class Ludo {
 	Eleccion eleccion;
 	int cantidadDe6;
 	int dado;
-
+	public Ludo() {
+		tablero = new Tablero();
+	}
 	public void inicializarJuego() {
 
 		jugadores = new ArrayList<Jugador>(3);
@@ -52,7 +55,7 @@ public class Ludo {
 				System.out.print(i + "" + tablero.listaTablero.get(i).fichas);
 			}
 			System.out.println("");
-			imprimirTurno(jugadorActual);
+            System.out.println("El turno es del " + jugadorActual.color);
 			System.out.println("El resultado del dado es: " + dado);
 			jugadorActual.movimientoARealizar = dado;
 			if(dado == 6) { //caso que sale 6
@@ -89,9 +92,15 @@ public class Ludo {
 				System.out.println("Puede sacar una ficha");
 				eleccion = new EleccionSacarFicha();
 				eleccion.ejecutar(jugadorActual , tablero);
+				System.out.print(jugadorActual.fichas);
 			}
-			else if(rta.equals("mover ficha") && jugadorActual.fichasEnJuego > 0){
-				System.out.println("Puede mover una ficha");
+			else if((rta.equals("mover ficha") && jugadorActual.fichasEnJuego > 0 ) || (rta.equals("sacar ficha") && jugadorActual.fichasEnJuego >= 4)){
+				if(jugadorActual.fichasEnJuego >= 4) {
+					System.out.println("No puede sacar mas fichas, debe mover una ficha");
+				}
+				else {
+					System.out.println("Puede mover una ficha");					
+				}
 				eleccion = new EleccionMoverFicha();
 				eleccion.ejecutar(jugadorActual, tablero);
 			}
@@ -151,26 +160,15 @@ public class Ludo {
 		return false;
 	}
 	
-	public void imprimirTurno(Jugador jugador) {
-        if(jugadorActual.color == Color.ROJO) {
-            System.out.println("El turno es del " + "\u001B[31m" + jugadorActual.color + "\u001B[0m");
-        }
-        else if(jugadorActual.color == Color.AZUL) {
-            System.out.println("El turno es del " + "\u001B[34m" + jugadorActual.color + "\u001B[0m");
-        }
-        else if(jugadorActual.color == Color.AMARILLO) {
-            System.out.println("El turno es del " + "\u001B[33m" + jugadorActual.color + "\u001B[0m");
-        }
-        else if(jugadorActual.color == Color.VERDE) {
-            System.out.println("El turno es del " + "\u001B[32m" + jugadorActual.color + "\u001B[0m");
-        }
-    }
-	
 	public void restarFichasEnJuego() {
 		for(int i = 0; i < jugadores.size();i++) {
 			for(int j = 0; j < jugadores.get(i).fichas.size();j++) {
 				if(jugadores.get(i).fichas.get(j).fueComida) {
+					System.out.println("FUE COMIDA......................................................");				
 					jugadores.get(i).fichasEnJuego--;
+					System.out.print(jugadores.get(i).fichas);
+					//jugadores.get(i).fichas.add(new Ficha(jugadores.get(i).color, Estado.BASE, new Casilla(Tipo.BASE,)));
+					
 				}
 			}
 		}
