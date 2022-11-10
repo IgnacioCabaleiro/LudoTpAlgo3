@@ -36,6 +36,7 @@ public class TestLudo {
 		assertEquals(1, tablero.listaTablero.get(1).fichas.size());
 		assertEquals(Estado.JUGANDO, jugador1.fichas.get(0).estado);
 	}
+	
 	@Test
 	public void testChequeaSiCome() {
 		System.out.println("---------------------------TEST 2----------------------------------");
