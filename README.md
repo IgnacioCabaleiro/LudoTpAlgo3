@@ -27,6 +27,8 @@ Patrones de diseño:
   
   -Lo primero que se pedira es que coloque es si cada jugador va a hacer manejado por el usuario o que se maneje "automaticamente". Procurar poner unicamente "normal" o "maquina" (no encontramos una forma sin usar 4 whiles :( ) 
   
+    -Con respecto a el tipo de jugador IA lo que pudimos hacer es que elija aleatoriamente que ficha mover pero nosotros tenemos que decidir cuando saque un 6 si quiere mover o sacar ficha.
+    
   -El jugador que empezara tirando el dado es dado de forma aleatoria. Lo seguira el color de su derecha y asi sucesivamente.
   
   -Cuando salga un 6, se le va a preguntar si quiere sacar una ficha o mover. Debe escribir "sacar ficha" o "mover ficha" segun corresponda.
@@ -40,7 +42,6 @@ Patrones de diseño:
   
   -Si saca tres 6 seguidos automaticamente se cambiara de turno sin dar chance a que mueva o saque ficha.
   
-  -Con respecto a el tipo de jugador IA lo que pudimos hacer es que elija aleatoriamente que ficha mover pero nosotros tenemos que decidir cuando saque un 6 si quiere mover o sacar ficha.
 
 
 Instrucciones para ejecutar las pruebas: 
