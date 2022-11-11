@@ -152,4 +152,12 @@ public class TestLudo {
 		assertEquals(16,tablero.calcularDestino(ficha,movimiento).posicion);
 	}
 	
+	@Test
+	public void whenTres6SeguidosThenCambiaDeTurno() {
+		var ludo = new Ludo();
+		if(ludo.jugadorActual.color == Color.ROJO) {
+			
+		}
+	}
+	
 }

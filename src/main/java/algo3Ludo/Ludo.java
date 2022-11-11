@@ -28,9 +28,9 @@ public class Ludo {
 	public void inicializarJuego() {
 
 		jugadores = new ArrayList<Jugador>(3);
-		Jugador jugadorAzul = new Jugador(Color.AZUL,"normal");				
-		Jugador jugadorAmarillo = new Jugador(Color.AMARILLO,"normal");
-		Jugador jugadorRojo = new Jugador(Color.ROJO,"normal");
+		Jugador jugadorAzul = new Jugador(Color.AZUL,"maquina");				
+		Jugador jugadorAmarillo = new Jugador(Color.AMARILLO,"maquina");
+		Jugador jugadorRojo = new Jugador(Color.ROJO,"maquina");
 		Jugador jugadorVerde = new Jugador(Color.VERDE,"normal");
 		
 		jugadores.add(jugadorVerde);
@@ -51,10 +51,10 @@ public class Ludo {
 			jugadorActual.comio = false;
 			dado = Dado.lanzarDado();
 			System.out.println("----------------------------------------------------");
-			for(int i = 0; i < tablero.listaTablero.size();i++) {
-				System.out.print(i + "" + tablero.listaTablero.get(i).fichas);
-			}
-			System.out.println("");
+//			for(int i = 0; i < tablero.listaTablero.size();i++) {
+//				System.out.print(i + "" + tablero.listaTablero.get(i).fichas);
+//			}
+//			System.out.println("");
             System.out.println("El turno es del " + jugadorActual.color);
 			System.out.println("El resultado del dado es: " + dado);
 			jugadorActual.movimientoARealizar = dado;
@@ -92,7 +92,6 @@ public class Ludo {
 				System.out.println("Puede sacar una ficha");
 				eleccion = new EleccionSacarFicha();
 				eleccion.ejecutar(jugadorActual , tablero);
-				System.out.print(jugadorActual.fichas);
 			}
 			else if((rta.equals("mover ficha") && jugadorActual.fichasEnJuego > 0 ) || (rta.equals("sacar ficha") && jugadorActual.fichasEnJuego >= 4)){
 				if(jugadorActual.fichasEnJuego >= 4) {
@@ -164,9 +163,9 @@ public class Ludo {
 		for(int i = 0; i < jugadores.size();i++) {
 			for(int j = 0; j < jugadores.get(i).fichas.size();j++) {
 				if(jugadores.get(i).fichas.get(j).fueComida) {
-					System.out.println("FUE COMIDA......................................................");				
+					System.out.println("Se comio una ficha.... Es tu turno nuevamente");				
 					jugadores.get(i).fichasEnJuego--;
-					System.out.print(jugadores.get(i).fichas);
+					jugadores.get(i).fichas.get(j).fueComida = false;
 					//jugadores.get(i).fichas.add(new Ficha(jugadores.get(i).color, Estado.BASE, new Casilla(Tipo.BASE,)));
 					
 				}
