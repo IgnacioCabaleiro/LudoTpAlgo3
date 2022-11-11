@@ -25,6 +25,8 @@ Patrones de diseño:
 
 *_Instrucciones/advertencias para ejecutar el juego_*:
   
+  -Lo primero que se pedira es que coloque es si cada jugador va a hacer manejado por el usuario o que se maneje "automaticamente". Procurar poner unicamente "normal" o "maquina" (no encontramos una forma sin usar 4 whiles :( ) 
+  
   -El jugador que empezara tirando el dado es dado de forma aleatoria. Lo seguira el color de su derecha y asi sucesivamente.
   
   -Cuando salga un 6, se le va a preguntar si quiere sacar una ficha o mover. Debe escribir "sacar ficha" o "mover ficha" segun corresponda.
@@ -37,8 +39,6 @@ Patrones de diseño:
   -Tener en cuenta que existe la posilbilidad de que una ficha coma a otra, si pasa esto la ficha comida saldra del tablero y el jugador que comio va a tener un turno extra.
   
   -Si saca tres 6 seguidos automaticamente se cambiara de turno sin dar chance a que mueva o saque ficha.
-  
-  -Por ahora si se desea cambiar el tipo de jugador (osea "normal" o "maquina") se tiene que cambiar en inicializarJuego() en Ludo.java donde se crean los jugadores. Posteriormente se le preguntara al usuario que tipo de jugador desea ser. 
   
   -Con respecto a el tipo de jugador IA lo que pudimos hacer es que elija aleatoriamente que ficha mover pero nosotros tenemos que decidir cuando saque un 6 si quiere mover o sacar ficha.
 
