@@ -25,7 +25,7 @@ Patrones de diseño:
 
 *_Instrucciones/advertencias para ejecutar el juego_*:
   
-  -El jugador que empezara tirando el dado es dado de forma aleatoria.
+  -El jugador que empezara tirando el dado es dado de forma aleatoria. Lo seguira el color de su derecha y asi sucesivamente.
   
   -Cuando salga un 6, se le va a preguntar si quiere sacar una ficha o mover. Debe escribir "sacar ficha" o "mover ficha" segun corresponda.
   
