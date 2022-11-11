@@ -23,7 +23,7 @@ Patrones de diseño:
   - Command: para que cuando el usuario saque un 6 en el dado, pueda elegir si quiere sacar una nueva ficha de su base o mover alguna de las fichas que tenga en el           tablero (en el caso que las tenga).
 
 
-*Instrucciones/advertencias para ejecutar el juego*:
+*_Instrucciones/advertencias para ejecutar el juego_*:
 
   -Cuando salga un 6, se le va a preguntar si quiere sacar una ficha o mover. Debe escribir "sacar ficha" o "mover ficha" segun corresponda.
   
