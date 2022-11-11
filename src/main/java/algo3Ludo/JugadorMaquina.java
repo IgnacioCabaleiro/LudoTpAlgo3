@@ -8,6 +8,7 @@ import algo3Ludo.Ficha.Estado;
 public class JugadorMaquina implements ITipoJugador{
 
 	public Ficha elegirFicha(Jugador jugador) {
+		
 		ArrayList<Ficha> fichas = jugador.fichas;
 		ArrayList<Ficha> fichasASortear = new ArrayList<Ficha>(3);
 		

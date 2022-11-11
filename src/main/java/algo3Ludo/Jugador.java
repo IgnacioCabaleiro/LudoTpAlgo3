@@ -3,20 +3,19 @@ package algo3Ludo;
 import java.util.ArrayList;
 
 import algo3Ludo.Casilla.Tipo;
-import algo3Ludo.Ficha;
 import algo3Ludo.Ficha.Color;
 import algo3Ludo.Ficha.Estado;
 
 
 public class Jugador {
-	ArrayList<Ficha> fichas;
-	String tipoJugador;
-	Estado estado;
+	public ArrayList<Ficha> fichas;
+	public String tipoJugador;
+	public Estado estado;
 	public Color color;
-	boolean comio;
-	int fichasEnJuego;
-	int fichasJugadas;
-	int movimientoARealizar;
+	public boolean comio;
+	public int fichasEnJuego;
+	public int fichasJugadas;
+	public int movimientoARealizar;
 	
 	
 	public Jugador(Color color, String tipoJugador){
@@ -27,7 +26,7 @@ public class Jugador {
 		this.fichasJugadas = 0;
 		this.tipoJugador = tipoJugador;
 	}
-	
+	//se encarga de crear 4 fichas para el jugador y las devuelve en forma de lista
 	public ArrayList<Ficha> crearFichas() {
 		Ficha ficha;
 		Casilla casilla;

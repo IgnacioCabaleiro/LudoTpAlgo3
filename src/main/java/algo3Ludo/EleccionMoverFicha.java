@@ -7,6 +7,7 @@ import algo3Ludo.Ficha.Estado;
 public class EleccionMoverFicha implements Eleccion {
 
 	public void ejecutar(Jugador jugador, Tablero tablero) {
+		
 		int movimiento = jugador.movimientoARealizar;
 		Ficha ficha;
 		ITipoJugador jugadorNormal = new JugadorNormal();

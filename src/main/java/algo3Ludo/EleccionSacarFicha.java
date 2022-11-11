@@ -10,6 +10,7 @@ public class EleccionSacarFicha implements Eleccion {
 		
 		int posicion = jugador.primeroEnBase();
 		Ficha fichaAJugar = jugador.fichas.get(posicion);
+		
 			if(jugador.color == Color.ROJO) {			
 				tablero.listaTablero.get(0).fichas.add(fichaAJugar);
 				fichaAJugar.casilla.posicion = 0;
@@ -26,6 +27,7 @@ public class EleccionSacarFicha implements Eleccion {
 				tablero.listaTablero.get(13).fichas.add(fichaAJugar);
 				fichaAJugar.casilla.posicion = 13;
 			}
+			
 			fichaAJugar.estado = Estado.PROTEGIDA;
 			fichaAJugar.casilla.tipoCasilla = Tipo.PROTEGIDO;
 			jugador.fichasEnJuego++;

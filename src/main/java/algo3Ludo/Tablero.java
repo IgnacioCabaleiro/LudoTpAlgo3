@@ -2,10 +2,6 @@ package algo3Ludo;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import algo3Ludo.Casilla;
-import algo3Ludo.Ficha;
 import algo3Ludo.Casilla.Tipo;
 import algo3Ludo.Ficha.Color;
 import algo3Ludo.Ficha.Estado;
@@ -24,6 +20,19 @@ public class Tablero {
 	ArrayList<Ficha> fichasGanadasAmarillo;
 	ArrayList<Ficha> fichasGanadasAzul;
 
+	static final int MAX_CASILLEROS_RECTA_FINAL = 5;
+	static final int POSICION_CASILLA_GANADA = 5;
+	static final int CASILLA_ENTRADA_ROJO = 50;
+	static final int CASILLA_ENTRADA_AZUL = 39;
+	static final int CASILLA_ENTRADA_AMARILLO = 26;
+	static final int CASILLA_ENTRADA_VERDE = 13;	
+	static final int MAX_CANT_FICHAS = 3;
+	static final int CANTIDAD_CASILLAS_TABLERO = 51;
+	static final int CASILLA_INICIAL_ROJO = 0;
+	static final int CASILLA_INICIAL_AZUL = 37;
+	static final int CASILLA_INICIAL_AMARILLO = 24;
+	static final int CASILLA_INICIAL_VERDE = 11;		
+	
 	public Tablero() {
 		crearTablero();
 		crearRectasFinales();
@@ -31,20 +40,20 @@ public class Tablero {
 	}
 	
 	public void crearFichasGanadas() {
-		fichasGanadasRojo = new ArrayList<Ficha>(3);
-		fichasGanadasVerde = new ArrayList<Ficha>(3);
-		fichasGanadasAmarillo = new ArrayList<Ficha>(3);
-		fichasGanadasAzul = new ArrayList<Ficha>(3);
+		fichasGanadasRojo = new ArrayList<Ficha>(MAX_CANT_FICHAS);
+		fichasGanadasVerde = new ArrayList<Ficha>(MAX_CANT_FICHAS);
+		fichasGanadasAmarillo = new ArrayList<Ficha>(MAX_CANT_FICHAS);
+		fichasGanadasAzul = new ArrayList<Ficha>(MAX_CANT_FICHAS);
 	}
 	
 	public void crearTablero() {
-		listaTablero = new ArrayList<Casilla>(51);
+		listaTablero = new ArrayList<Casilla>(CANTIDAD_CASILLAS_TABLERO);
 		Casilla casilla; 
-		for(int i = 0; i < 52; i ++) {
-			if(i == 0 || i == 13 || i == 26 || i == 39) {
+		for(int i = 0; i < CANTIDAD_CASILLAS_TABLERO+1; i ++) {
+			if(i == CASILLA_INICIAL_ROJO || i == CASILLA_INICIAL_VERDE || i == CASILLA_INICIAL_AMARILLO || i == CASILLA_INICIAL_AZUL) {
 				casilla = new Casilla(Tipo.PROTEGIDO, i);
 			}
-			else if(i == 11 || i == 24 || i == 37 || i == 50) {
+			else if(i == CASILLA_ENTRADA_VERDE || i == CASILLA_ENTRADA_AMARILLO || i == CASILLA_ENTRADA_AZUL || i == CASILLA_ENTRADA_ROJO) {
 				casilla = new Casilla(Tipo.ENTRADA, i);
 			}
 			else {
@@ -56,10 +65,10 @@ public class Tablero {
 	
 	public void crearRectasFinales() {
 		
-		rectaFinalRojo = new ArrayList <Casilla>(5);
-		rectaFinalVerde = new ArrayList <Casilla>(5);
-		rectaFinalAmarillo = new ArrayList <Casilla>(5);
-		rectaFinalAzul = new ArrayList <Casilla>(5);
+		rectaFinalRojo = new ArrayList <Casilla>(MAX_CASILLEROS_RECTA_FINAL);
+		rectaFinalVerde = new ArrayList <Casilla>(MAX_CASILLEROS_RECTA_FINAL);
+		rectaFinalAmarillo = new ArrayList <Casilla>(MAX_CASILLEROS_RECTA_FINAL);
+		rectaFinalAzul = new ArrayList <Casilla>(MAX_CASILLEROS_RECTA_FINAL);
 		Casilla casilla;
 		
 		for(int i = 0; i < 5 ; i++) {
@@ -75,16 +84,16 @@ public class Tablero {
 			casilla = new Casilla(Tipo.FINAL, i , Color.VERDE);
 			rectaFinalVerde.add(casilla);
 		}
-		casilla = new Casilla(Tipo.GANADA, 5 , Color.ROJO);
+		casilla = new Casilla(Tipo.GANADA, POSICION_CASILLA_GANADA , Color.ROJO);
 		rectaFinalRojo.add(casilla);
 		
-		casilla = new Casilla(Tipo.GANADA, 5 , Color.AZUL);
+		casilla = new Casilla(Tipo.GANADA, POSICION_CASILLA_GANADA , Color.AZUL);
 		rectaFinalAzul.add(casilla);
 		
-		casilla = new Casilla(Tipo.GANADA, 5 , Color.AMARILLO);
+		casilla = new Casilla(Tipo.GANADA, POSICION_CASILLA_GANADA , Color.AMARILLO);
 		rectaFinalAmarillo.add(casilla);
 		
-		casilla = new Casilla(Tipo.GANADA, 5 , Color.VERDE);
+		casilla = new Casilla(Tipo.GANADA, POSICION_CASILLA_GANADA , Color.VERDE);
 		rectaFinalVerde.add(casilla);
 		
 	}
@@ -100,7 +109,6 @@ public class Tablero {
 			casillaActual.sacarFicha(ficha);
 			listaTablero.get(casillaActual.posicion).fichas.remove(ficha);
 			casillaDestino.ponerFicha(ficha);
-			//listaTablero.get(casillaDestino.posicion).fichas.add(ficha);
 			
 		}
 	
@@ -136,22 +144,22 @@ public class Tablero {
 		Color color = ficha.color;
 		int i = 0;
 		while (i < movimiento && casillaActual.tipoCasilla != Tipo.GANADA) {
-			if(casillaActual.posicion == 51) {
+			if(casillaActual.posicion == CANTIDAD_CASILLAS_TABLERO) {
 				casillaActual = listaTablero.get(0);
 			}
-			else if (color == Color.AMARILLO && casillaActual.posicion == 24) {
+			else if (color == Color.AMARILLO && casillaActual.posicion == CASILLA_ENTRADA_AMARILLO) {
 					casillaActual = rectaFinalAmarillo.get(0);
 					casillaActual.posicion = 0;
 				}
-			else if (color == Color.AZUL && casillaActual.posicion == 37) {
+			else if (color == Color.AZUL && casillaActual.posicion == CASILLA_ENTRADA_AZUL) {
 					casillaActual = rectaFinalAzul.get(0);
 					casillaActual.posicion = 0;
 				}
-			else if (color == Color.ROJO && casillaActual.posicion == 50) {
+			else if (color == Color.ROJO && casillaActual.posicion == CASILLA_ENTRADA_ROJO) {
 					casillaActual = rectaFinalRojo.get(0);
 					casillaActual.posicion = 0;
 				}
-			else if (color == Color.VERDE && casillaActual.posicion == 11) {
+			else if (color == Color.VERDE && casillaActual.posicion == CASILLA_ENTRADA_VERDE) {
 					casillaActual = rectaFinalVerde.get(0);
 					casillaActual.posicion = 0;
 				}
@@ -174,7 +182,7 @@ public class Tablero {
 		Casilla casilla = ficha.casilla;
 		int posicionFicha = casilla.posicion;
 		
-		if((movimiento + posicionFicha) < 6 ) {
+		if((movimiento + posicionFicha) < MAX_CASILLEROS_RECTA_FINAL+1 ) {
 			Color color = ficha.color;
 			int posDestino = (casilla.posicion + movimiento);
 			if (color == Color.AMARILLO) {
@@ -215,7 +223,6 @@ public class Tablero {
 		for (Ficha fichaCasilla : this.listaTablero.get(casilla.posicion).fichas) {
 			if (fichaCasilla.color != ficha.color) {			
 				fichaAComer = fichaCasilla;
-				//casilla.sacarFicha(fichaAComer);
 				listaTablero.get(casilla.posicion).fichas.remove(fichaAComer);
 				fichaAComer.fueComida = true;
 				fichaAComer.estado = Estado.BASE;

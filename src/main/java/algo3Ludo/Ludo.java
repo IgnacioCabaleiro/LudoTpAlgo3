@@ -4,40 +4,28 @@ package algo3Ludo;
 import java.util.ArrayList;
 
 import algo3Ludo.Ficha.Color;
-import algo3Ludo.Ficha.Estado;
-import algo3Ludo.Jugador;
-import algo3Ludo.Tablero;
-import algo3Ludo.Casilla.Tipo;
-import algo3Ludo.Eleccion;
-
-import algo3Ludo.ITipoJugador;
 
 public class Ludo {
 	
-	Tablero tablero;
 	public static final java.util.Scanner teclado = new java.util.Scanner (System. in) ;
 	public static final java.io.PrintStream pantalla = new java.io.PrintStream(System. out);
 	static ArrayList<Jugador> jugadores;
+	Tablero tablero;
 	Jugador jugadorActual;
 	Eleccion eleccion;
 	int cantidadDe6;
 	int dado;
+	
 	public Ludo() {
 		tablero = new Tablero();
 	}
+	
 	public void inicializarJuego() {
 
 		jugadores = new ArrayList<Jugador>(3);
-		Jugador jugadorAzul = new Jugador(Color.AZUL,"maquina");				
-		Jugador jugadorAmarillo = new Jugador(Color.AMARILLO,"maquina");
-		Jugador jugadorRojo = new Jugador(Color.ROJO,"maquina");
-		Jugador jugadorVerde = new Jugador(Color.VERDE,"normal");
-		
-		jugadores.add(jugadorVerde);
-		jugadores.add(jugadorRojo);
-		jugadores.add(jugadorAmarillo);
-		jugadores.add(jugadorAzul);
 
+		crearJugadores();
+		
 		tablero = new Tablero();
 		
 		cantidadDe6 = 0;
@@ -50,25 +38,23 @@ public class Ludo {
 		while(!termino()) {	
 			jugadorActual.comio = false;
 			dado = Dado.lanzarDado();
-			System.out.println("----------------------------------------------------");
-//			for(int i = 0; i < tablero.listaTablero.size();i++) {
-//				System.out.print(i + "" + tablero.listaTablero.get(i).fichas);
-//			}
-//			System.out.println("");
-            System.out.println("El turno es del " + jugadorActual.color);
-			System.out.println("El resultado del dado es: " + dado);
 			jugadorActual.movimientoARealizar = dado;
-			if(dado == 6) { //caso que sale 6
+
+			pantalla.println("----------------------------------------------------");
+			pantalla.println("El turno es del " + jugadorActual.color);
+            pantalla.println("El resultado del dado es: " + dado);
+            
+			if(dado == 6) {
 				salioEl6();
 			}
-			else if(dado != 6 && jugadorActual.fichasEnJuego > 0) { // caso que no sale el 6
-				System.out.println("Puede mover " + jugadorActual.fichasEnJuego + " ficha");
+			else if(dado != 6 && jugadorActual.fichasEnJuego > 0) {
+				pantalla.println("Puede mover " + jugadorActual.fichasEnJuego + " ficha");
 				eleccion = new EleccionMoverFicha();
 				eleccion.ejecutar(jugadorActual, tablero);
 				cantidadDe6 = 0;
 			}
-			else { // cuando no tiene ninguna ficha para mover
-				System.out.println("No puede mover ninguna ficha");
+			else {
+				pantalla.println("No puede mover ninguna ficha");
 				cantidadDe6 = 0;
 			}
 			if (cantidadDe6 == 0 && !jugadorActual.comio) {
@@ -82,6 +68,7 @@ public class Ludo {
 		cantidadDe6++;
 		String rta;
 		if(cantidadDe6 < 3) {
+			
 			pantalla.println("Sacaste 6: elegi si queres sacar ficha o mover una existente");
 			rta = teclado.nextLine();
 			while(!rta.equals("sacar ficha") && !rta.equals("mover ficha")) {
@@ -89,26 +76,25 @@ public class Ludo {
 				rta = teclado.nextLine();
 			}
 			if(rta.equals("sacar ficha") && jugadorActual.fichasEnJuego < 4) {
-				System.out.println("Puede sacar una ficha");
+				pantalla.println("Puede sacar una ficha");
 				eleccion = new EleccionSacarFicha();
 				eleccion.ejecutar(jugadorActual , tablero);
 			}
 			else if((rta.equals("mover ficha") && jugadorActual.fichasEnJuego > 0 ) || (rta.equals("sacar ficha") && jugadorActual.fichasEnJuego >= 4)){
 				if(jugadorActual.fichasEnJuego >= 4) {
-					System.out.println("No puede sacar mas fichas, debe mover una ficha");
+					pantalla.println("No puede sacar mas fichas, debe mover una ficha");
 				}
 				else {
-					System.out.println("Puede mover una ficha");					
+					pantalla.println("Puede mover una ficha");					
 				}
 				eleccion = new EleccionMoverFicha();
 				eleccion.ejecutar(jugadorActual, tablero);
 			}
 			else {
-				System.out.println("No puede mover niguna ficha, se le quitará una de la base automaticamente");
+				pantalla.println("No puede mover niguna ficha, se le quitará una de la base automaticamente");
                 eleccion = new EleccionSacarFicha();
                 eleccion.ejecutar(jugadorActual , tablero);
-			}
-				
+			}	
 		}
 		else {
 			cantidadDe6 = 0;
@@ -163,13 +149,35 @@ public class Ludo {
 		for(int i = 0; i < jugadores.size();i++) {
 			for(int j = 0; j < jugadores.get(i).fichas.size();j++) {
 				if(jugadores.get(i).fichas.get(j).fueComida) {
-					System.out.println("Se comio una ficha.... Es tu turno nuevamente");				
+					pantalla.println("Se comio una ficha.... Es tu turno nuevamente");				
 					jugadores.get(i).fichasEnJuego--;
-					jugadores.get(i).fichas.get(j).fueComida = false;
-					//jugadores.get(i).fichas.add(new Ficha(jugadores.get(i).color, Estado.BASE, new Casilla(Tipo.BASE,)));
-					
+					jugadores.get(i).fichas.get(j).fueComida = false;					
 				}
 			}
 		}
+	}
+	public void crearJugadores() {
+		String tipoJugador;
+		
+		pantalla.println("Ingrese que tipo de jugador es el jugador AZUL ('normal' o 'maquina')");
+		tipoJugador = teclado.nextLine();
+		Jugador jugadorAzul = new Jugador(Color.AZUL,tipoJugador);				
+		
+		pantalla.println("Ingrese que tipo de jugador es el jugador AMARILLO ('normal' o 'maquina')");
+		tipoJugador = teclado.nextLine();
+		Jugador jugadorAmarillo = new Jugador(Color.AMARILLO,tipoJugador);
+
+		pantalla.println("Ingrese que tipo de jugador es el jugador ROJO ('normal' o 'maquina')" );
+		tipoJugador = teclado.nextLine();
+		Jugador jugadorRojo = new Jugador(Color.ROJO,tipoJugador);
+		
+		pantalla.println("Ingrese que tipo de jugador es el jugador VERDE ('normal' o 'maquina')");
+		tipoJugador = teclado.nextLine();
+		Jugador jugadorVerde = new Jugador(Color.VERDE,tipoJugador);
+		
+		jugadores.add(jugadorVerde);
+		jugadores.add(jugadorRojo);
+		jugadores.add(jugadorAmarillo);
+		jugadores.add(jugadorAzul);
 	}
 }

@@ -1,21 +1,10 @@
 package algo3Ludo;
 
-import algo3Ludo.Dado;
-import algo3Ludo.Ficha;
 import algo3Ludo.Ficha.*;
-import algo3Ludo.Ludo;
-import algo3Ludo.Tablero;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.util.Collection;
-
 import org.junit.Test;
-
-import algo3Ludo.Casilla;
 import algo3Ludo.Casilla.*;
-import algo3Ludo.Tablero.*;
 
 
 
