@@ -23,11 +23,11 @@ Patrones de diseño:
   - Command: para que cuando el usuario saque un 6 en el dado, pueda elegir si quiere sacar una nueva ficha de su base o mover alguna de las fichas que tenga en el           tablero (en el caso que las tenga).
 
 
-*_Instrucciones/advertencias para ejecutar el juego_*:
+    *_Instrucciones/advertencias para ejecutar el juego_*:
   
   -Lo primero que se pedira es que coloque es si cada jugador va a hacer manejado por el usuario o que se maneje "automaticamente". Procurar poner unicamente "normal" o "maquina" (no encontramos una forma sin usar 4 whiles :( ) 
   
-    -Con respecto a el tipo de jugador IA lo que pudimos hacer es que elija aleatoriamente que ficha mover pero nosotros tenemos que decidir cuando saque un 6 si quiere mover o sacar ficha.
+   -Con respecto a el tipo de jugador IA lo que pudimos hacer es que elija aleatoriamente que ficha mover pero nosotros tenemos que decidir cuando saque un 6 si quiere mover o sacar ficha.
     
   -El jugador que empezara tirando el dado es dado de forma aleatoria. Lo seguira el color de su derecha y asi sucesivamente.
   
@@ -44,7 +44,7 @@ Patrones de diseño:
   
 
 
-Instrucciones para ejecutar las pruebas: 
+      Instrucciones para ejecutar las pruebas: 
 
 -TEST 1,2,3,4: siguiendo las instrucciones previamente dichas, se tendra que ingresar por terminal el unico número de ficha disponible (1)
 
