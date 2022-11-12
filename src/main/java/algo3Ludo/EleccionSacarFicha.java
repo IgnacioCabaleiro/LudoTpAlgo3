@@ -31,7 +31,7 @@ public class EleccionSacarFicha implements Eleccion {
 			fichaAJugar.estado = Estado.PROTEGIDA;
 			fichaAJugar.casilla.tipoCasilla = Tipo.PROTEGIDO;
 			jugador.fichasEnJuego++;
-			jugador.fichasJugadas++;
+
 
 	}
 

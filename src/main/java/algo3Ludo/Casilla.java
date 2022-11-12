@@ -33,5 +33,6 @@ public class Casilla {
 		fichas.add(ficha);
 		ficha.casilla.posicion = this.posicion;
 		ficha.casilla.tipoCasilla = this.tipoCasilla;
+		
 	}
 }

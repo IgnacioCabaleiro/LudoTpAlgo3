@@ -14,7 +14,7 @@ public class Jugador {
 	public Color color;
 	public boolean comio;
 	public int fichasEnJuego;
-	public int fichasJugadas;
+	public int fichasGanadas;
 	public int movimientoARealizar;
 	
 	
@@ -23,7 +23,7 @@ public class Jugador {
 		this.fichas = crearFichas();
 		this.comio = false;
 		this.fichasEnJuego = 0;
-		this.fichasJugadas = 0;
+		this.fichasGanadas = 0;
 		this.tipoJugador = tipoJugador;
 	}
 	//se encarga de crear 4 fichas para el jugador y las devuelve en forma de lista
@@ -45,6 +45,7 @@ public class Jugador {
 			if(fichas.get(i).estado == Estado.BASE) {
 				return i;
 			}
+			
 		}
 		return -1;
 		

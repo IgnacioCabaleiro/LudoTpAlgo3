@@ -13,9 +13,10 @@ public class Ludo {
 	Tablero tablero;
 	Jugador jugadorActual;
 	Eleccion eleccion;
+	ITipoJugador jugadorNormal;
+	ITipoJugador jugadorIA;	
 	int cantidadDe6;
 	int dado;
-	
 	public Ludo() {
 		tablero = new Tablero();
 	}
@@ -30,7 +31,8 @@ public class Ludo {
 		
 		cantidadDe6 = 0;
 		jugadorActual = elegirQuienEmpieza();
-		
+		jugadorIA = new JugadorMaquina();
+		jugadorNormal = new JugadorNormal();
 	}
 	
 	public void jugar() {
@@ -39,8 +41,12 @@ public class Ludo {
 			jugadorActual.comio = false;
 			dado = Dado.lanzarDado();
 			jugadorActual.movimientoARealizar = dado;
-
+			
 			pantalla.println("----------------------------------------------------");
+			for(int i = 0; i < tablero.listaTablero.size();i++) {
+			System.out.print(i + "" + tablero.listaTablero.get(i).fichas);
+			}
+			System.out.println("--------------------------------------------------s");
 			pantalla.println("El turno es del " + jugadorActual.color);
             pantalla.println("El resultado del dado es: " + dado);
             
@@ -57,45 +63,32 @@ public class Ludo {
 				pantalla.println("No puede mover ninguna ficha");
 				cantidadDe6 = 0;
 			}
+			System.out.println(jugadorActual.fichasEnJuego+"----------------------");
+			restarFichasEnJuego();
+			System.out.println(jugadorActual.fichasEnJuego+"----------------------");
+			System.out.println(jugadorActual.fichas);
+			
 			if (cantidadDe6 == 0 && !jugadorActual.comio) {
 				jugadorActual = cambiarTurno();	
 			}
-			restarFichasEnJuego();
+			System.out.println(tablero.fichasGanadasAmarillo);
+			System.out.println(tablero.fichasGanadasRojo);
+			System.out.println(tablero.fichasGanadasAzul);
+			System.out.println(tablero.fichasGanadasVerde);
+			
 		}
 	}
 	
 	public void salioEl6() {
 		cantidadDe6++;
-		String rta;
 		if(cantidadDe6 < 3) {
-			
-			pantalla.println("Sacaste 6: elegi si queres sacar ficha o mover una existente");
-			rta = teclado.nextLine();
-			while(!rta.equals("sacar ficha") && !rta.equals("mover ficha")) {
-				pantalla.println("Sacaste 6: elegi si queres sacar ficha o mover una existente (~mover ficha~ o ~sacar ficha~)");
-				rta = teclado.nextLine();
-			}
-			if(rta.equals("sacar ficha") && jugadorActual.fichasEnJuego < 4) {
-				pantalla.println("Puede sacar una ficha");
-				eleccion = new EleccionSacarFicha();
-				eleccion.ejecutar(jugadorActual , tablero);
-			}
-			else if((rta.equals("mover ficha") && jugadorActual.fichasEnJuego > 0 ) || (rta.equals("sacar ficha") && jugadorActual.fichasEnJuego >= 4)){
-				if(jugadorActual.fichasEnJuego >= 4) {
-					pantalla.println("No puede sacar mas fichas, debe mover una ficha");
-				}
-				else {
-					pantalla.println("Puede mover una ficha");					
-				}
-				eleccion = new EleccionMoverFicha();
-				eleccion.ejecutar(jugadorActual, tablero);
+			if(jugadorActual.tipoJugador == "normal") {
+				jugadorNormal.salioEl6(jugadorActual, tablero);
 			}
 			else {
-				pantalla.println("No puede mover niguna ficha, se le quitará una de la base automaticamente");
-                eleccion = new EleccionSacarFicha();
-                eleccion.ejecutar(jugadorActual , tablero);
-			}	
-		}
+				jugadorIA.salioEl6(jugadorActual, tablero);
+			}
+		}	
 		else {
 			cantidadDe6 = 0;
 		}
@@ -136,10 +129,7 @@ public class Ludo {
 	}
 	
 	public boolean termino() {
-		if(tablero.fichasGanadasAzul.size() == 4 || 
-				tablero.fichasGanadasRojo.size() == 4 || 
-				tablero.fichasGanadasAmarillo.size() == 4 || 
-				tablero.fichasGanadasVerde.size() == 4) {
+		if(jugadorActual.fichasGanadas == 4) {
 			return true;
 		}
 		return false;
@@ -149,10 +139,10 @@ public class Ludo {
 		for(int i = 0; i < jugadores.size();i++) {
 			for(int j = 0; j < jugadores.get(i).fichas.size();j++) {
 				if(jugadores.get(i).fichas.get(j).fueComida) {
-					pantalla.println("Se comio una ficha.... Es tu turno nuevamente");				
 					jugadores.get(i).fichasEnJuego--;
-					jugadores.get(i).fichas.get(j).fueComida = false;					
+					pantalla.println("Se comio una ficha.... Es tu turno nuevamente");									
 				}
+				jugadores.get(i).fichas.get(j).fueComida = false;	
 			}
 		}
 	}

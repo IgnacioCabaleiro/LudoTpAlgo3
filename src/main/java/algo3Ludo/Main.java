@@ -5,6 +5,5 @@ public class Main {
 		Ludo ludo = new Ludo();
 		ludo.inicializarJuego();
 		ludo.jugar();
-
 	}
 }

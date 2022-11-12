@@ -50,7 +50,6 @@ public class TestLudo {
 		assertEquals(jugador1.fichas.get(0).estado, Estado.BASE);//verifica que la ficha haya vuelto a base
 		assertEquals(4 , jugador1.fichas.size()); // para ver si no se elimino ninguna ficha
 		assertEquals(0,jugador1.fichasEnJuego);
-		assertEquals(1,jugador1.fichasJugadas);
 	}
 	
 	@Test
@@ -144,9 +143,20 @@ public class TestLudo {
 	@Test
 	public void whenTres6SeguidosThenCambiaDeTurno() {
 		var ludo = new Ludo();
-		if(ludo.jugadorActual.color == Color.ROJO) {
-			
-		}
+		
+		ludo.inicializarJuego();
+		ludo.cantidadDe6 = 2;
+		ludo.salioEl6();
+		
+		assertEquals(0,ludo.cantidadDe6); // si da 0 quiere decir que se reinicio el contador de 0 por lo tanto no va a ir de vuelta ese mismo jugador
+		
 	}
 	
+	@Test
+	public void whenTirarDadothenNumeroEntre1y6() {
+		int tirada = Dado.lanzarDado();
+		
+		assertTrue(tirada <= 6);
+		assertTrue(tirada > 0);
+	}
 }

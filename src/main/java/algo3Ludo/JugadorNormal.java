@@ -41,5 +41,36 @@ public class JugadorNormal implements ITipoJugador{
 		}
 		return null;
 	}
+	
+	public void salioEl6(Jugador jugador, Tablero tablero) {
+		String rta;
+		Eleccion eleccion;
+		pantalla.println("Sacaste 6: elegi si queres sacar ficha o mover una existente");
+		rta = teclado.nextLine();
+		while(!rta.equals("sacar ficha") && !rta.equals("mover ficha")) {
+			pantalla.println("Sacaste 6: elegi si queres sacar ficha o mover una existente (~mover ficha~ o ~sacar ficha~)");
+			rta = teclado.nextLine();
+		}
+		if(rta.equals("sacar ficha") && jugador.fichasEnJuego < 4) {
+			pantalla.println("Puede sacar una ficha");
+			eleccion = new EleccionSacarFicha();
+			eleccion.ejecutar(jugador , tablero);
+		}
+		else if((rta.equals("mover ficha") && jugador.fichasEnJuego > 0 ) || (rta.equals("sacar ficha") && jugador.fichasEnJuego >= 4)){
+			if(jugador.fichasEnJuego >= 4) {
+				pantalla.println("No puede sacar mas fichas, debe mover una ficha");
+			}
+			else {
+				pantalla.println("Puede mover una ficha");					
+			}
+			eleccion = new EleccionMoverFicha();
+			eleccion.ejecutar(jugador, tablero);
+		}
+		else {
+			pantalla.println("No puede mover niguna ficha, se le quitará una de la base automaticamente");
+            eleccion = new EleccionSacarFicha();
+            eleccion.ejecutar(jugador , tablero);
+		}	
+	}
  	
 }

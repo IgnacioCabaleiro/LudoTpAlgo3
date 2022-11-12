@@ -21,15 +21,16 @@ public class EleccionMoverFicha implements Eleccion {
 		}
 		
 		System.out.println("La ficha estaba en la posicion " + ficha.casilla.posicion);
-		System.out.println("El estado de la ficha es (antes de mover) " + ficha.estado);
+		System.out.println("El estado de la ficha (antes de mover) es " + ficha.estado);
 		tablero.moverFicha(ficha , movimiento);			
-		System.out.println("El estado de la ficha es (dsp de mover) " + ficha.estado);
+		System.out.println("El estado de la ficha (dsp de mover) es " + ficha.estado);
 		System.out.println("La ficha esta en la posicion " + ficha.casilla.posicion);
 		
 		if(ficha.estado == Estado.GANADO) {
 			jugador.fichasEnJuego--;
+			jugador.fichasGanadas++;
+			System.out.println("---------------------GANOOOOOOOOOOOOOOOOOO-------------------------------------------");
 		}
-
 		if(tablero.fichaCome(ficha) && ficha.casilla.tipoCasilla == Tipo.NORMAL) {
 			tablero.comer(ficha);
 			jugador.comio = true;

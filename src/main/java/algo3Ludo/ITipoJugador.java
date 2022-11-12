@@ -6,4 +6,5 @@ public interface ITipoJugador {
 	public static final java.io.PrintStream pantalla = new java.io.PrintStream(System. out);
 	
 	public Ficha elegirFicha(Jugador jugador);
+	public void salioEl6(Jugador jugador, Tablero tablero);
 }

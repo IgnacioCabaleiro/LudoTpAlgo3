@@ -6,6 +6,7 @@ public class Ficha {
 	public enum Estado {BASE, JUGANDO, PROTEGIDA, FINAL, GANADO}
 	public Casilla casilla;
 	public boolean fueComida;
+	public boolean gano;
 	Color color;
 	Estado estado;
 

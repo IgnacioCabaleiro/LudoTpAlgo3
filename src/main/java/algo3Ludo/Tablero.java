@@ -23,15 +23,15 @@ public class Tablero {
 	static final int MAX_CASILLEROS_RECTA_FINAL = 5;
 	static final int POSICION_CASILLA_GANADA = 5;
 	static final int CASILLA_ENTRADA_ROJO = 50;
-	static final int CASILLA_ENTRADA_AZUL = 39;
-	static final int CASILLA_ENTRADA_AMARILLO = 26;
-	static final int CASILLA_ENTRADA_VERDE = 13;	
+	static final int CASILLA_ENTRADA_AZUL = 37;
+	static final int CASILLA_ENTRADA_AMARILLO = 24;
+	static final int CASILLA_ENTRADA_VERDE = 11;	
 	static final int MAX_CANT_FICHAS = 3;
 	static final int CANTIDAD_CASILLAS_TABLERO = 51;
 	static final int CASILLA_INICIAL_ROJO = 0;
-	static final int CASILLA_INICIAL_AZUL = 37;
-	static final int CASILLA_INICIAL_AMARILLO = 24;
-	static final int CASILLA_INICIAL_VERDE = 11;		
+	static final int CASILLA_INICIAL_AZUL = 39;
+	static final int CASILLA_INICIAL_AMARILLO = 26;
+	static final int CASILLA_INICIAL_VERDE = 13;		
 	
 	public Tablero() {
 		crearTablero();
@@ -109,6 +109,7 @@ public class Tablero {
 			casillaActual.sacarFicha(ficha);
 			listaTablero.get(casillaActual.posicion).fichas.remove(ficha);
 			casillaDestino.ponerFicha(ficha);
+			
 			
 		}
 	
@@ -223,13 +224,11 @@ public class Tablero {
 		for (Ficha fichaCasilla : this.listaTablero.get(casilla.posicion).fichas) {
 			if (fichaCasilla.color != ficha.color) {			
 				fichaAComer = fichaCasilla;
+				casilla.sacarFicha(fichaAComer);
 				listaTablero.get(casilla.posicion).fichas.remove(fichaAComer);
 				fichaAComer.fueComida = true;
 				fichaAComer.estado = Estado.BASE;
-			}
-			else {
-				fichaAComer.fueComida = false;
-				
+				break;//solo puede eliminar a una, falla si tiene que eliminar a dos o mas (???)
 			}
 		}	
 	}

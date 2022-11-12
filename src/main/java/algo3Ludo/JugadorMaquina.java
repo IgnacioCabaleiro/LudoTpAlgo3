@@ -24,4 +24,32 @@ public class JugadorMaquina implements ITipoJugador{
 		
 		return fichasASortear.get((int)(Math.random()*fichasASortear.size()));
 	}
+
+	public void salioEl6(Jugador jugador, Tablero tablero) {
+		Eleccion eleccion;
+		int numeroRand = (int)(Math.random()*2);
+		
+		if((jugador.fichasEnJuego + jugador.fichasGanadas) == 4) {
+			eleccion = new EleccionMoverFicha();
+			eleccion.ejecutar(jugador, tablero);
+		}
+		else if(jugador.fichasEnJuego == 0) {
+			eleccion = new EleccionSacarFicha();
+			eleccion.ejecutar(jugador, tablero);
+		}
+		else {
+			if(numeroRand == 0) {
+				eleccion = new EleccionMoverFicha();
+				eleccion.ejecutar(jugador, tablero);
+
+			}
+			else {
+				eleccion = new EleccionSacarFicha();
+				eleccion.ejecutar(jugador, tablero);
+			}
+		}
+	}
+
+
+
 }
