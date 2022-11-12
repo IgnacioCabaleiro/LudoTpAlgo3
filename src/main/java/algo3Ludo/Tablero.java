@@ -105,39 +105,50 @@ public class Tablero {
 		if(casillaActual.posicion == casillaDestino.posicion && ficha.estado == Estado.FINAL) {
 			System.out.println("No se pudo mover porque tiene que sacar el numero exacto o menor para ganar");
 		}
-		else {
+		if(ficha.estado == Estado.JUGANDO || ficha.estado == Estado.PROTEGIDA) {
+			//listaTablero.get(casillaDestino.posicion).fichas.add(ficha);
 			casillaActual.sacarFicha(ficha);
 			listaTablero.get(casillaActual.posicion).fichas.remove(ficha);
-			casillaDestino.ponerFicha(ficha);
-			
-			
+			casillaDestino.ponerFicha(ficha);				
 		}
-	
-		cambiarEstado(ficha);
-
-		if(casillaDestino.tipoCasilla == Tipo.GANADA) {
+		else if(casillaDestino.tipoCasilla == Tipo.GANADA) {
 			Color color = ficha.color;
 			if (color == Color.AMARILLO) {
 				fichasGanadasAmarillo.add(ficha);
-				rectaFinalAmarillo.remove(ficha);
+				rectaFinalAmarillo.get(casillaActual.posicion).fichas.remove(ficha);
 				System.out.println("La ficha amarilla llego a la meta");
 			}
 			else if (color == Color.AZUL) {
 				fichasGanadasAzul.add(ficha);
-				rectaFinalAzul.remove(ficha);
+				rectaFinalAzul.get(casillaActual.posicion).fichas.remove(ficha);
 				System.out.println("La ficha azul llego a la meta");
 			}
 			else if (color == Color.ROJO) {
 				fichasGanadasRojo.add(ficha);
-				rectaFinalRojo.remove(ficha);
+				rectaFinalRojo.get(casillaActual.posicion).fichas.remove(ficha);
 				System.out.println("La ficha roja llego a la meta");
 			}
 			else if (color == Color.VERDE) {
 				fichasGanadasVerde.add(ficha);
-				rectaFinalVerde.remove(ficha);
+				rectaFinalVerde.get(casillaActual.posicion).fichas.remove(ficha);
 				System.out.println("La ficha verde llego a la meta");
 			}
+			ficha.estado = Estado.GANADO;
+			ficha.gano = true;
 		}
+		else if(ficha.estado == Estado.FINAL){
+			casillaActual.sacarFicha(ficha);
+			if(casillaActual.tipoCasilla == Tipo.NORMAL) {
+				listaTablero.get(casillaActual.posicion).fichas.remove(ficha);
+			}
+			else {
+				removerFichaDeRectaFinal(ficha);
+			}
+			casillaDestino.ponerFicha(ficha);	
+		}
+					
+		
+		cambiarEstado(ficha);
 	}
 	
 	public Casilla calcularDestino(Ficha ficha, int movimiento) {
@@ -150,29 +161,25 @@ public class Tablero {
 			}
 			else if (color == Color.AMARILLO && casillaActual.posicion == CASILLA_ENTRADA_AMARILLO) {
 					casillaActual = rectaFinalAmarillo.get(0);
-					casillaActual.posicion = 0;
 				}
 			else if (color == Color.AZUL && casillaActual.posicion == CASILLA_ENTRADA_AZUL) {
 					casillaActual = rectaFinalAzul.get(0);
-					casillaActual.posicion = 0;
 				}
 			else if (color == Color.ROJO && casillaActual.posicion == CASILLA_ENTRADA_ROJO) {
 					casillaActual = rectaFinalRojo.get(0);
-					casillaActual.posicion = 0;
 				}
 			else if (color == Color.VERDE && casillaActual.posicion == CASILLA_ENTRADA_VERDE) {
 					casillaActual = rectaFinalVerde.get(0);
-					casillaActual.posicion = 0;
 				}
 	
 			else if (casillaActual.tipoCasilla == Tipo.NORMAL || casillaActual.tipoCasilla == Tipo.PROTEGIDO || casillaActual.tipoCasilla == Tipo.ENTRADA) {
 				casillaActual = listaTablero.get(casillaActual.posicion+1);
 			}
 			else if(casillaActual.tipoCasilla == Tipo.FINAL) {
+
 				ficha.casilla.posicion = casillaActual.posicion;
 				casillaActual = movimientoDentroRectaFinal(ficha,movimiento-i);
 				return casillaActual;
-			
 			}
 			i++;
 		}
@@ -241,5 +248,21 @@ public class Tablero {
 		}			
 		return comio;
 	}
-	
+	public void removerFichaDeRectaFinal(Ficha ficha){
+		Casilla casillaActual = ficha.casilla;
+		if(ficha.color == Color.AMARILLO) {
+			rectaFinalAmarillo.get(casillaActual.posicion).fichas.remove(ficha);
+		}
+		else if(ficha.color == Color.ROJO) {
+			rectaFinalRojo.get(casillaActual.posicion).fichas.remove(ficha);
+		}
+		else if (ficha.color == Color.VERDE) {
+			rectaFinalVerde.get(casillaActual.posicion).fichas.remove(ficha);
+		}
+		else if(ficha.color == Color.AZUL) {
+			rectaFinalAzul.get(casillaActual.posicion).fichas.remove(ficha);
+		}
+		
+		
+	}
 }

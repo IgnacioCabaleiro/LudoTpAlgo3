@@ -2,7 +2,6 @@ package algo3Ludo;
 
 
 import algo3Ludo.Casilla.Tipo;
-import algo3Ludo.Ficha.Estado;
 
 public class EleccionMoverFicha implements Eleccion {
 
@@ -26,11 +25,6 @@ public class EleccionMoverFicha implements Eleccion {
 		System.out.println("El estado de la ficha (dsp de mover) es " + ficha.estado);
 		System.out.println("La ficha esta en la posicion " + ficha.casilla.posicion);
 		
-		if(ficha.estado == Estado.GANADO) {
-			jugador.fichasEnJuego--;
-			jugador.fichasGanadas++;
-			System.out.println("---------------------GANOOOOOOOOOOOOOOOOOO-------------------------------------------");
-		}
 		if(tablero.fichaCome(ficha) && ficha.casilla.tipoCasilla == Tipo.NORMAL) {
 			tablero.comer(ficha);
 			jugador.comio = true;
