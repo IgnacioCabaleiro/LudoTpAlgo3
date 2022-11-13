@@ -37,65 +37,44 @@ public class Ludo {
 	public void jugar() {
 		
 		while(!termino()) {	
+			
 			jugadorActual.comio = false;
 			dado = Dado.lanzarDado();
 			jugadorActual.movimientoARealizar = dado;
-			for(int i = 0; i < tablero.listaTablero.size();i++) {
-			System.out.print(i + "" + tablero.listaTablero.get(i).fichas);
-			}
-			System.out.println("--------------------------------------------------s");
-			for(int i = 0; i < jugadorActual.fichas.size();i++) {
-				if(jugadorActual.fichas.get(i).fueComida  ) {
-					jugadorActual.fichasEnJuego--;
-					pantalla.println("Se resta xq fue comida--------------------------------------------------------------------------------------");
-					pantalla.println(jugadorActual.fichas.get(i));
-				}
-				jugadorActual.fichas.get(i).fueComida = false;	
-			}
 			
-			System.out.println(jugadorActual.fichasEnJuego+"----------------------");
+			pantalla.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
 			pantalla.println("El turno es del " + jugadorActual.color);
-            pantalla.println("El resultado del dado es: " + dado);
+			pantalla.println("El resultado del dado es: " + dado);
+			
+			tablero.eliminarFichaComidas(jugadorActual);
             
-			if(dado == 6) {
-				salioEl6();
-			}
-			else if(dado != 6 && jugadorActual.fichasEnJuego > 0) {
-				pantalla.println("Puede mover " + jugadorActual.fichasEnJuego + " ficha");
-				eleccion = new EleccionMoverFicha();
-				eleccion.ejecutar(jugadorActual, tablero);
-				cantidadDe6 = 0;
-			}
-			else {
-				pantalla.println("No puede mover ninguna ficha");
-				cantidadDe6 = 0;
-			}
-			System.out.println(jugadorActual.fichas);
-			for(int i = 0; i < tablero.listaTablero.size();i++) {
-				for(int j = 0; j < tablero.listaTablero.get(i).fichas.size();j++) {
-					if(tablero.listaTablero.get(i).fichas.get(j).gano) {
-						tablero.listaTablero.get(i).fichas.remove(tablero.listaTablero.get(i).fichas.get(j));
-					}
-				}
-			}
-			for(int i = 0; i < jugadorActual.fichas.size();i++) {
-				if(jugadorActual.fichas.get(i).gano) {
-					pantalla.println("Se resta xq gano-----------------------------------------------------------------------------------------");
-					jugadorActual.fichasEnJuego--;
-					jugadorActual.fichasGanadas++;
-				}
-				jugadorActual.fichas.get(i).gano = false;	
-			}
+			accionDependiendoTiradaDado();
+			
+			tablero.eliminarFichasGanadas(jugadorActual);
+			
+
 			if (cantidadDe6 == 0 && !jugadorActual.comio) {
 				jugadorActual = cambiarTurno();	
 			}
-			System.out.println(tablero.fichasGanadasAmarillo);
-			System.out.println(tablero.fichasGanadasRojo);
-			System.out.println(tablero.fichasGanadasAzul);
-			System.out.println(tablero.fichasGanadasVerde);
-			
 		}
 	}
+	
+	public void accionDependiendoTiradaDado() {
+		if(dado == 6) {
+			salioEl6();
+		}
+		else if(dado != 6 && jugadorActual.fichasEnJuego > 0) {
+			pantalla.println("Puede mover " + jugadorActual.fichasEnJuego + " ficha");
+			eleccion = new EleccionMoverFicha();
+			eleccion.ejecutar(jugadorActual, tablero);
+			cantidadDe6 = 0;
+		}
+		else {
+			pantalla.println("No puede mover ninguna ficha");
+			cantidadDe6 = 0;
+		}
+	}
+	
 	
 	public void salioEl6() {
 		cantidadDe6++;
@@ -151,24 +130,19 @@ public class Ludo {
 				tablero.fichasGanadasRojo.size() == 4 || 
 				tablero.fichasGanadasAmarillo.size() == 4 || 
 				tablero.fichasGanadasVerde.size() == 4) {
-			System.out.println("Terminooo! Gracias por jugar");
+			pantalla.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+			pantalla.println("Terminooo! Gracias por jugar");
+			pantalla.println("Estos son los resultados : ");
+			pantalla.println("-Fichas ganadas del rojo: " + tablero.fichasGanadasRojo.size());
+			pantalla.println("-Fichas ganadas del amarillo: " + tablero.fichasGanadasAmarillo.size());
+			pantalla.println("-Fichas ganadas del azul: " + tablero.fichasGanadasAzul.size());
+			pantalla.println("-Fichas ganadas del verde: " + tablero.fichasGanadasVerde.size());
+			
 			return true;
 		}
 		return false;
 	}
 	
-	public void restarFichasEnJuego() {
-		for(int i = 0; i < jugadores.size();i++) {
-			for(int j = 0; j < jugadores.get(i).fichas.size();j++) {
-				System.out.println(jugadores.get(i).fichas.get(j).fueComida);
-				if(jugadores.get(i).fichas.get(j).fueComida) {
-					jugadores.get(i).fichas.get(j).fueComida = false;	
-					jugadores.get(i).fichasEnJuego--;
-					pantalla.println("Se comio una ficha.... Es tu turno nuevamente");									
-				}
-			}
-		}
-	}
 	public void crearJugadores() {
 		String tipoJugador;
 		
@@ -193,4 +167,6 @@ public class Ludo {
 		jugadores.add(jugadorAmarillo);
 		jugadores.add(jugadorAzul);
 	}
+	
+
 }

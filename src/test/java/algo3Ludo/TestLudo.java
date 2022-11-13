@@ -91,6 +91,7 @@ public class TestLudo {
 	
 	@Test
 	public void whenInicializarJuegothenValoresCorrectos() {
+		System.out.println("---------------------------TEST 5----------------------------------");
 		var ludo = new Ludo();
 		boolean esUnColorValido = false;
 		
@@ -106,8 +107,9 @@ public class TestLudo {
 	
 	@Test
 	public void whenTodasFichasGanadasthenTermina() {
-		System.out.println("---------------------------TEST 5----------------------------------");
+		System.out.println("---------------------------TEST 6----------------------------------");
 		var ludo = new Ludo();
+		ludo.tablero = new Tablero();
 		var eleccionMover = new EleccionMoverFicha();
 		var eleccionSacar = new EleccionSacarFicha();
 		var jugador1 = new Jugador(Color.ROJO, "normal");
@@ -132,16 +134,19 @@ public class TestLudo {
 	
 	@Test
 	public void testCalcularDestino(){
+		System.out.println("---------------------------TEST 7----------------------------------");
 		var ludo = new Ludo();
 		var tablero = ludo.tablero;
 		var ficha = new Ficha(Color.VERDE, Estado.JUGANDO, new Casilla(Tipo.NORMAL,13));
 		int movimiento = 3;
 		
 		assertEquals(16,tablero.calcularDestino(ficha,movimiento).posicion);
+	//ANDA MAL
 	}
 	
 	@Test
 	public void whenTres6SeguidosThenCambiaDeTurno() {
+		System.out.println("---------------------------TEST 8----------------------------------");
 		var ludo = new Ludo();
 		
 		ludo.inicializarJuego();
@@ -154,6 +159,7 @@ public class TestLudo {
 	
 	@Test
 	public void whenTirarDadothenNumeroEntre1y6() {
+		System.out.println("---------------------------TEST 9----------------------------------");
 		int tirada = Dado.lanzarDado();
 		
 		assertTrue(tirada <= 6);

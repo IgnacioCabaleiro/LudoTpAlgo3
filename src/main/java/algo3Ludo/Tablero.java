@@ -100,9 +100,8 @@ public class Tablero {
 
 	public void moverFicha(Ficha ficha, int movimiento) {
 		Casilla casillaActual = ficha.casilla;
-		System.out.println("Su pos antes es: " + ficha.casilla.posicion);
 		Casilla casillaDestino = calcularDestino(ficha,movimiento);
-		System.out.println("Su pos dsp es: " + ficha.casilla.posicion);
+		
 		if(casillaActual.posicion == casillaDestino.posicion && ficha.estado == Estado.FINAL) {
 			System.out.println("No se pudo mover porque tiene que sacar el numero exacto o menor para ganar");
 		}
@@ -200,7 +199,6 @@ public class Tablero {
 			} 
 			casilla.posicion = posDestino;
 		}
-		cambiarEstado(ficha);
 		return casilla;
 	}
 	
@@ -228,7 +226,7 @@ public class Tablero {
 				listaTablero.get(casilla.posicion).fichas.remove(fichaAComer);
 				fichaAComer.fueComida = true;
 				fichaAComer.estado = Estado.BASE;
-				break;//solo puede eliminar a una, falla si tiene que eliminar a dos o mas (???)
+				break;//solo puede eliminar a una, falla si tiene que eliminar a dos o mas (???) por eso puse break
 			}
 		}	
 	}
@@ -255,7 +253,34 @@ public class Tablero {
 		else if(ficha.color == Color.AZUL) {
 			rectaFinalAzul.get(casillaActual.posicion).fichas.remove(ficha);
 		}
-		
-		
 	}
+	
+	public void eliminarFichasGanadas(Jugador jugadorActual) {
+		for(int i = 0; i < listaTablero.size();i++) {
+			for(int j = 0; j < listaTablero.get(i).fichas.size();j++) {
+				if(listaTablero.get(i).fichas.get(j).gano) {
+					listaTablero.get(i).fichas.remove(listaTablero.get(i).fichas.get(j));
+				}
+			}
+		}
+		
+		for(int i = 0; i < jugadorActual.fichas.size();i++) {
+			if(jugadorActual.fichas.get(i).gano) {
+				jugadorActual.fichasEnJuego--;
+				jugadorActual.fichasGanadas++;
+			}
+			jugadorActual.fichas.get(i).gano = false;	
+		}
+	}
+	
+	public void eliminarFichaComidas(Jugador jugadorActual) {
+		for(int i = 0; i < jugadorActual.fichas.size();i++) {
+			if(jugadorActual.fichas.get(i).fueComida  ) {
+				jugadorActual.fichasEnJuego--;
+			}
+			jugadorActual.fichas.get(i).fueComida = false;	
+		}
+	}
+	
+	
 }
