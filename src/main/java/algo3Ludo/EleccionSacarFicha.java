@@ -5,7 +5,8 @@ import algo3Ludo.Ficha.Color;
 import algo3Ludo.Ficha.Estado;
 
 public class EleccionSacarFicha implements Eleccion {
-
+	
+	//Se encarga de ejecutar la accion de sacar  una ficha una vez haya sacado 6 en el dado 
 	public void ejecutar(Jugador jugador, Tablero tablero) {
 		
 		int posicion = jugador.primeroEnBase();

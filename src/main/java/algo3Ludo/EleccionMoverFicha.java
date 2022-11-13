@@ -5,6 +5,7 @@ import algo3Ludo.Casilla.Tipo;
 
 public class EleccionMoverFicha implements Eleccion {
 
+	//Se encarga de ejecutar la accion de mover una ficha una vez haya tirado el dado 
 	public void ejecutar(Jugador jugador, Tablero tablero) {
 		
 		int movimiento = jugador.movimientoARealizar;

@@ -39,13 +39,15 @@ public class Tablero {
 		crearFichasGanadas();
 	}
 	
+	//Asigna a los atributos de fichasGanadas la instanciación de una lista de fichas.
 	public void crearFichasGanadas() {
 		fichasGanadasRojo = new ArrayList<Ficha>(MAX_CANT_FICHAS);
 		fichasGanadasVerde = new ArrayList<Ficha>(MAX_CANT_FICHAS);
 		fichasGanadasAmarillo = new ArrayList<Ficha>(MAX_CANT_FICHAS);
 		fichasGanadasAzul = new ArrayList<Ficha>(MAX_CANT_FICHAS);
 	}
-	
+	//Crea el tablero. En cada posicion del tablero se crea una casilla del tipo que corresponda
+	//dependiendo de su posicion en el tablero
 	public void crearTablero() {
 		listaTablero = new ArrayList<Casilla>(CANTIDAD_CASILLAS_TABLERO);
 		Casilla casilla; 
@@ -62,7 +64,8 @@ public class Tablero {
 			listaTablero.add(casilla);
 		}
 	}
-	
+	//Crea las cuatro rectas finales. En cada posicion de ellas se crea una casilla del tipo que corresponda
+	//dependiendo de su posicion en el tablero
 	public void crearRectasFinales() {
 		
 		rectaFinalRojo = new ArrayList <Casilla>(MAX_CASILLEROS_RECTA_FINAL);
@@ -98,6 +101,8 @@ public class Tablero {
 		
 	}
 
+	//Se encarga de asignarle la casilla destino a la ficha y eliminarla de la casilla actual 
+	//dependiendo su posicion en el tablero(FUNCIÓN MUY LIOSA)
 	public void moverFicha(Ficha ficha, int movimiento) {
 		Casilla casillaActual = ficha.casilla;
 		Casilla casillaDestino = calcularDestino(ficha,movimiento);
@@ -141,8 +146,9 @@ public class Tablero {
 			ficha.gano = true;
 		}
 		cambiarEstado(ficha);
-}
+	}
 	
+	//devuelve la casilla donde tendria que ir la ficha de acuerdo al movimiento que se realiza
 	public Casilla calcularDestino(Ficha ficha, int movimiento) {
 		Casilla casillaActual = ficha.casilla;
 		Color color = ficha.color;
@@ -177,6 +183,9 @@ public class Tablero {
 		}
 		return casillaActual;
 	}
+	
+	//Cuando la ficha esta en la recta final se encarga de realizar la validacion de si su
+	//movimiento es el exacto o menor para llegar a la casilla ganada.
 	public Casilla movimientoDentroRectaFinal(Ficha ficha, int movimiento) {
 		
 		Casilla casilla = ficha.casilla;
@@ -201,7 +210,7 @@ public class Tablero {
 		}
 		return casilla;
 	}
-	
+	//Cambia el estado de la ficha dependiendo de la casilla donde esta parada.
 	public void cambiarEstado(Ficha ficha) {
 		if(ficha.casilla.tipoCasilla == Tipo.PROTEGIDO) {
 			ficha.estado = Estado.PROTEGIDA;
@@ -216,6 +225,9 @@ public class Tablero {
 			ficha.estado = Estado.GANADO;
 		}
 	}
+	
+	//Se elimina la primera ficha que se encuentra en la posición de la ficha (que pasamos por parámetro)
+	// que tenga diferente color al de la ficha
 	public void comer(Ficha ficha) {
 		Casilla casilla = ficha.casilla;
 		Ficha fichaAComer = null;
@@ -230,6 +242,8 @@ public class Tablero {
 			}
 		}	
 	}
+	
+	//Devuelve true si en la posición de la ficha hay alguna otra ficha de distinto color.
 	public boolean fichaCome(Ficha ficha) {
 		boolean comio = false;
 		for (Ficha fichaCasilla : this.listaTablero.get(ficha.casilla.posicion).fichas) {
@@ -239,6 +253,8 @@ public class Tablero {
 		}			
 		return comio;
 	}
+	
+	//Dentro de la recta final (dependiendo del color) elimina la ficha de la casillaActual 
 	public void removerFichaDeRectaFinal(Ficha ficha){
 		Casilla casillaActual = ficha.casilla;
 		if(ficha.color == Color.AMARILLO) {
@@ -255,6 +271,7 @@ public class Tablero {
 		}
 	}
 	
+	//Si hay alguna ficha con el marcador gano en true la elimina del tablero, resta las fichasEnJUego y suma fichasGanadas.
 	public void eliminarFichasGanadas(Jugador jugadorActual) {
 		for(int i = 0; i < listaTablero.size();i++) {
 			for(int j = 0; j < listaTablero.get(i).fichas.size();j++) {
@@ -273,6 +290,7 @@ public class Tablero {
 		}
 	}
 	
+	//Si hay alguna ficha con el marcador fueComida en true resta fichasEnJuego en uno.
 	public void eliminarFichaComidas(Jugador jugadorActual) {
 		for(int i = 0; i < jugadorActual.fichas.size();i++) {
 			if(jugadorActual.fichas.get(i).fueComida  ) {

@@ -6,6 +6,7 @@ import algo3Ludo.Ficha.Estado;
 
 public class JugadorNormal implements ITipoJugador{
 
+	// Da al usuario la posiblidad de elegir una ficha para mover de las que tiene disponible. Devuelve dicha ficha
 	public Ficha elegirFicha(Jugador jugador) {
 		ArrayList<Ficha> fichas = jugador.fichas;
 		ArrayList<String> numeros = new ArrayList<String>(3);
@@ -42,6 +43,8 @@ public class JugadorNormal implements ITipoJugador{
 		return null;
 	}
 	
+	// Una vez que salio 6 en el dado y el jugador es el usuario, 
+	//desempeña la función de preguntarle al usuario si quiere sacar una ficha o moverla (si se puede).
 	public void salioEl6(Jugador jugador, Tablero tablero) {
 		String rta;
 		Eleccion eleccion;

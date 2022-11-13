@@ -17,23 +17,24 @@ public class Ludo {
 	ITipoJugador jugadorIA;	
 	int cantidadDe6;
 	int dado;
-//	public Ludo() {
-//		tablero = new Tablero();
-//	}
-	
+
+	//Se encarga de inicializar los elementos necesarios para empezar el juego (tablero, jugadores, etc).
 	public void inicializarJuego() {
 
 		jugadores = new ArrayList<Jugador>(3);
+		jugadorIA = new JugadorMaquina();
+		jugadorNormal = new JugadorNormal();
+		tablero = new Tablero();
 
 		crearJugadores();
 		
-		tablero = new Tablero();
 		cantidadDe6 = 0;
 		jugadorActual = elegirQuienEmpieza();
-		jugadorIA = new JugadorMaquina();
-		jugadorNormal = new JugadorNormal();
 	}
 	
+	//Es el procedimiento encargado de crear un bucle en el cual se permita 
+	//inicializar el dado una vez por turno, cambiar de turno y llamar a otros procedimientos
+	//que se encargan de los movimientos
 	public void jugar() {
 		
 		while(!termino()) {	
@@ -52,19 +53,19 @@ public class Ludo {
 			
 			tablero.eliminarFichasGanadas(jugadorActual);
 			
-
 			if (cantidadDe6 == 0 && !jugadorActual.comio) {
 				jugadorActual = cambiarTurno();	
 			}
 		}
 	}
 	
+	//Segun el numero que salio en el dado se encarga de llamar a las funciones correspondientes
 	public void accionDependiendoTiradaDado() {
 		if(dado == 6) {
 			salioEl6();
 		}
 		else if(dado != 6 && jugadorActual.fichasEnJuego > 0) {
-			pantalla.println("Puede mover " + jugadorActual.fichasEnJuego + " ficha");
+			pantalla.println("Puede mover " + jugadorActual.fichasEnJuego + " fichas");
 			eleccion = new EleccionMoverFicha();
 			eleccion.ejecutar(jugadorActual, tablero);
 			cantidadDe6 = 0;
@@ -75,11 +76,12 @@ public class Ludo {
 		}
 	}
 	
-	
+	//Procedimiento que se encarga de llamar al proceidmiento salioEl6 dependiendo si el jugador
+	//es "normal" o la "maquina"
 	public void salioEl6() {
 		cantidadDe6++;
 		if(cantidadDe6 < 3) {
-			if(jugadorActual.tipoJugador == "normal") {
+			if(jugadorActual.tipoJugador.equals("normal")) {
 				jugadorNormal.salioEl6(jugadorActual, tablero);
 			}
 			else {
@@ -91,6 +93,7 @@ public class Ludo {
 		}
 	}
 	
+	//Determina que jugador comienza de forma aleatorias y lo devuelve.
 	public Jugador elegirQuienEmpieza() {
 		int resultado = (int)(Math.random()*4)+1;
 		
@@ -108,6 +111,8 @@ public class Ludo {
 		}
 	}
 	
+	//Dependiendo de cual es el jugador actual te devuelve el turno del jugador
+	//de la derecha (mirando el tablero).
 	public Jugador cambiarTurno() {
 		if(jugadorActual.color == Color.ROJO) {
 			return jugadores.get(3);
@@ -125,6 +130,7 @@ public class Ludo {
 		
 	}
 	
+	//Devuelve true si alguno de los jugadores llega a 4 fichas ganadas.
 	public boolean termino() {
 		if(tablero.fichasGanadasAzul.size() == 4 || 
 				tablero.fichasGanadasRojo.size() == 4 || 
@@ -143,6 +149,8 @@ public class Ludo {
 		return false;
 	}
 	
+	//Se encarga de crear los jugadores preguntadole al usuario si quiere que sean "normal" o "maquina"
+	//y los agrega a la lista de jugadores
 	public void crearJugadores() {
 		String tipoJugador;
 		

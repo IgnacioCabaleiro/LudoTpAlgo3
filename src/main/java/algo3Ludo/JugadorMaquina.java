@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import algo3Ludo.Ficha.Estado;
 
 public class JugadorMaquina implements ITipoJugador{
-
+	
+	//Devuelve una ficha disponible para mover de forma aleatoria
 	public Ficha elegirFicha(Jugador jugador) {
 		
 		ArrayList<Ficha> fichas = jugador.fichas;
@@ -25,6 +26,8 @@ public class JugadorMaquina implements ITipoJugador{
 		return fichasASortear.get((int)(Math.random()*fichasASortear.size()));
 	}
 
+	// Una vez que salio 6 en el dado y el jugador es la máquina, 
+	//desempeña la función de ejecutar de forma aleatoria el sacar una ficha de la base o mover (si se puede).
 	public void salioEl6(Jugador jugador, Tablero tablero) {
 		Eleccion eleccion;
 		int numeroRand = (int)(Math.random()*2);
