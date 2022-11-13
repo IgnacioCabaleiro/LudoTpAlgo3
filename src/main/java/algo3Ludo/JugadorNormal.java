@@ -59,8 +59,8 @@ public class JugadorNormal implements ITipoJugador{
 			eleccion = new EleccionSacarFicha();
 			eleccion.ejecutar(jugador , tablero);
 		}
-		else if((rta.equals("mover ficha") && jugador.fichasEnJuego > 0 ) || (rta.equals("sacar ficha") && jugador.fichasEnJuego >= 4)){
-			if(jugador.fichasEnJuego >= 4) {
+		else if((rta.equals("mover ficha") && jugador.fichasEnJuego > 0 ) || (rta.equals("sacar ficha") && jugador.fichasEnJuego == 4)){
+			if(jugador.fichasEnJuego == 4) {
 				pantalla.println("No puede sacar mas fichas, debe mover una ficha");
 			}
 			else {

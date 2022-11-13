@@ -46,6 +46,7 @@ public class Tablero {
 		fichasGanadasAmarillo = new ArrayList<Ficha>(MAX_CANT_FICHAS);
 		fichasGanadasAzul = new ArrayList<Ficha>(MAX_CANT_FICHAS);
 	}
+	
 	//Crea el tablero. En cada posicion del tablero se crea una casilla del tipo que corresponda
 	//dependiendo de su posicion en el tablero
 	public void crearTablero() {
@@ -64,6 +65,7 @@ public class Tablero {
 			listaTablero.add(casilla);
 		}
 	}
+	
 	//Crea las cuatro rectas finales. En cada posicion de ellas se crea una casilla del tipo que corresponda
 	//dependiendo de su posicion en el tablero
 	public void crearRectasFinales() {
@@ -102,7 +104,7 @@ public class Tablero {
 	}
 
 	//Se encarga de asignarle la casilla destino a la ficha y eliminarla de la casilla actual 
-	//dependiendo su posicion en el tablero(FUNCIÓN MUY LIOSA)
+	//dependiendo su posicion en el tablero (FUNCIÓN MUY LIOSA).
 	public void moverFicha(Ficha ficha, int movimiento) {
 		Casilla casillaActual = ficha.casilla;
 		Casilla casillaDestino = calcularDestino(ficha,movimiento);

@@ -3,6 +3,9 @@ package algo3Ludo;
 import algo3Ludo.Ficha.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.io.ByteArrayOutputStream;
+
 import org.junit.Test;
 import algo3Ludo.Casilla.*;
 
@@ -60,18 +63,18 @@ public class TestLudo {
 		var eleccionSacar = new EleccionSacarFicha();
 		var jugador1 = new Jugador(Color.ROJO, "normal");
 
-		jugador1.movimientoARealizar = 51;		
+		jugador1.movimientoARealizar = 52;		
 		eleccionSacar.ejecutar(jugador1, tablero);
 		eleccionMover.ejecutar(jugador1, tablero);
 		
-		assertEquals(0,jugador1.fichas.get(0).casilla.posicion);//quiere decir que entro, porque sino saltaria 51
+		assertEquals(1,jugador1.fichas.get(0).casilla.posicion);//quiere decir que entro, porque sino saltaria 51		
 		assertEquals(Estado.FINAL,jugador1.fichas.get(0).estado );
 		for(int i = 0; i < tablero.listaTablero.size(); i++) {
 			assertTrue(tablero.listaTablero.get(i).fichas.isEmpty());//verifca que todo el tablero este vacio	
 		}
 	}
 	@Test
-	public void whenEstaEnCasillaProtegidaThenNoCome() {
+	public void whenEstaEnCasillaProtegidaThenNoLoPuedenComer() {
 		System.out.println("---------------------------TEST 4----------------------------------");
 		var tablero = new Tablero();
 		var eleccionMover = new EleccionMoverFicha();
@@ -136,12 +139,11 @@ public class TestLudo {
 	public void testCalcularDestino(){
 		System.out.println("---------------------------TEST 7----------------------------------");
 		var ludo = new Ludo();
-		var tablero = ludo.tablero;
+		ludo.tablero = new Tablero();
 		var ficha = new Ficha(Color.VERDE, Estado.JUGANDO, new Casilla(Tipo.NORMAL,13));
 		int movimiento = 3;
 		
-		assertEquals(16,tablero.calcularDestino(ficha,movimiento).posicion);
-	//ANDA MAL
+		assertEquals(16,ludo.tablero.calcularDestino(ficha,movimiento).posicion);
 	}
 	
 	@Test
@@ -164,5 +166,38 @@ public class TestLudo {
 		
 		assertTrue(tirada <= 6);
 		assertTrue(tirada > 0);
+	}
+	
+	@Test
+	public void whenMoverFichaYFichasEnJuegoEs0thenSacarFicha() {
+		System.out.println("---------------------------TEST 10----------------------------------");
+
+		var ludo = new Ludo();
+		ludo.tablero = new Tablero();
+		var jugadorNormal = new JugadorNormal();
+		var jugador = new Jugador(Color.ROJO, "normal");
+		jugador.fichasEnJuego = 0;
+		
+		jugadorNormal.salioEl6(jugador, ludo.tablero);
+		//poner mover ficha 
+		assertEquals(1,jugador.fichasEnJuego);
+	}
+	@Test
+	public void whenSacarFichaYFichasEnJuegoEs4thenMoverficha() {
+		System.out.println("---------------------------TEST 11----------------------------------");
+
+		var ludo = new Ludo();
+		ludo.tablero = new Tablero();
+		var jugadorNormal = new JugadorNormal();
+		var jugador = new Jugador(Color.ROJO, "normal");
+		var eleccionSacar = new EleccionSacarFicha();
+		
+		eleccionSacar.ejecutar(jugador, ludo.tablero);
+		eleccionSacar.ejecutar(jugador, ludo.tablero);
+		eleccionSacar.ejecutar(jugador, ludo.tablero);
+		eleccionSacar.ejecutar(jugador, ludo.tablero);
+		jugadorNormal.salioEl6(jugador, ludo.tablero);
+		//poner sacar ficha
+		assertEquals(4,jugador.fichasEnJuego); //es decir no se agrego ninguna ficha mas
 	}
 }
