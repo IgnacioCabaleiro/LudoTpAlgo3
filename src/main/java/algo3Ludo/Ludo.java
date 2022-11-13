@@ -17,9 +17,9 @@ public class Ludo {
 	ITipoJugador jugadorIA;	
 	int cantidadDe6;
 	int dado;
-	public Ludo() {
-		tablero = new Tablero();
-	}
+//	public Ludo() {
+//		tablero = new Tablero();
+//	}
 	
 	public void inicializarJuego() {
 
@@ -28,7 +28,6 @@ public class Ludo {
 		crearJugadores();
 		
 		tablero = new Tablero();
-		
 		cantidadDe6 = 0;
 		jugadorActual = elegirQuienEmpieza();
 		jugadorIA = new JugadorMaquina();
@@ -50,10 +49,10 @@ public class Ludo {
 					jugadorActual.fichasEnJuego--;
 					pantalla.println("Se resta xq fue comida--------------------------------------------------------------------------------------");
 					pantalla.println(jugadorActual.fichas.get(i));
-					//teclado.nextLine();
 				}
 				jugadorActual.fichas.get(i).fueComida = false;	
 			}
+			
 			System.out.println(jugadorActual.fichasEnJuego+"----------------------");
 			pantalla.println("El turno es del " + jugadorActual.color);
             pantalla.println("El resultado del dado es: " + dado);
@@ -72,10 +71,16 @@ public class Ludo {
 				cantidadDe6 = 0;
 			}
 			System.out.println(jugadorActual.fichas);
+			for(int i = 0; i < tablero.listaTablero.size();i++) {
+				for(int j = 0; j < tablero.listaTablero.get(i).fichas.size();j++) {
+					if(tablero.listaTablero.get(i).fichas.get(j).gano) {
+						tablero.listaTablero.get(i).fichas.remove(tablero.listaTablero.get(i).fichas.get(j));
+					}
+				}
+			}
 			for(int i = 0; i < jugadorActual.fichas.size();i++) {
 				if(jugadorActual.fichas.get(i).gano) {
 					pantalla.println("Se resta xq gano-----------------------------------------------------------------------------------------");
-					//teclado.nextLine();
 					jugadorActual.fichasEnJuego--;
 					jugadorActual.fichasGanadas++;
 				}

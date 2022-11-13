@@ -26,6 +26,7 @@ public class Casilla {
 	//se encarga de  eliminar la ficha que se le pasa por parametro de la lista de fichas
 	public void sacarFicha(Ficha ficha) {
 		fichas.remove(ficha);
+		ficha.casilla.tipoCasilla = Tipo.BASE;
 	}
 	
 	//se encarga de  agregar la ficha que se le pasa por parametro de la lista de fichas
