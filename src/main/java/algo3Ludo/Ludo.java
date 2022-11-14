@@ -7,16 +7,16 @@ import algo3Ludo.Ficha.Color;
 
 public class Ludo {
 	
-	public static final java.util.Scanner teclado = new java.util.Scanner (System. in) ;
-	public static final java.io.PrintStream pantalla = new java.io.PrintStream(System. out);
-	static ArrayList<Jugador> jugadores;
-	Tablero tablero;
-	Jugador jugadorActual;
-	Eleccion eleccion;
-	ITipoJugador jugadorNormal;
-	ITipoJugador jugadorIA;	
-	int cantidadDe6;
-	int dado;
+	private static final java.util.Scanner teclado = new java.util.Scanner (System. in) ;
+	private static final java.io.PrintStream pantalla = new java.io.PrintStream(System. out);
+	public ArrayList<Jugador> jugadores;
+	public Tablero tablero;
+	public Jugador jugadorActual;
+	private Eleccion eleccion;
+	private ITipoJugador jugadorNormal;
+	private ITipoJugador jugadorIA;	
+	protected int cantidadDe6;
+	private int dado;
 
 	//Se encarga de inicializar los elementos necesarios para empezar el juego (tablero, jugadores, etc).
 	public void inicializarJuego() {
@@ -60,7 +60,7 @@ public class Ludo {
 	}
 	
 	//Segun el numero que salio en el dado se encarga de llamar a las funciones correspondientes
-	public void accionDependiendoTiradaDado() {
+	private void accionDependiendoTiradaDado() {
 		if(dado == 6) {
 			salioEl6();
 		}
@@ -94,7 +94,7 @@ public class Ludo {
 	}
 	
 	//Determina que jugador comienza de forma aleatorias y lo devuelve.
-	public Jugador elegirQuienEmpieza() {
+	private Jugador elegirQuienEmpieza() {
 		int resultado = (int)(Math.random()*4)+1;
 		
 		if(resultado == 1) {

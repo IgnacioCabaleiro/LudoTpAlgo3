@@ -8,17 +8,17 @@ import algo3Ludo.Ficha.Estado;
 
 public class Tablero {
 	
-	ArrayList<Casilla> listaTablero;
+	public ArrayList<Casilla> listaTablero;
 	
-	ArrayList<Casilla> rectaFinalRojo;
-	ArrayList<Casilla> rectaFinalVerde;
-	ArrayList<Casilla> rectaFinalAmarillo;
-	ArrayList<Casilla> rectaFinalAzul;
+	public ArrayList<Casilla> rectaFinalRojo;
+	public ArrayList<Casilla> rectaFinalVerde;
+	public ArrayList<Casilla> rectaFinalAmarillo;
+	public ArrayList<Casilla> rectaFinalAzul;
 	
-	ArrayList<Ficha> fichasGanadasRojo;
-	ArrayList<Ficha> fichasGanadasVerde;
-	ArrayList<Ficha> fichasGanadasAmarillo;
-	ArrayList<Ficha> fichasGanadasAzul;
+	public ArrayList<Ficha> fichasGanadasRojo;
+	public ArrayList<Ficha> fichasGanadasVerde;
+	public ArrayList<Ficha> fichasGanadasAmarillo;
+	public ArrayList<Ficha> fichasGanadasAzul;
 
 	static final int MAX_CASILLEROS_RECTA_FINAL = 5;
 	static final int POSICION_CASILLA_GANADA = 5;
@@ -40,7 +40,7 @@ public class Tablero {
 	}
 	
 	//Asigna a los atributos de fichasGanadas la instanciación de una lista de fichas.
-	public void crearFichasGanadas() {
+	private void crearFichasGanadas() {
 		fichasGanadasRojo = new ArrayList<Ficha>(MAX_CANT_FICHAS);
 		fichasGanadasVerde = new ArrayList<Ficha>(MAX_CANT_FICHAS);
 		fichasGanadasAmarillo = new ArrayList<Ficha>(MAX_CANT_FICHAS);
@@ -49,7 +49,7 @@ public class Tablero {
 	
 	//Crea el tablero. En cada posicion del tablero se crea una casilla del tipo que corresponda
 	//dependiendo de su posicion en el tablero
-	public void crearTablero() {
+	private void crearTablero() {
 		listaTablero = new ArrayList<Casilla>(CANTIDAD_CASILLAS_TABLERO);
 		Casilla casilla; 
 		for(int i = 0; i < CANTIDAD_CASILLAS_TABLERO+1; i ++) {
@@ -68,7 +68,7 @@ public class Tablero {
 	
 	//Crea las cuatro rectas finales. En cada posicion de ellas se crea una casilla del tipo que corresponda
 	//dependiendo de su posicion en el tablero
-	public void crearRectasFinales() {
+	private void crearRectasFinales() {
 		
 		rectaFinalRojo = new ArrayList <Casilla>(MAX_CASILLEROS_RECTA_FINAL);
 		rectaFinalVerde = new ArrayList <Casilla>(MAX_CASILLEROS_RECTA_FINAL);
@@ -127,22 +127,22 @@ public class Tablero {
 			Color color = ficha.color;
 			if (color == Color.AMARILLO) {
 				fichasGanadasAmarillo.add(ficha);
-				rectaFinalAmarillo.remove(ficha);
+				rectaFinalAmarillo.get(casillaActual.posicion).fichas.remove(ficha);			
 				System.out.println("La ficha amarilla llego a la meta");
 			}
 			else if (color == Color.AZUL) {
 				fichasGanadasAzul.add(ficha);
-				rectaFinalAzul.remove(ficha);
+				rectaFinalAzul.get(casillaActual.posicion).fichas.remove(ficha);			
 				System.out.println("La ficha azul llego a la meta");
 			}
 			else if (color == Color.ROJO) {
 				fichasGanadasRojo.add(ficha);
-				rectaFinalRojo.remove(ficha);
+				rectaFinalRojo.get(casillaActual.posicion).fichas.remove(ficha);			
 				System.out.println("La ficha roja llego a la meta");
 			}
 			else if (color == Color.VERDE) {
 				fichasGanadasVerde.add(ficha);
-				rectaFinalVerde.remove(ficha);
+				rectaFinalVerde.get(casillaActual.posicion).fichas.remove(ficha);			
 				System.out.println("La ficha verde llego a la meta");
 			}
 			ficha.gano = true;
@@ -188,7 +188,7 @@ public class Tablero {
 	
 	//Cuando la ficha esta en la recta final se encarga de realizar la validacion de si su
 	//movimiento es el exacto o menor para llegar a la casilla ganada.
-	public Casilla movimientoDentroRectaFinal(Ficha ficha, int movimiento) {
+	private Casilla movimientoDentroRectaFinal(Ficha ficha, int movimiento) {
 		
 		Casilla casilla = ficha.casilla;
 		int posicionFicha = casilla.posicion;
@@ -249,7 +249,7 @@ public class Tablero {
 	public boolean fichaCome(Ficha ficha) {
 		boolean comio = false;
 		for (Ficha fichaCasilla : this.listaTablero.get(ficha.casilla.posicion).fichas) {
-			if (fichaCasilla.color != ficha.color) {
+			if (fichaCasilla.color != ficha.color && ficha.casilla.tipoCasilla == Tipo.NORMAL) {
 				return comio = true;
 			}
 		}			
@@ -257,7 +257,7 @@ public class Tablero {
 	}
 	
 	//Dentro de la recta final (dependiendo del color) elimina la ficha de la casillaActual 
-	public void removerFichaDeRectaFinal(Ficha ficha){
+	private void removerFichaDeRectaFinal(Ficha ficha){
 		Casilla casillaActual = ficha.casilla;
 		if(ficha.color == Color.AMARILLO) {
 			rectaFinalAmarillo.get(casillaActual.posicion).fichas.remove(ficha);
