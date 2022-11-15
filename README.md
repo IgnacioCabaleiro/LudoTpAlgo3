@@ -46,19 +46,3 @@ Patrones de diseño:
   
   -Si saca tres 6 seguidos automaticamente se cambiara de turno sin dar chance a que mueva o saque ficha.
   
-
-
-      Instrucciones para ejecutar las pruebas: 
-
--TEST 1,2,3,4: siguiendo las instrucciones previamente dichas, se tendra que ingresar por terminal el unico número de ficha disponible (1)
-
--TEST 5: Debe poner si quiere que el jugador sea "normal" o "maquina". Para probar el test es indiferente que se elije.
-
--TEST 6: Siguiendo las instrucciones previamente dichas, se debera ingresar cualquiera de las fichas que esten disponibles en cada turno, con el objetivo de que todas lleguen a la meta.
-
--TEST 8 : Debe poner si quiere que el jugador sea "normal" o "maquina". Para probar el test es indiferente que se elije.
-
--TEST 10: escribir "mover ficha" cuando se le pida por pantalla. Luego mover cualquiera de las fichas que se les da como opción.
-
--TEST 11: escribir "sacar ficha" cuando se le pida por pantalla. Luego mover cualquiera de las fichas que se les da como opción.
-
