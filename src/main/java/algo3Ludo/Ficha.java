@@ -7,6 +7,7 @@ public class Ficha {
 	public Casilla casilla;
 	public boolean fueComida;
 	public boolean gano;
+	public boolean enJuego;
 	Color color;
 	Estado estado;
 
@@ -14,6 +15,7 @@ public class Ficha {
 		this.color = color;
 		this.estado = estado;
 		this.casilla = casilla;
+		this.enJuego = false;
 		
 	}
 }

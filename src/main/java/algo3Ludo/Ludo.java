@@ -21,26 +21,24 @@ public class Ludo {
 	//Se encarga de inicializar los elementos necesarios para empezar el juego (tablero, jugadores, etc).
 	public void inicializarJuego() {
 
-		jugadores = new ArrayList<Jugador>(3);
+		jugadores = new ArrayList<Jugador>();
 		jugadorIA = new JugadorMaquina();
 		jugadorNormal = new JugadorNormal();
 		tablero = new Tablero();
-
-		crearJugadores();
 		
 		cantidadDe6 = 0;
-		jugadorActual = elegirQuienEmpieza();
+		
 	}
 	
 	//Es el procedimiento encargado de crear un bucle en el cual se permita 
 	//inicializar el dado una vez por turno, cambiar de turno y llamar a otros procedimientos
 	//que se encargan de los movimientos
-	public void jugar() {
+	public void jugar(int resultadoDado) {
 		
-		while(!termino()) {	
+//		while(!termino()) {	
 			
+			this.dado = resultadoDado;
 			jugadorActual.comio = false;
-			dado = Dado.lanzarDado();
 			jugadorActual.movimientoARealizar = dado;
 			
 			pantalla.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
@@ -49,43 +47,50 @@ public class Ludo {
 			
 			tablero.eliminarFichaComidas(jugadorActual);
             
-			accionDependiendoTiradaDado();
-			
-			tablero.eliminarFichasGanadas(jugadorActual);
-			
-			if (cantidadDe6 == 0 && !jugadorActual.comio) {
-				jugadorActual = cambiarTurno();	
-			}
+			//accionDependiendoTiradaDado(ficha);
+//			
+//			tablero.eliminarFichasGanadas(jugadorActual);
+//			
+//			if (cantidadDe6 == 0 && !jugadorActual.comio) {
+//				jugadorActual = cambiarTurno();	
+//			}
 		}
-	}
+//	}
 	
 	//Segun el numero que salio en el dado se encarga de llamar a las funciones correspondientes
-	private void accionDependiendoTiradaDado() {
+	public void accionDependiendoTiradaDado(Ficha fichaAUtilizar) {
+		
 		if(dado == 6) {
-			salioEl6();
+			salioEl6(fichaAUtilizar);
 		}
 		else if(dado != 6 && jugadorActual.fichasEnJuego > 0) {
 			pantalla.println("Puede mover " + jugadorActual.fichasEnJuego + " fichas");
 			eleccion = new EleccionMoverFicha();
-			eleccion.ejecutar(jugadorActual, tablero);
+			eleccion.ejecutar(jugadorActual,fichaAUtilizar, tablero);
 			cantidadDe6 = 0;
 		}
 		else {
 			pantalla.println("No puede mover ninguna ficha");
 			cantidadDe6 = 0;
 		}
+//		tablero.eliminarFichasGanadas(jugadorActual);
+//		
+//		if (cantidadDe6 == 0 && !jugadorActual.comio) {
+//			jugadorActual = cambiarTurno();	
+//		}
+		//return fichaAUtilizar;
 	}
 	
 	//Procedimiento que se encarga de llamar al proceidmiento salioEl6 dependiendo si el jugador
 	//es "normal" o la "maquina"
-	public void salioEl6() {
+	public void salioEl6(Ficha ficha) {
 		cantidadDe6++;
 		if(cantidadDe6 < 3) {
 			if(jugadorActual.tipoJugador.equals("normal")) {
-				jugadorNormal.salioEl6(jugadorActual, tablero);
+				jugadorNormal.salioEl6(jugadorActual,ficha, tablero);
 			}
 			else {
-				jugadorIA.salioEl6(jugadorActual, tablero);
+				jugadorIA.salioEl6(jugadorActual,ficha ,tablero);
 			}
 		}	
 		else {
@@ -94,7 +99,7 @@ public class Ludo {
 	}
 	
 	//Determina que jugador comienza de forma aleatorias y lo devuelve.
-	private Jugador elegirQuienEmpieza() {
+	public Jugador elegirQuienEmpieza() {
 		int resultado = (int)(Math.random()*4)+1;
 		
 		if(resultado == 1) {
@@ -114,17 +119,19 @@ public class Ludo {
 	//Dependiendo de cual es el jugador actual te devuelve el turno del jugador
 	//de la derecha (mirando el tablero).
 	public Jugador cambiarTurno() {
-		if(jugadorActual.color == Color.ROJO) {
-			return jugadores.get(3);
-		}
-		else if(jugadorActual.color == Color.AZUL) {
-			return jugadores.get(2);
-		}
-		else if(jugadorActual.color == Color.AMARILLO) {
-			return jugadores.get(0);
-		}
-		else if(jugadorActual.color == Color.VERDE) {
-			return jugadores.get(1);
+		if(cantidadDe6 == 0 && !jugadorActual.comio) {
+			if(jugadorActual.color == Color.ROJO) {
+				return jugadores.get(3);
+			}
+			else if(jugadorActual.color == Color.AZUL) {
+				return jugadores.get(2);
+			}
+			else if(jugadorActual.color == Color.AMARILLO) {
+				return jugadores.get(0);
+			}
+			else if(jugadorActual.color == Color.VERDE) {
+				return jugadores.get(1);
+			}		
 		}
 		return null;
 		
@@ -151,24 +158,15 @@ public class Ludo {
 	
 	//Se encarga de crear los jugadores preguntadole al usuario si quiere que sean "normal" o "maquina"
 	//y los agrega a la lista de jugadores
-	public void crearJugadores() {
-		String tipoJugador;
+	public void crearJugadores(String tipoJugadorRojo, String tipoJugadorAzul, String tipoJugadorAmarillo, String tipoJugadorVerde) {
 		
-		pantalla.println("Ingrese que tipo de jugador es el jugador AZUL ('normal' o 'maquina')");
-		tipoJugador = teclado.nextLine();
-		Jugador jugadorAzul = new Jugador(Color.AZUL,tipoJugador);				
+		Jugador jugadorAzul = new Jugador(Color.AZUL,tipoJugadorAzul);				
 		
-		pantalla.println("Ingrese que tipo de jugador es el jugador AMARILLO ('normal' o 'maquina')");
-		tipoJugador = teclado.nextLine();
-		Jugador jugadorAmarillo = new Jugador(Color.AMARILLO,tipoJugador);
+		Jugador jugadorAmarillo = new Jugador(Color.AMARILLO,tipoJugadorAmarillo);
 
-		pantalla.println("Ingrese que tipo de jugador es el jugador ROJO ('normal' o 'maquina')" );
-		tipoJugador = teclado.nextLine();
-		Jugador jugadorRojo = new Jugador(Color.ROJO,tipoJugador);
-		
-		pantalla.println("Ingrese que tipo de jugador es el jugador VERDE ('normal' o 'maquina')");
-		tipoJugador = teclado.nextLine();
-		Jugador jugadorVerde = new Jugador(Color.VERDE,tipoJugador);
+		Jugador jugadorRojo = new Jugador(Color.ROJO,tipoJugadorRojo);
+
+		Jugador jugadorVerde = new Jugador(Color.VERDE,tipoJugadorVerde);
 		
 		jugadores.add(jugadorVerde);
 		jugadores.add(jugadorRojo);
@@ -176,5 +174,56 @@ public class Ludo {
 		jugadores.add(jugadorAzul);
 	}
 	
-
+	public Ficha fichaElegida(String ficha) {
+		if(ficha.equals("fichaAzul1")) {
+			return jugadores.get(3).fichas.get(0);
+		}
+		else if(ficha.equals("fichaAzul2")) {
+			return jugadores.get(3).fichas.get(1);
+		}
+		else if(ficha.equals("fichaAzul3")) {
+			return jugadores.get(3).fichas.get(2);
+		}
+		else if(ficha.equals("fichaAzul4")) {
+			return jugadores.get(3).fichas.get(3);
+		}
+		else if(ficha.equals("fichaAmarillo1")) {
+			return jugadores.get(2).fichas.get(0);
+		}
+		else if(ficha.equals("fichaAmarillo2")) {
+			return jugadores.get(2).fichas.get(1);
+		}
+		else if(ficha.equals("fichaAmarillo3")) {
+			return jugadores.get(2).fichas.get(2);
+		}
+		else if(ficha.equals("fichaAmarillo4")) {
+			return jugadores.get(2).fichas.get(3);
+		}
+		else if(ficha.equals("fichaRojo1")) {
+			return jugadores.get(1).fichas.get(0);
+		}
+		else if(ficha.equals("fichaRojo2")) {
+			return jugadores.get(1).fichas.get(1);
+		}
+		else if(ficha.equals("fichaRojo3")) {
+			return jugadores.get(1).fichas.get(2);
+		}
+		else if(ficha.equals("fichaRojo4")) {
+			return jugadores.get(1).fichas.get(3);
+		}
+		else if(ficha.equals("fichaVerde1")) {
+			return jugadores.get(0).fichas.get(0);
+		}
+		else if(ficha.equals("fichaVerde2")) {
+			return jugadores.get(0).fichas.get(1);
+		}
+		else if(ficha.equals("fichaVerde3")) {
+			return jugadores.get(0).fichas.get(2);
+		}
+		else if(ficha.equals("fichaVerde4")) {
+			return jugadores.get(0).fichas.get(3);
+		}
+		
+		return null;
+	}
 }

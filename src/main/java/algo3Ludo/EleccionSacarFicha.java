@@ -7,10 +7,7 @@ import algo3Ludo.Ficha.Estado;
 public class EleccionSacarFicha implements Eleccion {
 	
 	//Se encarga de ejecutar la accion de sacar  una ficha una vez haya sacado 6 en el dado 
-	public void ejecutar(Jugador jugador, Tablero tablero) {
-		
-		int posicion = jugador.primeroEnBase();
-		Ficha fichaAJugar = jugador.fichas.get(posicion);
+	public void ejecutar(Jugador jugador,Ficha fichaAJugar ,Tablero tablero) {
 		
 			if(jugador.color == Color.ROJO) {			
 				tablero.listaTablero.get(0).fichas.add(fichaAJugar);

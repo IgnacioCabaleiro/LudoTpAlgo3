@@ -7,5 +7,5 @@ public interface ITipoJugador {
 	//Se encarga de elegir una ficha disponible para mover dependiendo si el jugador es el usuario o se "maneja solo"
 	public Ficha elegirFicha(Jugador jugador);
 	// ejecuta la accion de que salio un 6 dependiendo si si el jugador es el usuario o se "maneja solo"
-	public void salioEl6(Jugador jugador, Tablero tablero);
+	public void salioEl6(Jugador jugador,Ficha ficha ,Tablero tablero);
 }

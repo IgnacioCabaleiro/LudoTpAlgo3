@@ -30,7 +30,7 @@ public class Jugador {
 	public ArrayList<Ficha> crearFichas() {
 		Ficha ficha;
 		Casilla casilla;
-		fichas = new ArrayList<Ficha>(3);
+		fichas = new ArrayList<Ficha>();
 		for(int i = 0; i < 4 ; i++) {
 			casilla = new Casilla(Tipo.BASE,i);
 			ficha = new Ficha(color,Estado.BASE, casilla);
