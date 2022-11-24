@@ -1,8 +1,6 @@
 package algo3Ludo;
 
 import java.util.ArrayList;
-
-import algo3Ludo.Casilla.Tipo;
 import algo3Ludo.Ficha.Estado;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -148,7 +146,7 @@ public class App extends Application {
 		Group root2 = new Group();
 		botonNormal = new Button();
 		
-		ImageView imagenBoton =  new ImageView("C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\resources\\boton_presionado-removebg-preview.png");
+		ImageView imagenBoton =  new ImageView("C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\boton_presionado-removebg-preview.png");
 		botonNormal.setLayoutX(310.5);
 		botonNormal.setLayoutY(325);
 		botonNormal.setGraphic(imagenBoton);
@@ -250,7 +248,7 @@ public class App extends Application {
 		});
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		String imagePath = "C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\resources\\tableroludo.jpg";
+		String imagePath = "C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\tableroludo.jpg";
 		Image image = new Image(imagePath);
 		Scene scene2 = new Scene(root2,691,691);
 
@@ -272,6 +270,7 @@ public class App extends Application {
 	}
 		
 	public void elegirFicha(algo3Ludo.Ficha.Color color){	
+		
 		if(color == algo3Ludo.Ficha.Color.ROJO) {
 			for(Circle circulo: fichasRojas) {
 		    	circulo.setOnMouseClicked((MouseEvent event)-> {
