@@ -113,16 +113,16 @@ public class Tablero {
 			System.out.println("No se pudo mover porque tiene que sacar el numero exacto o menor para ganar");
 		}
 		else if(ficha.estado == Estado.FINAL) {
-			casillaActual.sacarFicha(ficha);
+			//casillaActual.sacarFicha(ficha);
 			removerFichaDeRectaFinal(ficha);
 			casillaDestino.ponerFicha(ficha);
 		}
 		else{
-			casillaActual.sacarFicha(ficha);
+			//casillaActual.sacarFicha(ficha);
 			listaTablero.get(casillaActual.posicion).fichas.remove(ficha);
 			casillaDestino.ponerFicha(ficha);
 		}
-		
+		casillaActual = casillaDestino;
 		if(casillaDestino.tipoCasilla == Tipo.GANADA) {
 			Color color = ficha.color;
 			if (color == Color.AMARILLO) {
@@ -255,6 +255,15 @@ public class Tablero {
 		}			
 		return comio;
 	}
+	public void eliminarFichasGanadasDelTablero(Jugador jugadorActual) {
+		for(int i = 0; i < listaTablero.size();i++) {
+			for(int j = 0; j < listaTablero.get(i).fichas.size();j++) {
+				if(listaTablero.get(i).fichas.get(j).gano) {
+					listaTablero.get(i).fichas.remove(listaTablero.get(i).fichas.get(j));
+				}
+			}
+		}
+	}
 	
 	//Dentro de la recta final (dependiendo del color) elimina la ficha de la casillaActual 
 	private void removerFichaDeRectaFinal(Ficha ficha){
@@ -272,35 +281,6 @@ public class Tablero {
 			rectaFinalAzul.get(casillaActual.posicion).fichas.remove(ficha);
 		}
 	}
-	
-	//Si hay alguna ficha con el marcador gano en true la elimina del tablero, resta las fichasEnJUego y suma fichasGanadas.
-	public void eliminarFichasGanadas(Jugador jugadorActual) {
-		for(int i = 0; i < listaTablero.size();i++) {
-			for(int j = 0; j < listaTablero.get(i).fichas.size();j++) {
-				if(listaTablero.get(i).fichas.get(j).gano) {
-					listaTablero.get(i).fichas.remove(listaTablero.get(i).fichas.get(j));
-				}
-			}
-		}
-		
-		for(int i = 0; i < jugadorActual.fichas.size();i++) {
-			if(jugadorActual.fichas.get(i).gano) {
-				jugadorActual.fichasEnJuego--;
-				jugadorActual.fichasGanadas++;
-			}
-			jugadorActual.fichas.get(i).gano = false;	
-		}
-	}
-	
-	//Si hay alguna ficha con el marcador fueComida en true resta fichasEnJuego en uno.
-	public void eliminarFichaComidas(Jugador jugadorActual) {
-		for(int i = 0; i < jugadorActual.fichas.size();i++) {
-			if(jugadorActual.fichas.get(i).fueComida  ) {
-				jugadorActual.fichasEnJuego--;
-			}
-			jugadorActual.fichas.get(i).fueComida = false;	
-		}
-	}
-	
-	
 }
+	
+

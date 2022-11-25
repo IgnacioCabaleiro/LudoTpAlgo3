@@ -25,11 +25,10 @@ public class EleccionSacarFicha implements Eleccion {
 				tablero.listaTablero.get(13).fichas.add(fichaAJugar);
 				fichaAJugar.casilla.posicion = 13;
 			}
-			
+			fichaAJugar.enJuego = true;
 			fichaAJugar.estado = Estado.PROTEGIDA;
 			fichaAJugar.casilla.tipoCasilla = Tipo.PROTEGIDO;
 			jugador.fichasEnJuego++;
-
 
 	}
 

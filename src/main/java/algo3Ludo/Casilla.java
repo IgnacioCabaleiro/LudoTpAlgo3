@@ -26,6 +26,7 @@ public class Casilla {
 		this.posicion = posicion;
 		this.color = color;
 		this.fichas = new ArrayList<Ficha>(3);
+		setCoordenadasRectasFinales(color);
 	}
 	//se encarga de  eliminar la ficha que se le pasa por parametro de la lista de fichas
 	public void sacarFicha(Ficha ficha) {
@@ -41,8 +42,7 @@ public class Casilla {
 	}
 	
 	public void setCoordenadasTablero() {
-		//int posicion = casilla.posicion;
-		
+
 		if(posicion == 51) {
 			coordenadaX = 285;
 			coordenadaY = 650;	
@@ -111,5 +111,91 @@ public class Casilla {
 			coordenadaX = 10;
 			coordenadaY = 330;	
 		}		
+	}
+	public void setCoordenadasRectasFinales(Color color) {		
+		if(color == Color.ROJO) {
+			coordenadaX = 330;
+			if(posicion == 0) {
+				coordenadaY = 605;	
+			}
+			if(posicion == 1) {
+				coordenadaY = 560;		
+			}
+			if(posicion == 2) {
+				coordenadaY = 515;		
+			}
+			if(posicion == 3) {
+				coordenadaY = 470;		
+			}
+			if(posicion == 4) {
+				coordenadaY = 425;		
+			}
+			if(posicion == 5) {
+				coordenadaY = 375;		
+			}
+		}
+		else if(color == Color.AMARILLO) {
+			coordenadaX = 330;
+			if(posicion == 0) {
+				coordenadaY = 55;	
+			}
+			if(posicion == 1) {
+				coordenadaY = 100;		
+			}
+			if(posicion == 2) {
+				coordenadaY = 145;		
+			}
+			if(posicion == 3) {
+				coordenadaY = 195;		
+			}
+			if(posicion == 4) {
+				coordenadaY = 240;		
+			}
+			if(posicion == 5) {
+				coordenadaY = 285;		
+			}
+		}
+		else if(color == Color.AZUL) {
+			coordenadaY = 330;
+			if(posicion == 0) {
+				coordenadaX = 605;	
+			}
+			if(posicion == 1) {
+				coordenadaX = 560;	
+			}
+			if(posicion == 2) {
+				coordenadaX = 515;	
+			}
+			if(posicion == 3) {
+				coordenadaX = 470;	
+			}
+			if(posicion == 4) {
+				coordenadaX = 425;	
+			}
+			if(posicion == 5) {
+				coordenadaX = 375;	
+			}
+		}
+		else if(color == Color.VERDE) {
+			coordenadaY = 330;
+			if(posicion == 0) {
+				coordenadaX = 55;	
+			}
+			if(posicion == 1) {
+				coordenadaX = 100;		
+			}
+			if(posicion == 2) {
+				coordenadaX = 145;	
+			}
+			if(posicion == 3) {
+				coordenadaX = 195;	
+			}
+			if(posicion == 4) {
+				coordenadaX = 240;	
+			}
+			if(posicion == 5) {
+				coordenadaX = 285;	
+			}
+		}
 	}
 }

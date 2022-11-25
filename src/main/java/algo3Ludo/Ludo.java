@@ -12,7 +12,7 @@ public class Ludo {
 	public ArrayList<Jugador> jugadores;
 	public Tablero tablero;
 	public Jugador jugadorActual;
-	private Eleccion eleccion;
+	public Eleccion eleccion;
 	private ITipoJugador jugadorNormal;
 	private ITipoJugador jugadorIA;	
 	protected int cantidadDe6;
@@ -25,7 +25,6 @@ public class Ludo {
 		jugadorIA = new JugadorMaquina();
 		jugadorNormal = new JugadorNormal();
 		tablero = new Tablero();
-		
 		cantidadDe6 = 0;
 		
 	}
@@ -45,15 +44,8 @@ public class Ludo {
 			pantalla.println("El turno es del " + jugadorActual.color);
 			pantalla.println("El resultado del dado es: " + dado);
 			
-			tablero.eliminarFichaComidas(jugadorActual);
             
-			//accionDependiendoTiradaDado(ficha);
-//			
-//			tablero.eliminarFichasGanadas(jugadorActual);
-//			
-//			if (cantidadDe6 == 0 && !jugadorActual.comio) {
-//				jugadorActual = cambiarTurno();	
-//			}
+
 		}
 //	}
 	
@@ -73,12 +65,9 @@ public class Ludo {
 			pantalla.println("No puede mover ninguna ficha");
 			cantidadDe6 = 0;
 		}
-//		tablero.eliminarFichasGanadas(jugadorActual);
-//		
-//		if (cantidadDe6 == 0 && !jugadorActual.comio) {
-//			jugadorActual = cambiarTurno();	
-//		}
-		//return fichaAUtilizar;
+		tablero.eliminarFichasGanadasDelTablero(jugadorActual);
+		
+		jugadorActual = cambiarTurno();		
 	}
 	
 	//Procedimiento que se encarga de llamar al proceidmiento salioEl6 dependiendo si el jugador
@@ -133,7 +122,7 @@ public class Ludo {
 				return jugadores.get(1);
 			}		
 		}
-		return null;
+		return jugadorActual;
 		
 	}
 	

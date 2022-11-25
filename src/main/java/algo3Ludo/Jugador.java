@@ -33,7 +33,7 @@ public class Jugador {
 		fichas = new ArrayList<Ficha>();
 		for(int i = 0; i < 4 ; i++) {
 			casilla = new Casilla(Tipo.BASE,i);
-			ficha = new Ficha(color,Estado.BASE, casilla);
+			ficha = new Ficha(color,Estado.BASE, casilla, i);
 			fichas.add(ficha);
 		}
 		return fichas;

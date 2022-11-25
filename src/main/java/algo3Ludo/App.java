@@ -1,6 +1,7 @@
 package algo3Ludo;
 
 import java.util.ArrayList;
+import java.util.Map;
 import algo3Ludo.Ficha.Estado;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -28,7 +29,7 @@ import javafx.stage.Stage;
 
 
 public class App extends Application {
-	
+	Group root2;
 	ArrayList<Circle> fichasRojas;
 	ArrayList<Circle> fichasVerdes;
     ArrayList<Circle> fichasAmarillas;
@@ -143,17 +144,16 @@ public class App extends Application {
         
     //Escena2
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		Group root2 = new Group();
+		root2 = new Group();
 		botonNormal = new Button();
 		
 		ImageView imagenBoton =  new ImageView("C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\boton_presionado-removebg-preview.png");
 		botonNormal.setLayoutX(310.5);
 		botonNormal.setLayoutY(325);
 		botonNormal.setGraphic(imagenBoton);
-		fichas = new ArrayList<Circle>();
 		fichasRojas = new ArrayList<Circle>(4);
-		
 	    Circle circuloRojo1 = new Circle(115, 530, 15, Color.RED);
+
 	    Circle circuloRojo2 = new Circle(160, 530, 15, Color.RED);
 	    Circle circuloRojo3 = new Circle(115, 580, 15, Color.RED);
 	    Circle circuloRojo4 = new Circle(160, 580, 15, Color.RED);
@@ -180,15 +180,14 @@ public class App extends Application {
 	    fichasAmarillas.add(circuloAmarillo3);
 	    fichasAmarillas.add(circuloAmarillo4);
 	    fichasAzules = new ArrayList<Circle>(4);
-	    Circle circuloAzul1 = new Circle(527, 530, 15, Color.BLUE);
-	    Circle circuloAzul2 = new Circle(572, 530, 15, Color.BLUE);
-	    Circle circuloAzul3 = new Circle(527, 580, 15, Color.BLUE);
-	    Circle circuloAzul4 = new Circle(572, 580, 15, Color.BLUE);
+	    Circle circuloAzul1 = new Circle(525, 530, 15, Color.BLUE);
+	    Circle circuloAzul2 = new Circle(570, 530, 15, Color.BLUE);
+	    Circle circuloAzul3 = new Circle(525, 580, 15, Color.BLUE);
+	    Circle circuloAzul4 = new Circle(570, 580, 15, Color.BLUE);
 	    fichasAzules.add(circuloAzul1);
 	    fichasAzules.add(circuloAzul2);
 	    fichasAzules.add(circuloAzul3);
 	    fichasAzules.add(circuloAzul4);
-	    
 		circuloAzul1.setId("fichaAzul1");
 		circuloAzul2.setId("fichaAzul2");
 		circuloAzul3.setId("fichaAzul3");
@@ -214,26 +213,25 @@ public class App extends Application {
             @Override
             public void handle(ActionEvent event) {
             	resultadoDado = Dado.lanzarDado();
-                
+                movimientoRealizado = false;
             	Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Resultado del dado...");
-                alert.setHeaderText("El jugador "+ludo.jugadorActual.color+" saco el número");
-                alert.setContentText(""+ resultadoDado);
+                alert.setHeaderText("El jugador " + ludo.jugadorActual.color + " saco el número");
+                alert.setContentText("" + resultadoDado);
                 alert.showAndWait();
                 botonNormal.setDisable(true);                	
-                
                 ludo.jugar(resultadoDado);
-                
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 if(resultadoDado == 6 || ludo.jugadorActual.fichasEnJuego > 0) {
                 	elegirFicha(ludo.jugadorActual.color);
-
                 }
                 else {
-                    botonNormal.setDisable(false);   
+                    botonNormal.setDisable(false);
+                    ludo.cantidadDe6 = 0;
                     ludo.jugadorActual = ludo.cambiarTurno();	
                 }
-//        		ludo.tablero.eliminarFichasGanadas(ludo.jugadorActual);
-      			
+                eliminarFichaComidas(ludo.jugadorActual);
+                eliminarFichasGanadas(ludo.jugadorActual);
                 if(ludo.termino()) {
                 	//cambiar de escena a resultados(?)
                 }
@@ -267,83 +265,114 @@ public class App extends Application {
         		stage.show();
             }
         });
+
 	}
 		
 	public void elegirFicha(algo3Ludo.Ficha.Color color){	
 		
-		if(color == algo3Ludo.Ficha.Color.ROJO) {
-			for(Circle circulo: fichasRojas) {
-		    	circulo.setOnMouseClicked((MouseEvent event)-> {
-		    		Ficha ficha = ludo.fichaElegida(circulo.getId());
-		    		ludo.accionDependiendoTiradaDado(ficha);
-		    		ficha.casilla.setCoordenadasTablero();
-		    		botonNormal.setDisable(false);
-		    		circulo.setStroke(Color.BLACK);
-		    		if(ficha.estado!=Estado.BASE) {
-		    			circulo.relocate(ficha.casilla.coordenadaX, ficha.casilla.coordenadaY);		    			
-		    			ficha.enJuego = true;
-		    		}
-		    	});	
-                ludo.jugadorActual = ludo.cambiarTurno();	
-			}
-		}
-		else if(color == algo3Ludo.Ficha.Color.AZUL) {
-				
-			for(Circle circulo: fichasAzules) {
-				circulo.setOnMouseClicked((MouseEvent event)-> {
-					Ficha ficha = ludo.fichaElegida(circulo.getId());
-					System.out.println(ficha.casilla.posicion);
-					ludo.accionDependiendoTiradaDado(ficha);	
-		    		System.out.println(ficha.casilla.posicion);
-		    		ficha.casilla.setCoordenadasTablero();
-		    		botonNormal.setDisable(false);
-		    		circulo.setStroke(Color.BLACK);
-		    		if(ficha.estado!=Estado.BASE) {
-		    			circulo.relocate(ficha.casilla.coordenadaX, ficha.casilla.coordenadaY);		    			
-		    			ficha.enJuego = true;
-		    		}
-				});
-                ludo.jugadorActual = ludo.cambiarTurno();	
-
-			}
-		}
-		else if(color == algo3Ludo.Ficha.Color.AMARILLO) {
-			for(Circle circulo: fichasAmarillas) {
-				circulo.setOnMouseClicked((MouseEvent event)-> {
-					Ficha ficha = ludo.fichaElegida(circulo.getId());
-					System.out.println(ficha.casilla.posicion);
-		    		ludo.accionDependiendoTiradaDado(ficha);
-		    		System.out.println(ficha.casilla.posicion);
-		    		ficha.casilla.setCoordenadasTablero();
-		    		botonNormal.setDisable(false);
-		    		circulo.setStroke(Color.BLACK);
-		    		if(ficha.estado!=Estado.BASE) {
-		    			circulo.relocate(ficha.casilla.coordenadaX, ficha.casilla.coordenadaY);		    			
-		    			ficha.enJuego = true;
-		    		}
-				});	
-                ludo.jugadorActual = ludo.cambiarTurno();
-			}
-		}
-		else if(color == algo3Ludo.Ficha.Color.VERDE) {
-			for(Circle circulo: fichasVerdes) {
-				circulo.setOnMouseClicked((MouseEvent event)-> {
-					Ficha ficha = ludo.fichaElegida(circulo.getId());
-					System.out.println(ficha.casilla.posicion);
-					ludo.accionDependiendoTiradaDado(ficha);	
-		    		System.out.println(ficha.casilla.posicion);
-		    		ficha.casilla.setCoordenadasTablero();
-		    		botonNormal.setDisable(false);
-		    		circulo.setStroke(Color.BLACK);
-		    		if(ficha.estado!=Estado.BASE) {
-		    			circulo.relocate(ficha.casilla.coordenadaX, ficha.casilla.coordenadaY);		    			
-		    			ficha.enJuego = true;
-		    		}
-				});	
-                ludo.jugadorActual = ludo.cambiarTurno();	
-			}
+		Map<algo3Ludo.Ficha.Color, ArrayList<Circle>> fichas = Map.of(
+			algo3Ludo.Ficha.Color.ROJO, fichasRojas,
+			algo3Ludo.Ficha.Color.AZUL, fichasAzules,
+			algo3Ludo.Ficha.Color.VERDE, fichasVerdes,
+			algo3Ludo.Ficha.Color.AMARILLO, fichasAmarillas
+			);
+		
+		for(Circle circulo: fichas.get(color)) {		    	
+			circulo.setOnMouseClicked((MouseEvent event)-> {
+	    		if(!movimientoRealizado && color == ludo.jugadorActual.color) {
+	    			Ficha ficha = ludo.fichaElegida(circulo.getId());
+	    			if(fichaEnCondiciones(ficha)) {
+	    				ludo.accionDependiendoTiradaDado(ficha);
+	    				//cambiarCoordenadas
+	    				if(ficha.estado == Estado.FINAL || ficha.estado == Estado.GANADO) {
+	    					ficha.casilla.setCoordenadasRectasFinales(ficha.color);		    					    			
+	    				}
+	    				else {
+	    					ficha.casilla.setCoordenadasTablero();
+	    				}
+	    				//
+	    				movimientoRealizado = true;
+	    				ficha.enJuego = true;
+	    				circulo.setStroke(Color.BLACK);
+	    				botonNormal.setDisable(false);
+	    				if(ludo.tablero.listaTablero.get(ficha.casilla.posicion).fichas.size() > 1) {
+	    					circulo.relocate(ficha.casilla.coordenadaX + 5, ficha.casilla.coordenadaY + 5);		    			
+	    					
+	    				}
+	    				else{
+	    					circulo.relocate(ficha.casilla.coordenadaX, ficha.casilla.coordenadaY);		    			
+	    				}
+	    			}
+	    			else {
+	    				elegirFicha(color);
+	    			}
+	    		}
+	    	});
 		}
 	}
+	public boolean fichaEnCondiciones(Ficha ficha) {
+		if(ficha.enJuego || ludo.jugadorActual.fichasEnJuego == 0 || (resultadoDado == 6 &&(ludo.jugadorActual.fichasGanadas + ludo.jugadorActual.fichasEnJuego) < 4)) {
+			return true;
+		}
+		return false;
+	}
+	public boolean estaEnBase(Circle circulo) {
+		if((circulo.getCenterX() == 115 || circulo.getCenterX() == 160 || circulo.getCenterX() == 530 || circulo.getCenterX() == 580) && 
+			(circulo.getCenterY() == 115 || circulo.getCenterY() == 160 || circulo.getCenterY() == 530 || circulo.getCenterY() == 580)){
+			return true;			
+		}
+		return false;			
+	}
+	//Si hay alguna ficha con el marcador gano en true la elimina del tablero, resta las fichasEnJUego y suma fichasGanadas.
+	public void eliminarFichasGanadas(Jugador jugadorActual) {	
+		for(int i = 0; i < jugadorActual.fichas.size();i++) {
+			if(jugadorActual.fichas.get(i).gano) {
+				jugadorActual.fichasEnJuego--;
+				jugadorActual.fichasGanadas++;
+				jugadorActual.fichas.get(i).enJuego = false;
+				root2.getChildren().remove(circuloElegido(jugadorActual.fichas.get(i)));
+			}
+			jugadorActual.fichas.get(i).gano = false;	
+		}
+	}
+	
+	//Si hay alguna ficha con el marcador fueComida en true resta fichasEnJuego en uno.
+	public void eliminarFichaComidas(Jugador jugadorActual) {
+	for(int i = 0; i < ludo.jugadores.size() ;i++) {
+		for(int j = 0; j < ludo.jugadores.get(i).fichas.size();j++) {
+			if(ludo.jugadores.get(i).fichas.get(j).fueComida  ) {
+				ludo.jugadores.get(i).fichasEnJuego--;
+				ludo.jugadores.get(i).fichas.get(j).enJuego = false;
+				circuloElegido(ludo.jugadores.get(i).fichas.get(j))
+				.relocate(circuloElegido(ludo.jugadores.get(i).fichas.get(j)).getCenterX()-15,
+						circuloElegido(ludo.jugadores.get(i).fichas.get(j)).getCenterY()-15);
+			}
+			ludo.jugadores.get(i).fichas.get(j).fueComida = false;	
+		}
+	}
+	}
+		
+	public Circle circuloElegido(Ficha ficha) {
+		
+		if(ficha.color == algo3Ludo.Ficha.Color.AMARILLO) {
+			return fichasAmarillas.get(ficha.posicionListaFichas);				
+		}
+		else if(ficha.color == algo3Ludo.Ficha.Color.ROJO) {
+			return fichasRojas.get(ficha.posicionListaFichas);				
+		}
+		else if(ficha.color == algo3Ludo.Ficha.Color.AZUL) {
+			return fichasAzules.get(ficha.posicionListaFichas);				
+		}
+		else if(ficha.color == algo3Ludo.Ficha.Color.VERDE) {
+			return fichasVerdes.get(ficha.posicionListaFichas);				
+		}
+		return null;
+	}
+		
+		
+		
+
+	
 	public static void main(String[] args) {
 		launch();
 	}
