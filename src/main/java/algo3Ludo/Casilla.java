@@ -12,6 +12,7 @@ public class Casilla {
 	Color color;
 	int coordenadaX;
 	int coordenadaY;
+	boolean entro;
 	
 
 	public Casilla(Tipo tipo , int posicion){

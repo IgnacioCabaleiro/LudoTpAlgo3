@@ -4,6 +4,7 @@ package algo3Ludo;
 import java.util.ArrayList;
 
 import algo3Ludo.Ficha.Color;
+import algo3Ludo.Ficha.Estado;
 
 public class Ludo {
 	
@@ -214,5 +215,13 @@ public class Ludo {
 		}
 		
 		return null;
+	}
+	public void actualizarCoordenadas(Ficha ficha) {
+		if(ficha.estado == Estado.FINAL || ficha.estado == Estado.GANADO) {
+			ficha.casilla.setCoordenadasRectasFinales(ficha.color);		    					    			
+		}
+		else {
+			ficha.casilla.setCoordenadasTablero();
+		}
 	}
 }

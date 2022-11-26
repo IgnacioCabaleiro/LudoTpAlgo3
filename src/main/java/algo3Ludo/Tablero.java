@@ -113,18 +113,19 @@ public class Tablero {
 			System.out.println("No se pudo mover porque tiene que sacar el numero exacto o menor para ganar");
 		}
 		else if(ficha.estado == Estado.FINAL) {
-			//casillaActual.sacarFicha(ficha);
+			casillaActual.sacarFicha(ficha);
 			removerFichaDeRectaFinal(ficha);
 			casillaDestino.ponerFicha(ficha);
 		}
 		else{
-			//casillaActual.sacarFicha(ficha);
+			casillaActual.sacarFicha(ficha);
 			listaTablero.get(casillaActual.posicion).fichas.remove(ficha);
 			casillaDestino.ponerFicha(ficha);
 		}
-		casillaActual = casillaDestino;
+		//casillaActual = casillaDestino;
 		if(casillaDestino.tipoCasilla == Tipo.GANADA) {
 			Color color = ficha.color;
+			casillaActual.sacarFicha(ficha);
 			if (color == Color.AMARILLO) {
 				fichasGanadasAmarillo.add(ficha);
 				rectaFinalAmarillo.get(casillaActual.posicion).fichas.remove(ficha);			
@@ -145,6 +146,7 @@ public class Tablero {
 				rectaFinalVerde.get(casillaActual.posicion).fichas.remove(ficha);			
 				System.out.println("La ficha verde llego a la meta");
 			}
+			
 			ficha.gano = true;
 		}
 		cambiarEstado(ficha);
@@ -249,7 +251,7 @@ public class Tablero {
 	public boolean fichaCome(Ficha ficha) {
 		boolean comio = false;
 		for (Ficha fichaCasilla : this.listaTablero.get(ficha.casilla.posicion).fichas) {
-			if (fichaCasilla.color != ficha.color && ficha.casilla.tipoCasilla == Tipo.NORMAL) {
+			if (fichaCasilla.color != ficha.color && (ficha.casilla.tipoCasilla == Tipo.NORMAL||ficha.casilla.tipoCasilla == Tipo.ENTRADA)) {
 				return comio = true;
 			}
 		}			

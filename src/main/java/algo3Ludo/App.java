@@ -2,7 +2,6 @@ package algo3Ludo;
 
 import java.util.ArrayList;
 import java.util.Map;
-import algo3Ludo.Ficha.Estado;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,10 +25,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-
-
 public class App extends Application {
-	Group root2;
+	GridPane rootInicio;
+	Group rootJuego;
+	Group rootResultados;
 	ArrayList<Circle> fichasRojas;
 	ArrayList<Circle> fichasVerdes;
     ArrayList<Circle> fichasAmarillas;
@@ -39,30 +38,69 @@ public class App extends Application {
 	boolean movimientoRealizado;
 	Ludo ludo;
 	Button botonNormal;
-	
+	SceneManager sceneManager;
 	@Override
 	public void start(Stage stage) throws Exception {
 		
+		
 		ludo = new Ludo();
-		//Escena2
-		GridPane root = new GridPane();
+		rootInicio = new GridPane();
+		rootJuego = new Group();
+		
+        Label etiquetaRojo = new Label("Elegir tipo de jugador Rojo");
+        Label etiquetaAzul = new Label("Elegir tipo de jugador Azul");
+        Label etiquetaVerde = new Label("Elegir tipo de jugador Verde");
+        Label etiquetaAmarillo = new Label("Elegir tipo de jugador Amarillo");
+        Label respuestaRojo = new Label("");
+        Label respuestaAzul = new Label("");
+        Label respuestaVerde = new Label("");
+        Label respuestaAmarillo = new Label("");
+        
+        botonNormal = new Button();
         Button boton = new Button();
-        Label label = new Label("Elegir tipo de jugador Rojo");
-        Label label1 = new Label("Elegir tipo de jugador Azul");
-        Label label2 = new Label("Elegir tipo de jugador Verde");
-        Label label3 = new Label("Elegir tipo de jugador Amarillo");
-        Label greetingLabel = new Label("");
-        Label greetingLabel1 = new Label("");
-        Label greetingLabel2 = new Label("");
-        Label greetingLabel3 = new Label("");
-        ObservableList<String> tipoJugadores = FXCollections.observableArrayList("normal", "maquina");
-
+        
+		Canvas canvasJuego = new Canvas(691, 691);
+		GraphicsContext gc = canvasJuego.getGraphicsContext2D();
+		String imagePath = "C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\tableroludo.jpg";
+		Image image = new Image(imagePath);
+		
+        Scene sceneInicio = new Scene(rootInicio, 500, 300);
+		Scene sceneJuego = new Scene(rootJuego,691,691);
+		
+		ObservableList<String> tipoJugadores = FXCollections.observableArrayList("normal", "maquina");
         ChoiceBox<String> choiceBox = new ChoiceBox<String>(tipoJugadores);
         ChoiceBox<String> choiceBox1 = new ChoiceBox<String>(tipoJugadores);
         ChoiceBox<String> choiceBox2 = new ChoiceBox<String>(tipoJugadores);
         ChoiceBox<String> choiceBox3 = new ChoiceBox<String>(tipoJugadores);
        
-        boton.setDisable(true);
+		ImageView imagenBoton =  new ImageView("C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\boton_presionado-removebg-preview.png");
+		fichasRojas = new ArrayList<Circle>(4);
+	    Circle circuloRojo1 = new Circle(115, 530, 15, Color.RED);
+	    Circle circuloRojo2 = new Circle(160, 530, 15, Color.RED);
+	    Circle circuloRojo3 = new Circle(115, 580, 15, Color.RED);
+	    Circle circuloRojo4 = new Circle(160, 580, 15, Color.RED);
+	    
+		fichasVerdes = new ArrayList<Circle>(4);
+	    Circle circuloVerde1 = new Circle(115, 115, 15, Color.GREEN);
+	    Circle circuloVerde2= new Circle(160, 115, 15, Color.GREEN);
+	    Circle circuloVerde3 = new Circle(115, 160, 15, Color.GREEN);
+	    Circle circuloVerde4 = new Circle(160, 160, 15, Color.GREEN);
+
+	    fichasAmarillas = new ArrayList<Circle>(4);
+	    Circle circuloAmarillo1 = new Circle(525, 115, 15, Color.YELLOW);
+	    Circle circuloAmarillo2 = new Circle(570, 115, 15, Color.YELLOW);
+	    Circle circuloAmarillo3 = new Circle(525, 160, 15, Color.YELLOW);
+	    Circle circuloAmarillo4 = new Circle(570, 160, 15, Color.YELLOW);
+
+	    fichasAzules = new ArrayList<Circle>(4);
+	    Circle circuloAzul1 = new Circle(525, 530, 15, Color.BLUE);
+	    Circle circuloAzul2 = new Circle(570, 530, 15, Color.BLUE);
+	    Circle circuloAzul3 = new Circle(525, 580, 15, Color.BLUE);
+	    Circle circuloAzul4 = new Circle(570, 580, 15, Color.BLUE);
+	    
+	    ////////////////////////////////////////////////////////////// ESCENA 1 //////////////////////////////////////////////////////////////
+        
+	    boton.setDisable(true);
         choiceBox1.setDisable(true);
         choiceBox2.setDisable(true);
         choiceBox3.setDisable(true);
@@ -72,7 +110,7 @@ public class App extends Application {
             public void changed(ObservableValue<? extends String> observable, //
                     String oldValue, String newValue) {
                 if (newValue != null) {
-                    greetingLabel.setText(newValue);
+                    respuestaRojo.setText(newValue);
                     choiceBox.setDisable(true);
                     choiceBox1.setDisable(false);
                 }
@@ -83,7 +121,7 @@ public class App extends Application {
             public void changed(ObservableValue<? extends String> observable, //
                     String oldValue, String newValue) {
                 if (newValue != null) {
-                    greetingLabel1.setText(newValue);
+                    respuestaAzul.setText(newValue);
                     choiceBox1.setDisable(true);
                     choiceBox2.setDisable(false);
                 }
@@ -94,7 +132,7 @@ public class App extends Application {
             public void changed(ObservableValue<? extends String> observable, //
                     String oldValue, String newValue) {
                 if (newValue != null) {
-                    greetingLabel2.setText(newValue);
+                    respuestaVerde.setText(newValue);
                     choiceBox2.setDisable(true);
                     choiceBox3.setDisable(false);
                 }
@@ -105,7 +143,7 @@ public class App extends Application {
             public void changed(ObservableValue<? extends String> observable, //
                     String oldValue, String newValue) {
                 if (newValue != null) {
-                    greetingLabel3.setText(newValue);
+                    respuestaAmarillo.setText(newValue);
                     choiceBox3.setDisable(true);
                     boton.setDisable(false);
                 }
@@ -117,77 +155,66 @@ public class App extends Application {
         choiceBox2.getSelectionModel().selectedItemProperty().addListener(changeListener2);
         choiceBox3.getSelectionModel().selectedItemProperty().addListener(changeListener3);
         
-        root.setVgap(30); 
-        root.setHgap(30);
+        rootInicio.setVgap(30); 
+        rootInicio.setHgap(30);
         
-        root.add(label, 0, 0);
-        root.add(label1, 0, 1);
-        root.add(label2, 0, 2);
-        root.add(label3, 0, 3);
+        rootInicio.add(etiquetaRojo, 0, 0);
+        rootInicio.add(etiquetaAzul, 0, 1);
+        rootInicio.add(etiquetaVerde, 0, 2);
+        rootInicio.add(etiquetaAmarillo, 0, 3);
         
-        root.add(choiceBox, 1, 0);
-        root.add(choiceBox1, 1, 1);
-        root.add(choiceBox2, 1, 2);
-        root.add(choiceBox3, 1, 3);
+        rootInicio.add(choiceBox, 1, 0);
+        rootInicio.add(choiceBox1, 1, 1);
+        rootInicio.add(choiceBox2, 1, 2);
+        rootInicio.add(choiceBox3, 1, 3);
         
-        root.add(greetingLabel, 2, 0);
-        root.add(greetingLabel1, 2, 1);
-        root.add(greetingLabel2, 2, 2);
-        root.add(greetingLabel3, 2, 3);
+        rootInicio.add(respuestaRojo, 2, 0);
+        rootInicio.add(respuestaAzul, 2, 1);
+        rootInicio.add(respuestaVerde, 2, 2);
+        rootInicio.add(respuestaAmarillo, 2, 3);
 
-        root.add(boton, 1, 4 );
-        
+        rootInicio.add(boton, 1, 4 );
+
         stage.setTitle("Elegir Jugadores");
-        Scene scene = new Scene(root, 500, 300);
-        stage.setScene(scene);
+        stage.setScene(sceneInicio);
         stage.show();
-        
-    //Escena2
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		root2 = new Group();
-		botonNormal = new Button();
-		
-		ImageView imagenBoton =  new ImageView("C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\boton_presionado-removebg-preview.png");
-		botonNormal.setLayoutX(310.5);
-		botonNormal.setLayoutY(325);
-		botonNormal.setGraphic(imagenBoton);
-		fichasRojas = new ArrayList<Circle>(4);
-	    Circle circuloRojo1 = new Circle(115, 530, 15, Color.RED);
 
-	    Circle circuloRojo2 = new Circle(160, 530, 15, Color.RED);
-	    Circle circuloRojo3 = new Circle(115, 580, 15, Color.RED);
-	    Circle circuloRojo4 = new Circle(160, 580, 15, Color.RED);
-	    fichasRojas.add(circuloRojo1);
+		boton.setText("OK");
+        boton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	
+                ludo.inicializarJuego();
+                ludo.crearJugadores(choiceBox.getValue(),choiceBox1.getValue(),choiceBox2.getValue(),choiceBox3.getValue());
+                ludo.jugadorActual = ludo.elegirQuienEmpieza();
+                
+                stage.setScene(sceneJuego);
+        		stage.show();
+            }
+        });
+        
+////////////////////////////////////////////////////////////// ESCENA 2 //////////////////////////////////////////////////////////////
+
+        fichasRojas.add(circuloRojo1);
 	    fichasRojas.add(circuloRojo2);
 	    fichasRojas.add(circuloRojo3);
 	    fichasRojas.add(circuloRojo4);
-		fichasVerdes = new ArrayList<Circle>(4);
-	    Circle circuloVerde1 = new Circle(115, 115, 15, Color.GREEN);
-	    Circle circuloVerde2= new Circle(160, 115, 15, Color.GREEN);
-	    Circle circuloVerde3 = new Circle(115, 160, 15, Color.GREEN);
-	    Circle circuloVerde4 = new Circle(160, 160, 15, Color.GREEN);
+	    
 	    fichasVerdes.add(circuloVerde1);
 	    fichasVerdes.add(circuloVerde2);
 	    fichasVerdes.add(circuloVerde3);
 	    fichasVerdes.add(circuloVerde4);
-	    fichasAmarillas = new ArrayList<Circle>(4);
-	    Circle circuloAmarillo1 = new Circle(525, 115, 15, Color.YELLOW);
-	    Circle circuloAmarillo2 = new Circle(570, 115, 15, Color.YELLOW);
-	    Circle circuloAmarillo3 = new Circle(525, 160, 15, Color.YELLOW);
-	    Circle circuloAmarillo4 = new Circle(570, 160, 15, Color.YELLOW);
-	    fichasAmarillas.add(circuloAmarillo1);
-	    fichasAmarillas.add(circuloAmarillo2);
-	    fichasAmarillas.add(circuloAmarillo3);
-	    fichasAmarillas.add(circuloAmarillo4);
-	    fichasAzules = new ArrayList<Circle>(4);
-	    Circle circuloAzul1 = new Circle(525, 530, 15, Color.BLUE);
-	    Circle circuloAzul2 = new Circle(570, 530, 15, Color.BLUE);
-	    Circle circuloAzul3 = new Circle(525, 580, 15, Color.BLUE);
-	    Circle circuloAzul4 = new Circle(570, 580, 15, Color.BLUE);
+	    
 	    fichasAzules.add(circuloAzul1);
 	    fichasAzules.add(circuloAzul2);
 	    fichasAzules.add(circuloAzul3);
 	    fichasAzules.add(circuloAzul4);
+	    
+	    fichasAmarillas.add(circuloAmarillo1);
+	    fichasAmarillas.add(circuloAmarillo2);
+	    fichasAmarillas.add(circuloAmarillo3);
+	    fichasAmarillas.add(circuloAmarillo4);
+	    
 		circuloAzul1.setId("fichaAzul1");
 		circuloAzul2.setId("fichaAzul2");
 		circuloAzul3.setId("fichaAzul3");
@@ -205,6 +232,10 @@ public class App extends Application {
 		circuloAmarillo3.setId("fichaAmarillo3");
 		circuloAmarillo4.setId("fichaAmarillo4");
 	    
+		botonNormal.setLayoutX(310.5);
+		botonNormal.setLayoutY(325);
+		botonNormal.setGraphic(imagenBoton);
+		
         imagenBoton.setFitWidth(50);
         imagenBoton.setPreserveRatio(true);
         imagenBoton.setCache(true);
@@ -214,14 +245,16 @@ public class App extends Application {
             public void handle(ActionEvent event) {
             	resultadoDado = Dado.lanzarDado();
                 movimientoRealizado = false;
+                
             	Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Resultado del dado...");
                 alert.setHeaderText("El jugador " + ludo.jugadorActual.color + " saco el número");
                 alert.setContentText("" + resultadoDado);
                 alert.showAndWait();
+                
                 botonNormal.setDisable(true);                	
                 ludo.jugar(resultadoDado);
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                
                 if(resultadoDado == 6 || ludo.jugadorActual.fichasEnJuego > 0) {
                 	elegirFicha(ludo.jugadorActual.color);
                 }
@@ -230,42 +263,27 @@ public class App extends Application {
                     ludo.cantidadDe6 = 0;
                     ludo.jugadorActual = ludo.cambiarTurno();	
                 }
-                eliminarFichaComidas(ludo.jugadorActual);
-                eliminarFichasGanadas(ludo.jugadorActual);
-                if(ludo.termino()) {
-                	//cambiar de escena a resultados(?)
-                }
                 
+                eliminarFichaComidas();
+                eliminarFichasGanadas();
+                
+                if(ludo.termino()) {
+                	sceneManager = new SceneManager();
+                	Scene escenaResultados = sceneManager.crearEscena3(stage,ludo);
+                	stage.setScene(escenaResultados);
+            		stage.show();
+                }
             }
         });
 		
-		Canvas canvas = new Canvas(691, 691);
-		canvas.setOnMouseClicked((MouseEvent event) -> {
+		canvasJuego.setOnMouseClicked((MouseEvent event) -> {
 			System.out.println(event.getX());
 			System.out.println(event.getY());
 		});
 		
-		GraphicsContext gc = canvas.getGraphicsContext2D();
-		String imagePath = "C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\tableroludo.jpg";
-		Image image = new Image(imagePath);
-		Scene scene2 = new Scene(root2,691,691);
-
 		gc.drawImage(image, 0, 0);
-		root2.getChildren().addAll(canvas,botonNormal,circuloVerde1,circuloVerde2,circuloVerde3,circuloVerde4,circuloRojo1,circuloRojo2,circuloRojo3,circuloRojo4,circuloAzul1,circuloAzul2,circuloAzul3,circuloAzul4,circuloAmarillo1,circuloAmarillo2,circuloAmarillo3,circuloAmarillo4);
+		rootJuego.getChildren().addAll(canvasJuego,botonNormal,circuloVerde1,circuloVerde2,circuloVerde3,circuloVerde4,circuloRojo1,circuloRojo2,circuloRojo3,circuloRojo4,circuloAzul1,circuloAzul2,circuloAzul3,circuloAzul4,circuloAmarillo1,circuloAmarillo2,circuloAmarillo3,circuloAmarillo4);
 		
-		boton.setText("OK");
-        boton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	stage.close();
-                ludo.inicializarJuego();
-                ludo.crearJugadores(choiceBox.getValue(),choiceBox1.getValue(),choiceBox2.getValue(),choiceBox3.getValue());
-                ludo.jugadorActual = ludo.elegirQuienEmpieza();
-        		stage.setScene(scene2);
-        		stage.show();
-            }
-        });
-
 	}
 		
 	public void elegirFicha(algo3Ludo.Ficha.Color color){	
@@ -278,74 +296,79 @@ public class App extends Application {
 			);
 		
 		for(Circle circulo: fichas.get(color)) {		    	
+			
 			circulo.setOnMouseClicked((MouseEvent event)-> {
-	    		if(!movimientoRealizado && color == ludo.jugadorActual.color) {
-	    			Ficha ficha = ludo.fichaElegida(circulo.getId());
-	    			if(fichaEnCondiciones(ficha)) {
+	    		
+				if(!movimientoRealizado && color == ludo.jugadorActual.color) {
+	    		
+					Ficha ficha = ludo.fichaElegida(circulo.getId());
+	    			
+					if(fichaEnCondiciones(ficha)) {
+	    				
 	    				ludo.accionDependiendoTiradaDado(ficha);
-	    				//cambiarCoordenadas
-	    				if(ficha.estado == Estado.FINAL || ficha.estado == Estado.GANADO) {
-	    					ficha.casilla.setCoordenadasRectasFinales(ficha.color);		    					    			
-	    				}
-	    				else {
-	    					ficha.casilla.setCoordenadasTablero();
-	    				}
-	    				//
+	    				ludo.actualizarCoordenadas(ficha);
+	    				
 	    				movimientoRealizado = true;
-	    				ficha.enJuego = true;
+	    				
 	    				circulo.setStroke(Color.BLACK);
 	    				botonNormal.setDisable(false);
-	    				if(ludo.tablero.listaTablero.get(ficha.casilla.posicion).fichas.size() > 1) {
+	    				
+	    				if(ludo.tablero.listaTablero.get(ficha.casilla.posicion).fichas.size() == 1) {
 	    					circulo.relocate(ficha.casilla.coordenadaX + 5, ficha.casilla.coordenadaY + 5);		    			
-	    					
+	    				}
+	    				else if(ludo.tablero.listaTablero.get(ficha.casilla.posicion).fichas.size() > 1) {
+	    					circulo.relocate(ficha.casilla.coordenadaX - 5, ficha.casilla.coordenadaY - 5);
 	    				}
 	    				else{
 	    					circulo.relocate(ficha.casilla.coordenadaX, ficha.casilla.coordenadaY);		    			
 	    				}
+	    				
 	    			}
 	    			else {
 	    				elegirFicha(color);
 	    			}
 	    		}
+				
 	    	});
 		}
 	}
+	
 	public boolean fichaEnCondiciones(Ficha ficha) {
-		if(ficha.enJuego || ludo.jugadorActual.fichasEnJuego == 0 || (resultadoDado == 6 &&(ludo.jugadorActual.fichasGanadas + ludo.jugadorActual.fichasEnJuego) < 4)) {
+		if((ficha.enJuego || ludo.jugadorActual.fichasEnJuego == 0 || (resultadoDado == 6 &&(ludo.jugadorActual.fichasGanadas + ludo.jugadorActual.fichasEnJuego) <= 4))) {
 			return true;
 		}
 		return false;
 	}
-	public boolean estaEnBase(Circle circulo) {
-		if((circulo.getCenterX() == 115 || circulo.getCenterX() == 160 || circulo.getCenterX() == 530 || circulo.getCenterX() == 580) && 
-			(circulo.getCenterY() == 115 || circulo.getCenterY() == 160 || circulo.getCenterY() == 530 || circulo.getCenterY() == 580)){
-			return true;			
-		}
-		return false;			
-	}
+	
 	//Si hay alguna ficha con el marcador gano en true la elimina del tablero, resta las fichasEnJUego y suma fichasGanadas.
-	public void eliminarFichasGanadas(Jugador jugadorActual) {	
-		for(int i = 0; i < jugadorActual.fichas.size();i++) {
-			if(jugadorActual.fichas.get(i).gano) {
-				jugadorActual.fichasEnJuego--;
-				jugadorActual.fichasGanadas++;
-				jugadorActual.fichas.get(i).enJuego = false;
-				root2.getChildren().remove(circuloElegido(jugadorActual.fichas.get(i)));
+	public void eliminarFichasGanadas() {	
+		for(int i = 0; i < ludo.jugadores.size();i++) {
+			for(int j = 0; j < ludo.jugadores.get(i).fichas.size(); j++) {
+				if(ludo.jugadores.get(i).fichas.get(j).gano) {
+					ludo.jugadores.get(i).fichasEnJuego--;
+					ludo.jugadores.get(i).fichasGanadas++;
+					ludo.jugadores.get(i).fichas.get(j).enJuego = false;
+					System.out.println(ludo.jugadores.get(i).color);
+					System.out.println("entro aca-------------------------------------");
+					rootJuego.getChildren().remove(circuloElegido(ludo.jugadores.get(i).fichas.get(j)));
+				}
+				
+				ludo.jugadores.get(i).fichas.get(j).gano = false;	
 			}
-			jugadorActual.fichas.get(i).gano = false;	
 		}
 	}
 	
 	//Si hay alguna ficha con el marcador fueComida en true resta fichasEnJuego en uno.
-	public void eliminarFichaComidas(Jugador jugadorActual) {
-	for(int i = 0; i < ludo.jugadores.size() ;i++) {
-		for(int j = 0; j < ludo.jugadores.get(i).fichas.size();j++) {
-			if(ludo.jugadores.get(i).fichas.get(j).fueComida  ) {
-				ludo.jugadores.get(i).fichasEnJuego--;
-				ludo.jugadores.get(i).fichas.get(j).enJuego = false;
-				circuloElegido(ludo.jugadores.get(i).fichas.get(j))
-				.relocate(circuloElegido(ludo.jugadores.get(i).fichas.get(j)).getCenterX()-15,
-						circuloElegido(ludo.jugadores.get(i).fichas.get(j)).getCenterY()-15);
+	public void eliminarFichaComidas() {
+		for(int i = 0; i < ludo.jugadores.size() ;i++) {
+			for(int j = 0; j < ludo.jugadores.get(i).fichas.size();j++) {
+				if(ludo.jugadores.get(i).fichas.get(j).fueComida  ) {
+					System.out.println(ludo.jugadores.get(i).color);
+					ludo.jugadores.get(i).fichasEnJuego--;
+					ludo.jugadores.get(i).fichas.get(j).enJuego = false;
+					circuloElegido(ludo.jugadores.get(i).fichas.get(j))
+					.relocate(circuloElegido(ludo.jugadores.get(i).fichas.get(j)).getCenterX()-15,
+							circuloElegido(ludo.jugadores.get(i).fichas.get(j)).getCenterY()-15);
 			}
 			ludo.jugadores.get(i).fichas.get(j).fueComida = false;	
 		}
@@ -369,10 +392,6 @@ public class App extends Application {
 		return null;
 	}
 		
-		
-		
-
-	
 	public static void main(String[] args) {
 		launch();
 	}

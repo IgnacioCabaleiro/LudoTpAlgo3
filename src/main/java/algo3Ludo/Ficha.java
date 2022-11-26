@@ -18,6 +18,7 @@ public class Ficha {
 		this.casilla = casilla;
 		this.enJuego = false;
 		this.posicionListaFichas = posListaFichas;
+		this.gano = false;
 		
 	}
 }

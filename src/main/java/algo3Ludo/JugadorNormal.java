@@ -48,7 +48,7 @@ public class JugadorNormal implements ITipoJugador{
 	public void salioEl6(Jugador jugador, Ficha ficha ,Tablero tablero) {
 		Eleccion eleccion;
 	
-		if(!ficha.enJuego && jugador.fichasEnJuego < 4) {
+		if(!ficha.enJuego && (jugador.fichasEnJuego + jugador.fichasGanadas) < 4) {
 			eleccion = new EleccionSacarFicha();
 			eleccion.ejecutar(jugador , ficha, tablero);
 		}

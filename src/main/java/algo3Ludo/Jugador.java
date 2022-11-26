@@ -34,7 +34,7 @@ public class Jugador {
 		for(int i = 0; i < 4 ; i++) {
 			casilla = new Casilla(Tipo.BASE,i);
 			ficha = new Ficha(color,Estado.BASE, casilla, i);
-			fichas.add(ficha);
+			fichas.add(i,ficha);
 		}
 		return fichas;
 	}
