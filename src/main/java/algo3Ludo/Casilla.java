@@ -18,7 +18,7 @@ public class Casilla {
 	public Casilla(Tipo tipo , int posicion){
 		this.tipoCasilla = tipo;
 		this.posicion = posicion;
-		this.fichas = new ArrayList<Ficha>(10);
+		this.fichas = new ArrayList<Ficha>();
 		setCoordenadasTablero();
 	}
 	
@@ -26,15 +26,16 @@ public class Casilla {
 		this.tipoCasilla = tipo;
 		this.posicion = posicion;
 		this.color = color;
-		this.fichas = new ArrayList<Ficha>(3);
+		this.fichas = new ArrayList<Ficha>();
 		setCoordenadasRectasFinales(color);
 	}
 	//se encarga de  eliminar la ficha que se le pasa por parametro de la lista de fichas
 	public void sacarFicha(Ficha ficha) {
 		fichas.remove(ficha);
-		ficha.casilla.tipoCasilla = Tipo.BASE;
+		ficha.casilla.posicion = this.posicion;
+		ficha.casilla.tipoCasilla = this.tipoCasilla;	
 	}
-	
+
 	//se encarga de  agregar la ficha que se le pasa por parametro de la lista de fichas
 	public void ponerFicha(Ficha ficha) {
 		fichas.add(ficha);

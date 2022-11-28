@@ -17,7 +17,7 @@ public class Ludo {
 	private ITipoJugador jugadorNormal;
 	private ITipoJugador jugadorIA;	
 	protected int cantidadDe6;
-	private int dado;
+	public int dado;
 
 	//Se encarga de inicializar los elementos necesarios para empezar el juego (tablero, jugadores, etc).
 	public void inicializarJuego() {
@@ -30,25 +30,7 @@ public class Ludo {
 		
 	}
 	
-	//Es el procedimiento encargado de crear un bucle en el cual se permita 
-	//inicializar el dado una vez por turno, cambiar de turno y llamar a otros procedimientos
-	//que se encargan de los movimientos
-	public void jugar(int resultadoDado) {
-		
-//		while(!termino()) {	
-			
-			this.dado = resultadoDado;
-			jugadorActual.comio = false;
-			jugadorActual.movimientoARealizar = dado;
-			
-			pantalla.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
-			pantalla.println("El turno es del " + jugadorActual.color);
-			pantalla.println("El resultado del dado es: " + dado);
-			
-            
 
-		}
-//	}
 	
 	//Segun el numero que salio en el dado se encarga de llamar a las funciones correspondientes
 	public void accionDependiendoTiradaDado(Ficha fichaAUtilizar) {
@@ -223,5 +205,13 @@ public class Ludo {
 		else {
 			ficha.casilla.setCoordenadasTablero();
 		}
+	}
+	
+	public boolean fichaEnCondiciones(Ficha ficha) {
+		if((ficha.enJuego || jugadorActual.fichasEnJuego == 0 || 
+				(dado == 6 &&(jugadorActual.fichasGanadas + jugadorActual.fichasEnJuego) <= 4))) {
+			return true;
+		}
+		return false;
 	}
 }

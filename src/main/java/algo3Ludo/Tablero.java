@@ -2,6 +2,8 @@ package algo3Ludo;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
+
 import algo3Ludo.Casilla.Tipo;
 import algo3Ludo.Ficha.Color;
 import algo3Ludo.Ficha.Estado;
@@ -67,7 +69,7 @@ public class Tablero {
 	}
 	
 	//Crea las cuatro rectas finales. En cada posicion de ellas se crea una casilla del tipo que corresponda
-	//dependiendo de su posicion en el tablero
+	//dependiendo de su posición
 	private void crearRectasFinales() {
 		
 		rectaFinalRojo = new ArrayList <Casilla>(MAX_CASILLEROS_RECTA_FINAL);
@@ -106,55 +108,67 @@ public class Tablero {
 	//Se encarga de asignarle la casilla destino a la ficha y eliminarla de la casilla actual 
 	//dependiendo su posicion en el tablero (FUNCIÓN MUY LIOSA).
 	public void moverFicha(Ficha ficha, int movimiento) {
+		
 		Casilla casillaActual = ficha.casilla;
-		Casilla casillaDestino = calcularDestino(ficha,movimiento);
+		Casilla casillaDestino = calcularDestino(ficha,movimiento);	
+		
+		
 		
 		if(casillaActual.posicion == casillaDestino.posicion && ficha.estado == Estado.FINAL) {
 			System.out.println("No se pudo mover porque tiene que sacar el numero exacto o menor para ganar");
 		}
-		else if(ficha.estado == Estado.FINAL) {
-			casillaActual.sacarFicha(ficha);
+		else if((casillaActual.tipoCasilla == Tipo.NORMAL || casillaActual.tipoCasilla == Tipo.PROTEGIDO) && casillaDestino.tipoCasilla == Tipo.FINAL) {
+			listaTablero.get(casillaActual.posicion).fichas.removeIf(x-> x == ficha);
+			casillaDestino.ponerFicha(ficha);
+		}
+		else if(casillaActual.tipoCasilla == Tipo.FINAL && casillaDestino.tipoCasilla != Tipo.GANADA){
 			removerFichaDeRectaFinal(ficha);
 			casillaDestino.ponerFicha(ficha);
 		}
-		else{
-			casillaActual.sacarFicha(ficha);
+		
+		else {
 			listaTablero.get(casillaActual.posicion).fichas.remove(ficha);
 			casillaDestino.ponerFicha(ficha);
 		}
-		//casillaActual = casillaDestino;
+		
 		if(casillaDestino.tipoCasilla == Tipo.GANADA) {
+			
 			Color color = ficha.color;
-			casillaActual.sacarFicha(ficha);
+			
+			removerFichaDeRectaFinal(ficha);
+			
 			if (color == Color.AMARILLO) {
-				fichasGanadasAmarillo.add(ficha);
-				rectaFinalAmarillo.get(casillaActual.posicion).fichas.remove(ficha);			
+				fichasGanadasAmarillo.add(ficha);			
 				System.out.println("La ficha amarilla llego a la meta");
 			}
 			else if (color == Color.AZUL) {
-				fichasGanadasAzul.add(ficha);
-				rectaFinalAzul.get(casillaActual.posicion).fichas.remove(ficha);			
+				fichasGanadasAzul.add(ficha);			
 				System.out.println("La ficha azul llego a la meta");
 			}
 			else if (color == Color.ROJO) {
 				fichasGanadasRojo.add(ficha);
-				rectaFinalRojo.get(casillaActual.posicion).fichas.remove(ficha);			
 				System.out.println("La ficha roja llego a la meta");
 			}
 			else if (color == Color.VERDE) {
-				fichasGanadasVerde.add(ficha);
-				rectaFinalVerde.get(casillaActual.posicion).fichas.remove(ficha);			
+				fichasGanadasVerde.add(ficha);		
 				System.out.println("La ficha verde llego a la meta");
 			}
 			
 			ficha.gano = true;
 		}
 		cambiarEstado(ficha);
+		
 	}
 	
 	//devuelve la casilla donde tendria que ir la ficha de acuerdo al movimiento que se realiza
 	public Casilla calcularDestino(Ficha ficha, int movimiento) {
-		Casilla casillaActual = ficha.casilla;
+		Casilla casillaActual;
+		if(ficha.estado == Estado.FINAL) {
+			casillaActual = new Casilla(ficha.casilla.tipoCasilla,ficha.casilla.posicion,ficha.color);			
+		}
+		else {
+			casillaActual = new Casilla(ficha.casilla.tipoCasilla,ficha.casilla.posicion);	
+		}
 		Color color = ficha.color;
 		int i = 0;
 		while (i < movimiento && casillaActual.tipoCasilla != Tipo.GANADA) {
@@ -178,9 +192,8 @@ public class Tablero {
 				casillaActual = listaTablero.get(casillaActual.posicion+1);
 			}
 			else if(casillaActual.tipoCasilla == Tipo.FINAL) {
-
-				ficha.casilla.posicion = casillaActual.posicion;
-				casillaActual = movimientoDentroRectaFinal(ficha,movimiento-i);
+			
+				casillaActual = movimientoDentroRectaFinal(color,casillaActual,movimiento-i);
 				return casillaActual;
 			}
 			i++;
@@ -190,13 +203,11 @@ public class Tablero {
 	
 	//Cuando la ficha esta en la recta final se encarga de realizar la validacion de si su
 	//movimiento es el exacto o menor para llegar a la casilla ganada.
-	private Casilla movimientoDentroRectaFinal(Ficha ficha, int movimiento) {
+	private Casilla movimientoDentroRectaFinal(Color color, Casilla casilla,int movimiento) {
 		
-		Casilla casilla = ficha.casilla;
 		int posicionFicha = casilla.posicion;
 		
 		if((movimiento + posicionFicha) < MAX_CASILLEROS_RECTA_FINAL+1 ) {
-			Color color = ficha.color;
 			int posDestino = (casilla.posicion + movimiento);
 			if (color == Color.AMARILLO) {
 				casilla = rectaFinalAmarillo.get(posDestino);			
@@ -209,7 +220,7 @@ public class Tablero {
 			}
 			else if (color == Color.VERDE) {
 				casilla = rectaFinalVerde.get(posDestino);
-			} 
+			}
 			casilla.posicion = posDestino;
 		}
 		return casilla;
@@ -234,15 +245,12 @@ public class Tablero {
 	// que tenga diferente color al de la ficha
 	public void comer(Ficha ficha) {
 		Casilla casilla = ficha.casilla;
-		Ficha fichaAComer = null;
 		for (Ficha fichaCasilla : this.listaTablero.get(casilla.posicion).fichas) {
 			if (fichaCasilla.color != ficha.color) {			
-				fichaAComer = fichaCasilla;
-				casilla.sacarFicha(fichaAComer);
-				listaTablero.get(casilla.posicion).fichas.remove(fichaAComer);
-				fichaAComer.fueComida = true;
-				fichaAComer.estado = Estado.BASE;
-				break;//solo puede eliminar a una, falla si tiene que eliminar a dos o mas (???) por eso puse break
+				listaTablero.get(casilla.posicion).fichas.removeIf(x-> x == fichaCasilla);
+				fichaCasilla.fueComida = true;
+				fichaCasilla.estado = Estado.BASE;
+				break;
 			}
 		}	
 	}
@@ -271,16 +279,16 @@ public class Tablero {
 	private void removerFichaDeRectaFinal(Ficha ficha){
 		Casilla casillaActual = ficha.casilla;
 		if(ficha.color == Color.AMARILLO) {
-			rectaFinalAmarillo.get(casillaActual.posicion).fichas.remove(ficha);
+			rectaFinalAmarillo.get(casillaActual.posicion).fichas.removeIf(x-> x == ficha);
 		}
 		else if(ficha.color == Color.ROJO) {
-			rectaFinalRojo.get(casillaActual.posicion).fichas.remove(ficha);
+			rectaFinalRojo.get(casillaActual.posicion).fichas.removeIf(x-> x == ficha);
 		}
 		else if (ficha.color == Color.VERDE) {
-			rectaFinalVerde.get(casillaActual.posicion).fichas.remove(ficha);
+			rectaFinalVerde.get(casillaActual.posicion).fichas.removeIf(x-> x == ficha);
 		}
 		else if(ficha.color == Color.AZUL) {
-			rectaFinalAzul.get(casillaActual.posicion).fichas.remove(ficha);
+			rectaFinalAzul.get(casillaActual.posicion).fichas.removeIf(x-> x == ficha);
 		}
 	}
 }

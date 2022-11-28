@@ -25,157 +25,183 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class SceneManager {
-/*	App app;
+	App app;
 	GridPane root;
 	Group root2;
 	Group root3;
-	
-	public Scene crearEscena1(Stage stage) {
-		app = new App();
-		root = new GridPane();
-        app.boton = new Button();
-        Label label = new Label("Elegir tipo de jugador Rojo");
-        Label label1 = new Label("Elegir tipo de jugador Azul");
-        Label label2 = new Label("Elegir tipo de jugador Verde");
-        Label label3 = new Label("Elegir tipo de jugador Amarillo");
-        Label greetingLabel = new Label("");
-        Label greetingLabel1 = new Label("");
-        Label greetingLabel2 = new Label("");
-        Label greetingLabel3 = new Label("");
-        ObservableList<String> tipoJugadores = FXCollections.observableArrayList("normal", "maquina");
-
-        app.choiceBox = new ChoiceBox<String>(tipoJugadores);
-        app.choiceBox1 = new ChoiceBox<String>(tipoJugadores);
-        app.choiceBox2 = new ChoiceBox<String>(tipoJugadores);
-        app.choiceBox3 = new ChoiceBox<String>(tipoJugadores);
-       
-        app.boton.setDisable(true);
-        app.choiceBox1.setDisable(true);
-        app.choiceBox2.setDisable(true);
-        app.choiceBox3.setDisable(true);
-        
-        ChangeListener<String> changeListener = new ChangeListener<String>() {
-        	@Override
-            public void changed(ObservableValue<? extends String> observable, //
-                    String oldValue, String newValue) {
-                if (newValue != null) {
-                    greetingLabel.setText(newValue);
-                    app.choiceBox.setDisable(true);
-                    app.choiceBox1.setDisable(false);
-                }
-            }
-        };
-        ChangeListener<String> changeListener1 = new ChangeListener<String>() {
-        	@Override
-            public void changed(ObservableValue<? extends String> observable, //
-                    String oldValue, String newValue) {
-                if (newValue != null) {
-                    greetingLabel1.setText(newValue);
-                    app.choiceBox1.setDisable(true);
-                    app.choiceBox2.setDisable(false);
-                }
-            }
-        };
-        ChangeListener<String> changeListener2 = new ChangeListener<String>() {
-        	@Override
-            public void changed(ObservableValue<? extends String> observable, //
-                    String oldValue, String newValue) {
-                if (newValue != null) {
-                    greetingLabel2.setText(newValue);
-                    app.choiceBox2.setDisable(true);
-                    app.choiceBox3.setDisable(false);
-                }
-            }
-        };
-        ChangeListener<String> changeListener3 = new ChangeListener<String>() {
-        	@Override
-            public void changed(ObservableValue<? extends String> observable, //
-                    String oldValue, String newValue) {
-                if (newValue != null) {
-                    greetingLabel3.setText(newValue);
-                    app.choiceBox3.setDisable(true);
-                    app.boton.setDisable(false);
-                }
-            }
-        };
-
-        app.choiceBox.getSelectionModel().selectedItemProperty().addListener(changeListener);
-        app.choiceBox1.getSelectionModel().selectedItemProperty().addListener(changeListener1);
-        app.choiceBox2.getSelectionModel().selectedItemProperty().addListener(changeListener2);
-        app.choiceBox3.getSelectionModel().selectedItemProperty().addListener(changeListener3);
-        
-        root.setVgap(30); 
-        root.setHgap(30);
-        
-        root.add(label, 0, 0);
-        root.add(label1, 0, 1);
-        root.add(label2, 0, 2);
-        root.add(label3, 0, 3);
-        
-        root.add(app.choiceBox, 1, 0);
-        root.add(app.choiceBox1, 1, 1);
-        root.add(app.choiceBox2, 1, 2);
-        root.add(app.choiceBox3, 1, 3);
-        
-        root.add(greetingLabel, 2, 0);
-        root.add(greetingLabel1, 2, 1);
-        root.add(greetingLabel2, 2, 2);
-        root.add(greetingLabel3, 2, 3);
-        
-        app.boton.setText("OK");
-        root.add(app.boton, 1, 4 );
-        
-        stage.setTitle("Elegir Jugadores");
-        Scene scene = new Scene(root, 500, 300);
-		
-        
-        return scene;
-	}
-
+//	
+//	public Scene crearEscena1(Stage stage, Button boton , ChoiceBox<String> choiceBox,ChoiceBox<String> choiceBox1,ChoiceBox<String> choiceBox2,ChoiceBox<String> choiceBox3) {
+//		rootInicio = new GridPane();
+//		rootJuego = new Group();
+//		
+//        Label etiquetaRojo = new Label("Elegir tipo de jugador Rojo");
+//        Label etiquetaAzul = new Label("Elegir tipo de jugador Azul");
+//        Label etiquetaVerde = new Label("Elegir tipo de jugador Verde");
+//        Label etiquetaAmarillo = new Label("Elegir tipo de jugador Amarillo");
+//        Label respuestaRojo = new Label("");
+//        Label respuestaAzul = new Label("");
+//        Label respuestaVerde = new Label("");
+//        Label respuestaAmarillo = new Label("");
+//        
+//        botonNormal = new Button();
+//        Button boton = new Button();
+//        
+//		Canvas canvasJuego = new Canvas(691, 691);
+//		GraphicsContext gc = canvasJuego.getGraphicsContext2D();
+//		String imagePath = "C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\tableroludo.jpg";
+//		Image image = new Image(imagePath);
+//		
+//        Scene sceneInicio = new Scene(rootInicio, 500, 300);
+//		Scene sceneJuego = new Scene(rootJuego,691,691);
+//		
+//		ObservableList<String> tipoJugadores = FXCollections.observableArrayList("normal", "maquina");
+//       
+//		ImageView imagenBoton =  new ImageView("C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\boton_presionado-removebg-preview.png");
+//		app.fichasRojas = new ArrayList<Circle>(4);
+//	    Circle circuloRojo1 = new Circle(115, 530, 15, Color.RED);
+//	    Circle circuloRojo2 = new Circle(160, 530, 15, Color.RED);
+//	    Circle circuloRojo3 = new Circle(115, 580, 15, Color.RED);
+//	    Circle circuloRojo4 = new Circle(160, 580, 15, Color.RED);
+//	    
+//		app.fichasVerdes = new ArrayList<Circle>(4);
+//	    Circle circuloVerde1 = new Circle(115, 115, 15, Color.GREEN);
+//	    Circle circuloVerde2= new Circle(160, 115, 15, Color.GREEN);
+//	    Circle circuloVerde3 = new Circle(115, 160, 15, Color.GREEN);
+//	    Circle circuloVerde4 = new Circle(160, 160, 15, Color.GREEN);
+//
+//	    app.fichasAmarillas = new ArrayList<Circle>(4);
+//	    Circle circuloAmarillo1 = new Circle(525, 115, 15, Color.YELLOW);
+//	    Circle circuloAmarillo2 = new Circle(570, 115, 15, Color.YELLOW);
+//	    Circle circuloAmarillo3 = new Circle(525, 160, 15, Color.YELLOW);
+//	    Circle circuloAmarillo4 = new Circle(570, 160, 15, Color.YELLOW);
+//
+//	    app.fichasAzules = new ArrayList<Circle>(4);
+//	    Circle circuloAzul1 = new Circle(525, 530, 15, Color.BLUE);
+//	    Circle circuloAzul2 = new Circle(570, 530, 15, Color.BLUE);
+//	    Circle circuloAzul3 = new Circle(525, 580, 15, Color.BLUE);
+//	    Circle circuloAzul4 = new Circle(570, 580, 15, Color.BLUE);
+//	    
+//	    boton.setDisable(true);
+//        choiceBox1.setDisable(true);
+//        choiceBox2.setDisable(true);
+//        choiceBox3.setDisable(true);
+//        
+//        ChangeListener<String> changeListener = new ChangeListener<String>() {
+//        	@Override
+//            public void changed(ObservableValue<? extends String> observable, //
+//                    String oldValue, String newValue) {
+//                if (newValue != null) {
+//                    respuestaRojo.setText(newValue);
+//                    choiceBox.setDisable(true);
+//                    choiceBox1.setDisable(false);
+//                }
+//            }
+//        };
+//        ChangeListener<String> changeListener1 = new ChangeListener<String>() {
+//        	@Override
+//            public void changed(ObservableValue<? extends String> observable, //
+//                    String oldValue, String newValue) {
+//                if (newValue != null) {
+//                    respuestaAzul.setText(newValue);
+//                    choiceBox1.setDisable(true);
+//                    choiceBox2.setDisable(false);
+//                }
+//            }
+//        };
+//        ChangeListener<String> changeListener2 = new ChangeListener<String>() {
+//        	@Override
+//            public void changed(ObservableValue<? extends String> observable, //
+//                    String oldValue, String newValue) {
+//                if (newValue != null) {
+//                    respuestaVerde.setText(newValue);
+//                    choiceBox2.setDisable(true);
+//                    choiceBox3.setDisable(false);
+//                }
+//            }
+//        };
+//        ChangeListener<String> changeListener3 = new ChangeListener<String>() {
+//        	@Override
+//            public void changed(ObservableValue<? extends String> observable, //
+//                    String oldValue, String newValue) {
+//                if (newValue != null) {
+//                    respuestaAmarillo.setText(newValue);
+//                    choiceBox3.setDisable(true);
+//                    boton.setDisable(false);
+//                }
+//            }
+//        };
+//
+//        choiceBox.getSelectionModel().selectedItemProperty().addListener(changeListener);
+//        choiceBox1.getSelectionModel().selectedItemProperty().addListener(changeListener1);
+//        choiceBox2.getSelectionModel().selectedItemProperty().addListener(changeListener2);
+//        choiceBox3.getSelectionModel().selectedItemProperty().addListener(changeListener3);
+//        
+//        rootInicio.setVgap(30); 
+//        rootInicio.setHgap(30);
+//        
+//        rootInicio.add(etiquetaRojo, 0, 0);
+//        rootInicio.add(etiquetaAzul, 0, 1);
+//        rootInicio.add(etiquetaVerde, 0, 2);
+//        rootInicio.add(etiquetaAmarillo, 0, 3);
+//        
+//        rootInicio.add(choiceBox, 1, 0);
+//        rootInicio.add(choiceBox1, 1, 1);
+//        rootInicio.add(choiceBox2, 1, 2);
+//        rootInicio.add(choiceBox3, 1, 3);
+//        
+//        rootInicio.add(respuestaRojo, 2, 0);
+//        rootInicio.add(respuestaAzul, 2, 1);
+//        rootInicio.add(respuestaVerde, 2, 2);
+//        rootInicio.add(respuestaAmarillo, 2, 3);
+//
+//        rootInicio.add(boton, 1, 4 );
+//        return scene;
+//	}
+/*
 	public Scene crearEscena2(Stage stage) {
 		root2 = new Group();
-		app.botonNormal = new Button();
+		botonNormal = new Button();
 		
 		ImageView imagenBoton =  new ImageView("C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\boton_presionado-removebg-preview.png");
-		app.botonNormal.setLayoutX(310.5);
-		app.botonNormal.setLayoutY(325);
-		app.botonNormal.setGraphic(imagenBoton);
-		app.fichasRojas = new ArrayList<Circle>(4);
+		botonNormal.setLayoutX(310.5);
+		botonNormal.setLayoutY(325);
+		botonNormal.setGraphic(imagenBoton);
+		fichasRojas = new ArrayList<Circle>(4);
 	    Circle circuloRojo1 = new Circle(115, 530, 15, Color.RED);
 	    Circle circuloRojo2 = new Circle(160, 530, 15, Color.RED);
 	    Circle circuloRojo3 = new Circle(115, 580, 15, Color.RED);
 	    Circle circuloRojo4 = new Circle(160, 580, 15, Color.RED);
-	    app.fichasRojas.add(circuloRojo1);
-	    app.fichasRojas.add(circuloRojo2);
-	    app.fichasRojas.add(circuloRojo3);
-	    app.fichasRojas.add(circuloRojo4);
-	    app.fichasVerdes = new ArrayList<Circle>(4);
+	    fichasRojas.add(circuloRojo1);
+	    fichasRojas.add(circuloRojo2);
+	    fichasRojas.add(circuloRojo3);
+	    fichasRojas.add(circuloRojo4);
+	    fichasVerdes = new ArrayList<Circle>(4);
 	    Circle circuloVerde1 = new Circle(115, 115, 15, Color.GREEN);
 	    Circle circuloVerde2= new Circle(160, 115, 15, Color.GREEN);
 	    Circle circuloVerde3 = new Circle(115, 160, 15, Color.GREEN);
 	    Circle circuloVerde4 = new Circle(160, 160, 15, Color.GREEN);
-	    app.fichasVerdes.add(circuloVerde1);
-	    app.fichasVerdes.add(circuloVerde2);
-	    app.fichasVerdes.add(circuloVerde3);
-	    app.fichasVerdes.add(circuloVerde4);
-	    app.fichasAmarillas = new ArrayList<Circle>(4);
+	    fichasVerdes.add(circuloVerde1);
+	    fichasVerdes.add(circuloVerde2);
+	    fichasVerdes.add(circuloVerde3);
+	    fichasVerdes.add(circuloVerde4);
+	    fichasAmarillas = new ArrayList<Circle>(4);
 	    Circle circuloAmarillo1 = new Circle(525, 115, 15, Color.YELLOW);
 	    Circle circuloAmarillo2 = new Circle(570, 115, 15, Color.YELLOW);
 	    Circle circuloAmarillo3 = new Circle(525, 160, 15, Color.YELLOW);
 	    Circle circuloAmarillo4 = new Circle(570, 160, 15, Color.YELLOW);
-	    app.fichasAmarillas.add(circuloAmarillo1);
-	    app.fichasAmarillas.add(circuloAmarillo2);
-	    app.fichasAmarillas.add(circuloAmarillo3);
-	    app.fichasAmarillas.add(circuloAmarillo4);
-	    app.fichasAzules = new ArrayList<Circle>(4);
+	    fichasAmarillas.add(circuloAmarillo1);
+	    fichasAmarillas.add(circuloAmarillo2);
+	    fichasAmarillas.add(circuloAmarillo3);
+	    fichasAmarillas.add(circuloAmarillo4);
+	    fichasAzules = new ArrayList<Circle>(4);
 	    Circle circuloAzul1 = new Circle(525, 530, 15, Color.BLUE);
 	    Circle circuloAzul2 = new Circle(570, 530, 15, Color.BLUE);
 	    Circle circuloAzul3 = new Circle(525, 580, 15, Color.BLUE);
 	    Circle circuloAzul4 = new Circle(570, 580, 15, Color.BLUE);
-	    app.fichasAzules.add(circuloAzul1);
-	    app.fichasAzules.add(circuloAzul2);
-	    app.fichasAzules.add(circuloAzul3);
-	    app.fichasAzules.add(circuloAzul4);
+	    fichasAzules.add(circuloAzul1);
+	    fichasAzules.add(circuloAzul2);
+	    fichasAzules.add(circuloAzul3);
+	    fichasAzules.add(circuloAzul4);
 		circuloAzul1.setId("fichaAzul1");
 		circuloAzul2.setId("fichaAzul2");
 		circuloAzul3.setId("fichaAzul3");
@@ -208,7 +234,7 @@ public class SceneManager {
 		Image image = new Image(imagePath);
 
 		gc.drawImage(image, 0, 0);
-		root2.getChildren().addAll(canvas,app.botonNormal,circuloVerde1,circuloVerde2,circuloVerde3,circuloVerde4,circuloRojo1,circuloRojo2,circuloRojo3,circuloRojo4,circuloAzul1,circuloAzul2,circuloAzul3,circuloAzul4,circuloAmarillo1,circuloAmarillo2,circuloAmarillo3,circuloAmarillo4);
+		root2.getChildren().addAll(canvas,botonNormal,circuloVerde1,circuloVerde2,circuloVerde3,circuloVerde4,circuloRojo1,circuloRojo2,circuloRojo3,circuloRojo4,circuloAzul1,circuloAzul2,circuloAzul3,circuloAzul4,circuloAmarillo1,circuloAmarillo2,circuloAmarillo3,circuloAmarillo4);
 		
 		Scene scene2 = new Scene(root2,691,691);
 		
@@ -222,8 +248,6 @@ public class SceneManager {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		String imagePath = "C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\leaderboard.png";
 		Image image = new Image(imagePath);
-		
-
 		
 	    canvas.setOnMouseClicked((MouseEvent event) -> {
 			System.out.println(event.getX());

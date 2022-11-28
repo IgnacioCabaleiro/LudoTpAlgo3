@@ -1,26 +1,26 @@
-//package algo3Ludo;
-//
-//import algo3Ludo.Ficha.*;
-//import static org.junit.Assert.assertEquals;
-//import static org.junit.Assert.assertFalse;
-//import static org.junit.Assert.assertTrue;
-//import static org.mockito.Mockito.*;
-//
-//import java.util.ArrayList;
-//
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.mockito.Mock;
-//import org.mockito.junit.MockitoJUnitRunner;
-//
-//import algo3Ludo.Casilla.*;
-//
-//
-//@RunWith(MockitoJUnitRunner.class)
-//public class TestLudo {
-//
-//	@Mock
-//	Tablero tablero;
+package algo3Ludo;
+
+import algo3Ludo.Ficha.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import algo3Ludo.Casilla.*;
+
+
+@RunWith(MockitoJUnitRunner.class)
+public class TestLudo {
+
+	@Mock
+	Tablero tablero;
 //	@Test
 //	public void testCalcularDestino() {
 //		
@@ -68,20 +68,30 @@
 //		assertEquals(0,jugador.fichasEnJuego);
 //	}
 //	
-//	@Test
-//	public void testVerificaSiEntraRectaFinal() {
-//		var ficha1 = new Ficha(Color.AMARILLO, Estado.JUGANDO, new Casilla(Tipo.NORMAL, 22));
-//		tablero = new Tablero();
-//		
-//		tablero.listaTablero.get(22).fichas.add(0, ficha1);
-//		tablero.moverFicha(ficha1, 3);
-//		
-//		assertEquals(0,ficha1.casilla.posicion);
-//		assertEquals(Estado.FINAL,ficha1.estado);
-//		assertTrue(tablero.listaTablero.get(22).fichas.isEmpty());	
-//		assertTrue(tablero.rectaFinalAmarillo.get(0).fichas.contains(ficha1));
-//
-//	}
+	@Test
+	public void testVerificaSiEntraRectaFinal() {
+		var ficha1 = new Ficha(Color.AMARILLO, Estado.JUGANDO, new Casilla(Tipo.ENTRADA, 23), 1);
+		var ficha2 = new Ficha(Color.ROJO, Estado.JUGANDO, new Casilla(Tipo.NORMAL, 49), 0);
+		tablero = new Tablero();
+		
+		tablero.listaTablero.get(23).fichas.add(ficha1);
+		tablero.listaTablero.get(49).fichas.add(ficha2);
+		System.out.println(ficha1.casilla.posicion+"aca ");
+		tablero.moverFicha(ficha1, 5);
+		tablero.moverFicha(ficha2, 2);
+		
+		assertEquals(3,ficha1.casilla.posicion);
+		assertEquals(Estado.FINAL,ficha1.estado);
+		assertTrue(tablero.listaTablero.get(23).fichas.isEmpty());	
+		assertTrue(tablero.rectaFinalAmarillo.get(3).fichas.contains(ficha1));
+
+		assertEquals(0,ficha2.casilla.posicion);
+		assertEquals(Estado.FINAL,ficha2.estado);
+		assertTrue(tablero.listaTablero.get(49).fichas.isEmpty());	
+		assertTrue(tablero.rectaFinalRojo.get(0).fichas.contains(ficha2));
+		
+		
+	}
 //	
 //	@Test
 //	public void whenEstaEnCasillaProtegidaThenNoLoPuedenComer() {
@@ -349,4 +359,4 @@
 //		assertEquals(4,jugador.fichasEnJuego);
 //		assertEquals(7,ficha.casilla.posicion);
 //	}
-//}
+}
