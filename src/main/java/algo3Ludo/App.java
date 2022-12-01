@@ -2,8 +2,10 @@ package algo3Ludo;
 
 import java.util.ArrayList;
 import java.util.Map;
-
 import algo3Ludo.Ficha.Estado;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,6 +21,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -26,22 +29,24 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class App extends Application {
 	
 	GridPane rootInicio;
 	Group rootJuego;
 	Group rootResultados;
-	ArrayList<Circle> fichasRojas;
-	ArrayList<Circle> fichasVerdes;
+    Ludo ludo;
+    Button botonDado;
+    SceneManager sceneManager;
+    ArrayList<Circle> fichasRojas;
+    ArrayList<Circle> fichasVerdes;
     ArrayList<Circle> fichasAmarillas;
     ArrayList<Circle> fichasAzules;
-    ArrayList<Circle> fichas;
-    Ludo ludo;
-    Button botonNormal;
-    SceneManager sceneManager;
+    FadeTransition fade;
 	int resultadoDado;
 	boolean movimientoRealizado;
+	Map<algo3Ludo.Ficha.Color, ArrayList<Circle>> fichas; 
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -59,13 +64,13 @@ public class App extends Application {
         Label respuestaVerde = new Label("");
         Label respuestaAmarillo = new Label("");
         
-        botonNormal = new Button();
-       Button boton = new Button();
+        botonDado = new Button();
+        Button boton = new Button();
         
 		Canvas canvasJuego = new Canvas(691, 691);
 		GraphicsContext gc = canvasJuego.getGraphicsContext2D();
-		String imagePath = "C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\tableroludo.jpg";
-		Image image = new Image(imagePath);
+		String imagePath = "/res/tableroludo.jpg";
+		Image image = new Image(getClass().getResourceAsStream(imagePath));
 		
         Scene sceneInicio = new Scene(rootInicio, 500, 300);
 		Scene sceneJuego = new Scene(rootJuego,691,691);
@@ -76,31 +81,40 @@ public class App extends Application {
         ChoiceBox<String> choiceBox2 = new ChoiceBox<String>(tipoJugadores);
         ChoiceBox<String> choiceBox3 = new ChoiceBox<String>(tipoJugadores);
         
-		ImageView imagenBoton =  new ImageView("C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\boton_presionado-removebg-preview.png");
-		fichasRojas = new ArrayList<Circle>(4);
+        String imagePath2 = "/res/dado.jpg";
+		Image image2 = new Image(getClass().getResourceAsStream(imagePath2));
+		ImageView imagenBoton =  new ImageView(image2);
+		
+		fichasRojas = new ArrayList<Circle>();
 	    Circle circuloRojo1 = new Circle(115, 530, 15, Color.RED);
 	    Circle circuloRojo2 = new Circle(160, 530, 15, Color.RED);
 	    Circle circuloRojo3 = new Circle(115, 580, 15, Color.RED);
 	    Circle circuloRojo4 = new Circle(160, 580, 15, Color.RED);
 	    
-		fichasVerdes = new ArrayList<Circle>(4);
+		fichasVerdes = new ArrayList<Circle>();
 	    Circle circuloVerde1 = new Circle(115, 115, 15, Color.GREEN);
 	    Circle circuloVerde2= new Circle(160, 115, 15, Color.GREEN);
 	    Circle circuloVerde3 = new Circle(115, 160, 15, Color.GREEN);
 	    Circle circuloVerde4 = new Circle(160, 160, 15, Color.GREEN);
 
-	    fichasAmarillas = new ArrayList<Circle>(4);
+	    fichasAmarillas = new ArrayList<Circle>();
 	    Circle circuloAmarillo1 = new Circle(525, 115, 15, Color.YELLOW);
 	    Circle circuloAmarillo2 = new Circle(570, 115, 15, Color.YELLOW);
 	    Circle circuloAmarillo3 = new Circle(525, 160, 15, Color.YELLOW);
 	    Circle circuloAmarillo4 = new Circle(570, 160, 15, Color.YELLOW);
 
-	    fichasAzules = new ArrayList<Circle>(4);
+	    fichasAzules = new ArrayList<Circle>();
 	    Circle circuloAzul1 = new Circle(525, 530, 15, Color.BLUE);
 	    Circle circuloAzul2 = new Circle(570, 530, 15, Color.BLUE);
 	    Circle circuloAzul3 = new Circle(525, 580, 15, Color.BLUE);
 	    Circle circuloAzul4 = new Circle(570, 580, 15, Color.BLUE);
 	    
+	    fichas = Map.of(
+	 			algo3Ludo.Ficha.Color.ROJO, fichasRojas,
+				algo3Ludo.Ficha.Color.AZUL, fichasAzules,
+				algo3Ludo.Ficha.Color.VERDE, fichasVerdes,
+				algo3Ludo.Ficha.Color.AMARILLO, fichasAmarillas
+		);
 	    //////////////////////////////////////////////////////////// ESCENA 1 //////////////////////////////////////////////////////////////
         
 	    boton.setDisable(true);
@@ -178,13 +192,14 @@ public class App extends Application {
 
         rootInicio.add(boton, 1, 4 );
         
-        //Scene sceneInicio =  sceneManager.crearEscena1(stage,boton,choiceBox,choiceBox1,choiceBox2,choiceBox3);
+        //Scene sceneInicio =  sceneManager.crearEscena1(stage);
         
         stage.setTitle("Elegir Jugadores");
         stage.setScene(sceneInicio);
         stage.show();
-
-		boton.setText("OK");
+        
+        boton.setText("OK");
+        	
         boton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -195,6 +210,7 @@ public class App extends Application {
                 stage.setTitle("Juego");
                 stage.setScene(sceneJuego);
         		stage.show();
+        		
             }
         });
         
@@ -237,15 +253,15 @@ public class App extends Application {
 		circuloAmarillo3.setId("fichaAmarillo3");
 		circuloAmarillo4.setId("fichaAmarillo4");
 	    
-		botonNormal.setLayoutX(310.5);
-		botonNormal.setLayoutY(325);
-		botonNormal.setGraphic(imagenBoton);
+		botonDado.setLayoutX(318 );
+		botonDado.setLayoutY(325);
+		botonDado.setGraphic(imagenBoton);
 		
-        imagenBoton.setFitWidth(50);
+        imagenBoton.setFitWidth(40);
         imagenBoton.setPreserveRatio(true);
         imagenBoton.setCache(true);
         
-		botonNormal.setOnAction(new EventHandler<ActionEvent>() {
+		botonDado.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	resultadoDado = Dado.lanzarDado();
@@ -256,29 +272,23 @@ public class App extends Application {
                 alert.setHeaderText("El jugador " + ludo.jugadorActual.color + " saco el número");
                 alert.setContentText("" + resultadoDado);
                 alert.showAndWait();
-                
+                efectoFadeCirculos();
+                botonDado.setGraphic(cambiarImagenDado(resultadoDado));
                 jugar(stage);
                 
             }
         });
 		
-		canvasJuego.setOnMouseClicked((MouseEvent event) -> {
-			System.out.println(event.getX());
-			System.out.println(event.getY());
-		});
-		
 		gc.drawImage(image, 0, 0);
-		rootJuego.getChildren().addAll(canvasJuego,botonNormal,circuloVerde1,circuloVerde2,circuloVerde3,circuloVerde4,circuloRojo1,circuloRojo2,circuloRojo3,circuloRojo4,circuloAzul1,circuloAzul2,circuloAzul3,circuloAzul4,circuloAmarillo1,circuloAmarillo2,circuloAmarillo3,circuloAmarillo4);
+		rootJuego.getChildren().addAll(canvasJuego,botonDado,circuloVerde1,circuloVerde2,circuloVerde3,circuloVerde4,circuloRojo1,circuloRojo2,circuloRojo3,circuloRojo4,circuloAzul1,circuloAzul2,circuloAzul3,circuloAzul4,circuloAmarillo1,circuloAmarillo2,circuloAmarillo3,circuloAmarillo4);
 		
 	}
 	
-	//Es el procedimiento encargado de crear un bucle en el cual se permita 
-	//inicializar el dado una vez por turno, cambiar de turno y llamar a otros procedimientos
-	//que se encargan de los movimientos
+	//Procedimiento encargado de inicializar cada turno verificando que no haya terminado la partida
 
 	public void jugar(Stage stage) {
 		
-		botonNormal.setDisable(true);                	
+		botonDado.setDisable(true);                	
 		ludo.dado = resultadoDado;
 		ludo.jugadorActual.comio = false;
 		ludo.jugadorActual.movimientoARealizar = resultadoDado;
@@ -291,23 +301,23 @@ public class App extends Application {
      		elegirFicha(ludo.jugadorActual.color, ludo.jugadorActual);
      	}
      	else {
-     		botonNormal.setDisable(false);
+     		botonDado.setDisable(false);
      		ludo.cantidadDe6 = 0;
      		ludo.jugadorActual = ludo.cambiarTurno();	
      	}                	
-         
-         eliminarFichaComidas();
-         eliminarFichasGanadas();
+
+         eliminarFichas();
          
          if(ludo.termino()) {
          	sceneManager = new SceneManager();
          	Scene escenaResultados = sceneManager.crearEscena3(stage,ludo);
-         	stage.setTitle("Gracias por jugar!");
+         	
          	stage.setScene(escenaResultados);
      		stage.show();
          }
 	}
 	
+	//Procedimiento que se encarga de elegir la ficha a mover dependiendo del tipo de jugador
 	public void elegirFicha(algo3Ludo.Ficha.Color color , Jugador jugador){	
 		
 		if(jugador.tipoJugador.equals("normal")) {
@@ -318,16 +328,11 @@ public class App extends Application {
 		}
 	}
 	
+	//Procedimiento que se encarga de realizar el movimiento correspondiente si el jugador no es la máquina
 	public void accionJugadorNormal() {
 		
 		algo3Ludo.Ficha.Color color = ludo.jugadorActual.color;
-		Map<algo3Ludo.Ficha.Color, ArrayList<Circle>> fichas = Map.of(
-				algo3Ludo.Ficha.Color.ROJO, fichasRojas,
-				algo3Ludo.Ficha.Color.AZUL, fichasAzules,
-				algo3Ludo.Ficha.Color.VERDE, fichasVerdes,
-				algo3Ludo.Ficha.Color.AMARILLO, fichasAmarillas
-				);
-		
+	
 		for(Circle circulo: fichas.get(color)) {		    	
 			
 			circulo.setOnMouseClicked((MouseEvent event)-> {
@@ -335,18 +340,18 @@ public class App extends Application {
 				if(!movimientoRealizado && color == ludo.jugadorActual.color) {
 					Ficha ficha = ludo.fichaElegida(circulo.getId());
 					
-					if(ludo.fichaEnCondiciones(ficha)) {
+					if(ludo.jugadaEnCondiciones(ficha)) {
 						realizarMovimiento(ficha,circulo);
 					}
 					else {
 						accionJugadorNormal();
 					}
-				}
-				
+				}				
 			});
 		}	
 	}
 	
+	//Procedimiento que se encarga de realizar el movimiento correspondiente si el jugador es la máquina
 	public void accionJugadorMaquina() {
 		Ficha ficha;
     	if(resultadoDado == 6 && (ludo.jugadorActual.fichasEnJuego + ludo.jugadorActual.fichasGanadas) < 4) {
@@ -367,20 +372,21 @@ public class App extends Application {
     	}
     	
     	Circle circulo = circuloElegido(ficha);
-    	if(ludo.fichaEnCondiciones(ficha)) {
+    	if(ludo.jugadaEnCondiciones(ficha)) {
 			realizarMovimiento(ficha,circulo);
     	} 
 	}
 	
+	//Procedimiento que se encarga de mover la ficha en el tablero y por pantalla
 	public void realizarMovimiento(Ficha ficha, Circle circulo) {
 		
 			ludo.accionDependiendoTiradaDado(ficha);
-			ludo.actualizarCoordenadas(ficha);
+			ficha.actualizarCoordenadas();
 			
 			movimientoRealizado = true;
 			
 			circulo.setStroke(Color.BLACK);
-			botonNormal.setDisable(false);
+			botonDado.setDisable(false);
 			
 			if(ludo.tablero.listaTablero.get(ficha.casilla.posicion).fichas.size() > 2) {
 				circulo.relocate(ficha.casilla.coordenadaX + 5, ficha.casilla.coordenadaY + 5);		    			
@@ -394,40 +400,35 @@ public class App extends Application {
 	}
 
 	
-	//Si hay alguna ficha con el marcador gano en true la elimina del tablero, resta las fichasEnJUego y suma fichasGanadas.
-	public void eliminarFichasGanadas() {	
-		for(int i = 0; i < ludo.jugadores.size();i++) {
-			for(int j = 0; j < ludo.jugadores.get(i).fichas.size(); j++) {
-				if(ludo.jugadores.get(i).fichas.get(j).gano) {
-					
-					ludo.jugadores.get(i).fichasEnJuego--;
-					ludo.jugadores.get(i).fichasGanadas++;
-					ludo.jugadores.get(i).fichas.get(j).enJuego = false;
-					rootJuego.getChildren().remove(circuloElegido(ludo.jugadores.get(i).fichas.get(j)));
-				}
-				
-				ludo.jugadores.get(i).fichas.get(j).gano = false;	
-			}
-		}
-	}
-	
-	//Si hay alguna ficha con el marcador fueComida en true resta fichasEnJuego en uno.
-	public void eliminarFichaComidas() {
-		for(int i = 0; i < ludo.jugadores.size() ;i++) {
-			for(int j = 0; j < ludo.jugadores.get(i).fichas.size();j++) {
-				if(ludo.jugadores.get(i).fichas.get(j).fueComida  ) {
-	
-					ludo.jugadores.get(i).fichasEnJuego--;
-					ludo.jugadores.get(i).fichas.get(j).enJuego = false;
-					circuloElegido(ludo.jugadores.get(i).fichas.get(j))
-					.relocate(circuloElegido(ludo.jugadores.get(i).fichas.get(j)).getCenterX()-15,
-							circuloElegido(ludo.jugadores.get(i).fichas.get(j)).getCenterY()-15);
-			}
-			ludo.jugadores.get(i).fichas.get(j).fueComida = false;	
-		}
-	}
-	}
+	//Si hay alguna ficha con el marcador gano o fueComida en true la elimina del tablero y todas las acciones pertinentes.
+	public void eliminarFichas() {	
 		
+		ArrayList<Jugador> jugadores = ludo.jugadores;
+		
+		for(int i = 0; i < jugadores.size();i++) {
+			for(int j = 0; j < jugadores.get(i).fichas.size(); j++) {
+				if(jugadores.get(i).fichas.get(j).gano) {
+					
+					ludo.eliminarFichaComida(jugadores.get(i) , jugadores.get(i).fichas.get(j));
+					rootJuego.getChildren().remove(circuloElegido(jugadores.get(i).fichas.get(j)));
+				
+				}
+				else if(jugadores.get(i).fichas.get(j).fueComida){
+					
+					ludo.eliminarFichaGanada(jugadores.get(i), jugadores.get(i).fichas.get(j));
+					circuloElegido(jugadores.get(i).fichas.get(j))
+					.relocate(
+							circuloElegido(jugadores.get(i).fichas.get(j)).getCenterX()-15,
+							circuloElegido(jugadores.get(i).fichas.get(j)).getCenterY()-15
+					);
+				}
+				jugadores.get(i).fichas.get(j).fueComida = false;
+				jugadores.get(i).fichas.get(j).gano = false;	
+			}
+		}
+	}
+	
+	//Procedimiento que retorna el circulo que simboliza cada ficha dependiendo de la ficha que le pasen.
 	public Circle circuloElegido(Ficha ficha) {
 		
 		if(ficha.color == algo3Ludo.Ficha.Color.AMARILLO) {
@@ -443,6 +444,55 @@ public class App extends Application {
 			return fichasVerdes.get(ficha.posicionListaFichas);				
 		}
 		return null;
+	}
+	
+	//Procedimiento que retorna la imagen de una tirada del dado dependiendo que número salga.
+	public ImageView cambiarImagenDado(int dado) {
+        String imagePath = null;
+		if(dado == 1) {
+			imagePath = "/res/dado1.jpg";	
+		}
+		else if(dado == 2) {
+			imagePath = "/res/dado2.jpg";
+		}
+		else if(dado == 3) {
+			imagePath = "/res/dado3.jpg";
+		}
+		else if(dado == 4) {
+			imagePath = "/res/dado4.jpg";
+		}
+		else if(dado == 5) {
+			imagePath = "/res/dado5.jpg";
+		}
+		else if(dado == 6) {
+			imagePath = "/res/dado6.jpg";
+		}
+		
+		Image imagenDado = new Image(getClass().getResourceAsStream(imagePath));
+		ImageView imagenView =  new ImageView(imagenDado);
+		
+        imagenView.setFitWidth(36);
+        imagenView.setPreserveRatio(true);
+        imagenView.setCache(true);
+        
+		return imagenView;
+	}
+	
+	//Se encarga de producir un efecto "fade" en los circulos cuando es su turno.
+	public void efectoFadeCirculos() {
+		
+		algo3Ludo.Ficha.Color color = ludo.jugadorActual.color;
+		
+		for(Circle circulo: fichas.get(color)) {		    	
+			
+			fade = new FadeTransition();
+			fade.setNode(circulo);
+			fade.setDuration(Duration.millis(1000));
+			fade.setInterpolator(Interpolator.LINEAR);
+			fade.setFromValue(0);
+			fade.setToValue(1);
+			fade.play();
+		}
 	}
 	
 	public static void main(String[] args) {

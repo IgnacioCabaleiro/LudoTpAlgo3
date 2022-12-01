@@ -9,8 +9,8 @@ public class Ficha {
 	public boolean gano;
 	public boolean enJuego;
 	public int posicionListaFichas;
-	Color color;
-	Estado estado;
+	public Color color;
+	public Estado estado;
 
 	public Ficha(Color color, Estado estado, Casilla casilla, int posListaFichas){
 		this.color = color;
@@ -20,5 +20,15 @@ public class Ficha {
 		this.posicionListaFichas = posListaFichas;
 		this.gano = false;
 		
+	}
+	
+	//Procedimiento encargado de actualizar las coordenadas de la casilla de la ficha.
+	public void actualizarCoordenadas() {
+		if(estado == Estado.FINAL || estado == Estado.GANADO) {
+			casilla.setCoordenadasRectasFinales(color);		    					    			
+		}
+		else {
+			casilla.setCoordenadasTablero();
+		}
 	}
 }

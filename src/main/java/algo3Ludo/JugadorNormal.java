@@ -1,9 +1,5 @@
 package algo3Ludo;
 
-import java.util.ArrayList;
-
-import algo3Ludo.Ficha.Estado;
-
 public class JugadorNormal implements ITipoJugador{
 	
 	// Una vez que salio 6 en el dado y el jugador es el usuario, 

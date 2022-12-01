@@ -8,11 +8,11 @@ public class Casilla {
 	public ArrayList<Ficha> fichas;
 	public int posicion;
 	public enum Tipo {NORMAL ,ENTRADA, PROTEGIDO, FINAL, GANADA, BASE};
-	Tipo tipoCasilla;
-	Color color;
-	int coordenadaX;
-	int coordenadaY;
-	boolean entro;
+	public int coordenadaX;
+	public int coordenadaY;
+	public boolean entro;
+	public Tipo tipoCasilla;
+	public Color color;
 	
 
 	public Casilla(Tipo tipo , int posicion){
@@ -43,6 +43,7 @@ public class Casilla {
 		ficha.casilla.tipoCasilla = this.tipoCasilla;	
 	}
 	
+	//Procedimiento que se encarga de establecer las coordenadas de las casillas del tablero. 
 	public void setCoordenadasTablero() {
 
 		if(posicion == 51) {
@@ -114,6 +115,8 @@ public class Casilla {
 			coordenadaY = 330;	
 		}		
 	}
+	
+	//Procedimiento que se encarga de establecer las coordenadas de las casillas de las rectas finales. 
 	public void setCoordenadasRectasFinales(Color color) {		
 		if(color == Color.ROJO) {
 			coordenadaX = 330;

@@ -265,6 +265,7 @@ public class Tablero {
 		}			
 		return comio;
 	}
+	
 	public void eliminarFichasGanadasDelTablero(Jugador jugadorActual) {
 		for(int i = 0; i < listaTablero.size();i++) {
 			for(int j = 0; j < listaTablero.get(i).fichas.size();j++) {

@@ -29,8 +29,10 @@ public class SceneManager {
 	GridPane root;
 	Group root2;
 	Group root3;
+	
 //	
-//	public Scene crearEscena1(Stage stage, Button boton , ChoiceBox<String> choiceBox,ChoiceBox<String> choiceBox1,ChoiceBox<String> choiceBox2,ChoiceBox<String> choiceBox3) {
+	public void crearEscena1(Stage stage) {
+		
 //		rootInicio = new GridPane();
 //		rootJuego = new Group();
 //		
@@ -156,7 +158,7 @@ public class SceneManager {
 //
 //        rootInicio.add(boton, 1, 4 );
 //        return scene;
-//	}
+}
 /*
 	public Scene crearEscena2(Stage stage) {
 		root2 = new Group();
@@ -242,18 +244,13 @@ public class SceneManager {
 	}
 */
 	public Scene crearEscena3(Stage stage , Ludo ludo) {
+		
 		Canvas canvas = new Canvas(617, 410);
     	Group root = new Group();
 		Scene scene3 = new Scene(root,617,410);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		String imagePath = "C:\\Users\\Pc\\eclipse-workspace\\algo3Ludo\\src\\main\\java\\res\\leaderboard.png";
 		Image image = new Image(imagePath);
-		
-	    canvas.setOnMouseClicked((MouseEvent event) -> {
-			System.out.println(event.getX());
-			System.out.println(event.getY());
-		});
-	    
 		
 	    gc.drawImage(image, 0, 0);
 		gc.setFill(Color.CORNFLOWERBLUE);
@@ -292,7 +289,9 @@ public class SceneManager {
 	    Circle circuloCuartoLugar = new Circle(200, 276, 20, jugadoresColores.get(3));
 		//gc.strokeText("El ganador es el ROJO con 4 fichas ganadas ", 234, 135, 250);
 		root.getChildren().addAll(canvas,circuloPrimerLugar,circuloSegundoLugar,circuloTercerLugar,circuloCuartoLugar);
-
+		
+		stage.setTitle("Partida finalizada");
+		
 		return scene3;
 	}
 

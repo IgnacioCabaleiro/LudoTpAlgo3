@@ -1,14 +1,11 @@
 package algo3Ludo;
 
-
 import java.util.ArrayList;
-
 import algo3Ludo.Ficha.Color;
 import algo3Ludo.Ficha.Estado;
 
 public class Ludo {
 	
-	private static final java.util.Scanner teclado = new java.util.Scanner (System. in) ;
 	private static final java.io.PrintStream pantalla = new java.io.PrintStream(System. out);
 	public ArrayList<Jugador> jugadores;
 	public Tablero tablero;
@@ -22,15 +19,13 @@ public class Ludo {
 	//Se encarga de inicializar los elementos necesarios para empezar el juego (tablero, jugadores, etc).
 	public void inicializarJuego() {
 
-		jugadores = new ArrayList<Jugador>();
-		jugadorIA = new JugadorMaquina();
-		jugadorNormal = new JugadorNormal();
-		tablero = new Tablero();
-		cantidadDe6 = 0;
+		this.jugadores = new ArrayList<Jugador>();
+		this.jugadorIA = new JugadorMaquina();
+		this.jugadorNormal = new JugadorNormal();
+		this.tablero = new Tablero();
+		this.cantidadDe6 = 0;
 		
 	}
-	
-
 	
 	//Segun el numero que salio en el dado se encarga de llamar a las funciones correspondientes
 	public void accionDependiendoTiradaDado(Ficha fichaAUtilizar) {
@@ -146,6 +141,7 @@ public class Ludo {
 		jugadores.add(jugadorAzul);
 	}
 	
+	//Procedimiento que retorna la Ficha a mover dependiendo del id que se le pase.
 	public Ficha fichaElegida(String ficha) {
 		if(ficha.equals("fichaAzul1")) {
 			return jugadores.get(3).fichas.get(0);
@@ -198,20 +194,26 @@ public class Ludo {
 		
 		return null;
 	}
-	public void actualizarCoordenadas(Ficha ficha) {
-		if(ficha.estado == Estado.FINAL || ficha.estado == Estado.GANADO) {
-			ficha.casilla.setCoordenadasRectasFinales(ficha.color);		    					    			
-		}
-		else {
-			ficha.casilla.setCoordenadasTablero();
-		}
-	}
-	
-	public boolean fichaEnCondiciones(Ficha ficha) {
+
+	//Procedimiento que retorna true si la jugada a realizar es optima.
+	public boolean jugadaEnCondiciones(Ficha ficha) {
 		if((ficha.enJuego || jugadorActual.fichasEnJuego == 0 || 
 				(dado == 6 &&(jugadorActual.fichasGanadas + jugadorActual.fichasEnJuego) <= 4))) {
 			return true;
 		}
 		return false;
+	}
+	
+	//Procedimiento que modifica los atributos correspondientes en el caso que una ficha fue comida.
+	public void eliminarFichaComida(Jugador jugador, Ficha ficha) {
+		jugador.fichasEnJuego--;
+		jugador.fichasGanadas++;
+		ficha.enJuego = false;
+	}
+	
+	//Procedimiento que modifica los atributos correspondientes en el caso que una ficha ganó.
+	public void eliminarFichaGanada(Jugador jugador, Ficha ficha) {
+		jugador.fichasEnJuego--;
+		ficha.enJuego = false;
 	}
 }
