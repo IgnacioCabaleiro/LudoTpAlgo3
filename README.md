@@ -45,3 +45,5 @@ Utilizamos:
   
   -El color de las fichas que parpadeen, es el color del jugador que deberia mover (ademas se le avisara por pantalla). 
   
+  -Si cuando es su turno toca una ficha que esta en la recta final y no se puede mover ( debido a que su posicion + movmiento > 6 ), perdera el turno. Procurar tocar la ficha que desea mover.
+  
