@@ -5,7 +5,7 @@ Integrantes:
 - Ignacio Cabaleiro
 
 
-Juego: 
+`Juego: `
 
 - Vamos a realizar el juego de mesa "Ludo" en el lenguaje JAVA.
   Adjuntamos este link donde se explica detalladamente el juego, su objetivo y reglas.
@@ -14,7 +14,7 @@ Juego:
 
 
 
-Patrones de diseño:
+`Patrones de diseño:`
 
     Utilizamos:
     
@@ -24,7 +24,7 @@ Patrones de diseño:
 
 
 
-        Instrucciones:
+   `Instrucciones:`
   
   .1er paso: Seleccionar "maquina" si quiere que las fichas de dicho color sean manejados por la maquina* o "normal" si quiere manejarlos por su propia cuenta.
   
