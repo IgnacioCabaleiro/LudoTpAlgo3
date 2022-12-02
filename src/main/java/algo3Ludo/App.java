@@ -2,6 +2,7 @@ package algo3Ludo;
 
 import java.util.ArrayList;
 import java.util.Map;
+
 import algo3Ludo.Ficha.Estado;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -281,7 +282,6 @@ public class App extends Application {
             	
             	resultadoDado = Dado.lanzarDado();
                 movimientoRealizado = false;
-                
                 if(mostrarTurno) {
                 	Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 	alert.setTitle("Resultado del dado...");
