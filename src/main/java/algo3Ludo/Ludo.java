@@ -2,7 +2,6 @@ package algo3Ludo;
 
 import java.util.ArrayList;
 import algo3Ludo.Ficha.Color;
-import algo3Ludo.Ficha.Estado;
 
 public class Ludo {
 	
@@ -26,6 +25,18 @@ public class Ludo {
 		this.cantidadDe6 = 0;
 		
 	}
+	
+	public void iniciarTurno(int resultadoDado) {
+		
+		dado = resultadoDado;
+		jugadorActual.comio = false;
+		jugadorActual.movimientoARealizar = resultadoDado;
+		
+		System.out.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+		System.out.println("El turno es del " + jugadorActual.color);
+		System.out.println("El resultado del dado es: " + resultadoDado);
+	}
+	
 	
 	//Segun el numero que salio en el dado se encarga de llamar a las funciones correspondientes
 	public void accionDependiendoTiradaDado(Ficha fichaAUtilizar) {

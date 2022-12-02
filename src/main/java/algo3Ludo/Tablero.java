@@ -1,9 +1,6 @@
 package algo3Ludo;
 
-
 import java.util.ArrayList;
-import java.util.Collection;
-
 import algo3Ludo.Casilla.Tipo;
 import algo3Ludo.Ficha.Color;
 import algo3Ludo.Ficha.Estado;
@@ -28,7 +25,6 @@ public class Tablero {
 	static final int CASILLA_ENTRADA_AZUL = 37;
 	static final int CASILLA_ENTRADA_AMARILLO = 24;
 	static final int CASILLA_ENTRADA_VERDE = 11;	
-	static final int MAX_CANT_FICHAS = 3;
 	static final int CANTIDAD_CASILLAS_TABLERO = 51;
 	static final int CASILLA_INICIAL_ROJO = 0;
 	static final int CASILLA_INICIAL_AZUL = 39;
@@ -43,10 +39,10 @@ public class Tablero {
 	
 	//Asigna a los atributos de fichasGanadas la instanciación de una lista de fichas.
 	private void crearFichasGanadas() {
-		fichasGanadasRojo = new ArrayList<Ficha>(MAX_CANT_FICHAS);
-		fichasGanadasVerde = new ArrayList<Ficha>(MAX_CANT_FICHAS);
-		fichasGanadasAmarillo = new ArrayList<Ficha>(MAX_CANT_FICHAS);
-		fichasGanadasAzul = new ArrayList<Ficha>(MAX_CANT_FICHAS);
+		fichasGanadasRojo = new ArrayList<Ficha>();
+		fichasGanadasVerde = new ArrayList<Ficha>();
+		fichasGanadasAmarillo = new ArrayList<Ficha>();
+		fichasGanadasAzul = new ArrayList<Ficha>();
 	}
 	
 	//Crea el tablero. En cada posicion del tablero se crea una casilla del tipo que corresponda
@@ -72,10 +68,10 @@ public class Tablero {
 	//dependiendo de su posición
 	private void crearRectasFinales() {
 		
-		rectaFinalRojo = new ArrayList <Casilla>(MAX_CASILLEROS_RECTA_FINAL);
-		rectaFinalVerde = new ArrayList <Casilla>(MAX_CASILLEROS_RECTA_FINAL);
-		rectaFinalAmarillo = new ArrayList <Casilla>(MAX_CASILLEROS_RECTA_FINAL);
-		rectaFinalAzul = new ArrayList <Casilla>(MAX_CASILLEROS_RECTA_FINAL);
+		rectaFinalRojo = new ArrayList <Casilla>();
+		rectaFinalVerde = new ArrayList <Casilla>();
+		rectaFinalAmarillo = new ArrayList <Casilla>();
+		rectaFinalAzul = new ArrayList <Casilla>();
 		Casilla casilla;
 		
 		for(int i = 0; i < 5 ; i++) {
