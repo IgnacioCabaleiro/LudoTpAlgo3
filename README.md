@@ -1,6 +1,8 @@
 # TpLudoAlgo3
 Este repositorio se basa en crear el juego Ludo para la materia de Algoritmos y Progrmacion III de la FIUBA. Este proyecto fue creado en Windows en el IDE Eclipse y se trata de un Maven Proyect. 
+
 Integrantes: 
+
 - Luciano Vazquez
 - Ignacio Cabaleiro
 
@@ -25,6 +27,7 @@ Utilizamos:
 
 
    `Instrucciones:`
+   
   .1er paso: Presione "Si" o "No" si quiere una alerta que le mostrara cada turno de quien es el turno y cuanto saco en el dado.
   
   .2do paso: Seleccionar "maquina" si quiere que las fichas de dicho color sean manejados por la maquina* o "normal" si quiere manejarlos por su propia cuenta.
