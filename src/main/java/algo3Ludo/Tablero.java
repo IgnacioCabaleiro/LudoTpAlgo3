@@ -123,7 +123,7 @@ public class Tablero {
 		}
 		
 		else {
-			listaTablero.get(casillaActual.posicion).fichas.remove(ficha);
+			listaTablero.get(casillaActual.posicion).fichas.removeIf(x-> x == ficha);
 			casillaDestino.ponerFicha(ficha);
 		}
 		

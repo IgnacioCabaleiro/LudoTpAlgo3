@@ -18,6 +18,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -41,7 +43,7 @@ public class App extends Application {
 	private ArrayList<Circle> fichasAmarillas;
 	private ArrayList<Circle> fichasAzules;
 	private Map<algo3Ludo.Ficha.Color, ArrayList<Circle>> fichas; 
-    
+    private boolean mostrarTurno;
 	private int resultadoDado;
 	private boolean movimientoRealizado;
 	
@@ -49,11 +51,26 @@ public class App extends Application {
 	public void start(Stage stage) throws Exception {
 
 		ludo = new Ludo();
-		GridPane rootInicio = new GridPane();
 		rootJuego = new Group();
+		GridPane rootInicio = new GridPane();
 		Scene sceneInicio = new Scene(rootInicio, 500, 300);
 		Scene sceneJuego = new Scene(rootJuego,691,691);
 		
+		ButtonType si = new ButtonType("Si", ButtonData.OK_DONE);
+		ButtonType no = new ButtonType("No", ButtonData.CANCEL_CLOSE);
+		
+    	Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"",si,no);
+        alert.setTitle("Por favor responder");
+        alert.setHeaderText("¿Desea que le aparezca un cartel con el turno y resultado del dado cada vez que realiza un movmiento?");
+        alert.showAndWait();
+        
+        if(alert.getResult() == si) {
+        	mostrarTurno = true;
+        }
+        else {
+        	mostrarTurno = false;  	
+        }
+        
 		//////////////////////////////////////////////////////////// ESCENA 1 //////////////////////////////////////////////////////////////
         
 		Label etiquetaRojo = new Label("Elegir tipo de jugador Rojo");
@@ -261,14 +278,18 @@ public class App extends Application {
 		botonDado.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+            	
             	resultadoDado = Dado.lanzarDado();
                 movimientoRealizado = false;
                 
-            	Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Resultado del dado...");
-                alert.setHeaderText("El jugador " + ludo.jugadorActual.color + " sacó el número");
-                alert.setContentText("" + resultadoDado);
-                alert.showAndWait();
+                if(mostrarTurno) {
+                	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                	alert.setTitle("Resultado del dado...");
+                	alert.setHeaderText("El jugador " + ludo.jugadorActual.color + " sacó el número");
+                	alert.setContentText("" + resultadoDado);
+                	alert.showAndWait();               	
+                }
+                
                 efectoFadeCirculos();
                 botonDado.setGraphic(cambiarImagenDado(resultadoDado));
                 jugar(stage);
@@ -287,7 +308,7 @@ public class App extends Application {
 		botonDado.setDisable(true);                	
 		
         ludo.iniciarTurno(resultadoDado);
-     	if((resultadoDado == 6 || ludo.jugadorActual.fichasEnJuego > 0)) {  	
+     	if((resultadoDado == 6 || ludo.jugadorActual.fichasEnJuego > 0) && ludo.cantidadDe6 < 3) {  	
      		elegirFicha(ludo.jugadorActual.color, ludo.jugadorActual);
      	}
      	else {
@@ -477,6 +498,7 @@ public class App extends Application {
 			
 			fade = new FadeTransition();
 			fade.setNode(circulo);
+			fade.setCycleCount(1);
 			fade.setDuration(Duration.millis(1000));
 			fade.setInterpolator(Interpolator.LINEAR);
 			fade.setFromValue(0);

@@ -28,6 +28,12 @@ public class Ludo {
 	
 	public void iniciarTurno(int resultadoDado) {
 		
+		if(resultadoDado == 6) {
+			cantidadDe6++;
+		}
+		else {
+			cantidadDe6 = 0;
+		}
 		dado = resultadoDado;
 		jugadorActual.comio = false;
 		jugadorActual.movimientoARealizar = resultadoDado;
@@ -48,11 +54,9 @@ public class Ludo {
 			pantalla.println("Puede mover " + jugadorActual.fichasEnJuego + " fichas");
 			eleccion = new EleccionMoverFicha();
 			eleccion.ejecutar(jugadorActual,fichaAUtilizar, tablero);
-			cantidadDe6 = 0;
 		}
 		else {
 			pantalla.println("No puede mover ninguna ficha");
-			cantidadDe6 = 0;
 		}
 		tablero.eliminarFichasGanadasDelTablero(jugadorActual);
 		
@@ -62,7 +66,7 @@ public class Ludo {
 	//Procedimiento que se encarga de llamar al proceidmiento salioEl6 dependiendo si el jugador
 	//es "normal" o la "maquina"
 	public void salioEl6(Ficha ficha) {
-		cantidadDe6++;
+		//cantidadDe6++;
 		if(cantidadDe6 < 3) {
 			if(jugadorActual.tipoJugador.equals("normal")) {
 				jugadorNormal.salioEl6(jugadorActual,ficha, tablero);
