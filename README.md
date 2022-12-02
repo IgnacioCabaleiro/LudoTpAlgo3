@@ -32,7 +32,7 @@ Utilizamos:
   
   .2do paso: Seleccionar "maquina" si quiere que las fichas de dicho color sean manejados por la maquina* o "normal" si quiere manejarlos por su propia cuenta.
   
-  .3er paso: Presione el botón y le saltara un cartel diciendo que número saco.
+  .3er paso: Presione el botón y le saltara un cartel diciendo que número saco y tambien parpaderean las fichas del jugador el cual sea el turno.
   
   .4to paso: Una vez que clickee en "Aceptar", su pieza estara lista para mover en el caso que sea posible. Toca que ficha queres mover y se movera. En el caso que no se mueva es porque no se la puede mover. Repetir hasta que un color lleve sus 4 fichas a la ultima casilla.
   
@@ -47,7 +47,7 @@ Utilizamos:
   
   -Al 3er 6 se le cambiara de turno (por reglas del juego).
   
-  -El color de las fichas que parpadeen, es el color del jugador que deberia mover (ademas se le avisara por pantalla). 
+  -El color de las fichas que parpadeen, es el color del jugador que deberia mover y/o se le avisara por pantalla(dependiendo que haya elegido en el 1er paso). 
   
   -Si cuando es su turno toca una ficha que esta en la recta final y no se puede mover ( debido a que su posicion + movmiento > 6 ), perdera el turno. Procurar tocar la ficha que desea mover.
   
