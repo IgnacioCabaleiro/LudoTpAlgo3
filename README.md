@@ -5,7 +5,7 @@ Integrantes:
 - Ignacio Cabaleiro
 
 
-Juego: 
+`Juego: `
 
 - Vamos a realizar el juego de mesa "Ludo" en el lenguaje JAVA.
   Adjuntamos este link donde se explica detalladamente el juego, su objetivo y reglas.
@@ -14,9 +14,9 @@ Juego:
 
 
 
-Patrones de diseño:
+`Patrones de diseño:`
 
-    Utilizamos:
+Utilizamos:
     
   - Strategy: para que al momento de elegir la ficha a mover se diferencia en si la ficha la elige el usuario o si lo hace la máquina. Tambien para el momento el que sale un 6 para diferenciar de la funcionalidad de este dependiendo quien sea el usuario.
   
@@ -24,25 +24,26 @@ Patrones de diseño:
 
 
 
-        Instrucciones/advertencias para ejecutar el juego:
+   `Instrucciones:`
   
-  -Lo primero que se pedira es que coloque si cada jugador va a hacer manejado por el usuario o que se maneje "automaticamente". ¡Procurar poner unicamente "normal" o "maquina"! (no encontramos una forma sin usar 4 whiles :( ) 
-
-  -Si pone que todos los jugadores son maquinas el juego se simulara solo.
+  .1er paso: Seleccionar "maquina" si quiere que las fichas de dicho color sean manejados por la maquina* o "normal" si quiere manejarlos por su propia cuenta.
   
-  -El jugador que empezara tirando el dado es dado de forma aleatoria. Lo seguira el color de su derecha en el tablero y asi sucesivamente.
+  .2do paso: Presione el botón y le saltara un cartel diciendo que número saco.
   
-  -Cuando salga un 6, se le va a preguntar si quiere sacar una ficha o mover. Debe escribir "sacar ficha" o "mover ficha" segun corresponda.
+  .3er paso: Una vez que clickee en "Aceptar", su pieza estara lista para mover en el caso que sea posible. Toca que ficha queres mover y se movera. En el caso que no se mueva es porque no se la puede mover. Repetir hasta que un color lleve sus 4 fichas a la ultima casilla.
   
-  -Si escribe "mover ficha" sin tener ninguna ficha en el tablero se le pondra una ficha automaticamente en el juego.
+  *que sean "manejados por la maquina" quiere decir que se elije aleatoriamente que ficha se a mover.
   
-  -Cuando llega la hora de mover una ficha se le imprimira por pantalla las fichas que tiene con su respectivo número. Luego se le preguntara que ficha quiere mover y  lo que tiene que hacer es simplemente poner el número de la ficha que quiere mover.
   
-  -Cuando una ficha llegue a la meta se le eliminara la posiblidad de mover esa ficha.
+  `Avertencias:`
   
-  -Tener en cuenta que existe la posilbilidad de que una ficha coma a otra, si pasa esto la ficha comida saldra del tablero y el jugador que comio va a tener un turno extra.
+  -Cuando el botón este habilitado es porque debe tocarlo, en caso contrario es que una acción debe llevarse a cabo (sacar o mover ficha). 
   
-  -Si saca 6 tendra un turno extra.
+  -Una vez terminado el juego se le mostrara por pantalla una tabla de posiciones en base a la cantidad de fichas que llegaron a la meta. 
   
-  -Si saca tres 6 seguidos automaticamente se cambiara de turno sin dar chance a que mueva o saque ficha.
+  -Al 3er 6 se le cambiara de turno (por reglas del juego).
+  
+  -El color de las fichas que parpadeen, es el color del jugador que deberia mover (ademas se le avisara por pantalla). 
+  
+  -Si cuando es su turno toca una ficha que esta en la recta final y no se puede mover ( debido a que su posicion + movmiento > 6 ), perdera el turno. Procurar tocar la ficha que desea mover.
   
