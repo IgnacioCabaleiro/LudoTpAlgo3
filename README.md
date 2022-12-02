@@ -1,5 +1,5 @@
 # TpLudoAlgo3
-Este repositorio se basa en crear el juego Ludo para la materia de Algoritmos y Progrmacion III de la FIUBA.
+Este repositorio se basa en crear el juego Ludo para la materia de Algoritmos y Progrmacion III de la FIUBA. Este proyecto fue creado en Windows en el IDE Eclipse y se trata de un Maven Proyect. 
 Integrantes: 
 - Luciano Vazquez
 - Ignacio Cabaleiro
@@ -25,12 +25,13 @@ Utilizamos:
 
 
    `Instrucciones:`
+  .1er paso: Presione "Si" o "No" si quiere una alerta que le mostrara cada turno de quien es el turno y cuanto saco en el dado.
   
-  .1er paso: Seleccionar "maquina" si quiere que las fichas de dicho color sean manejados por la maquina* o "normal" si quiere manejarlos por su propia cuenta.
+  .2do paso: Seleccionar "maquina" si quiere que las fichas de dicho color sean manejados por la maquina* o "normal" si quiere manejarlos por su propia cuenta.
   
-  .2do paso: Presione el botón y le saltara un cartel diciendo que número saco.
+  .3er paso: Presione el botón y le saltara un cartel diciendo que número saco.
   
-  .3er paso: Una vez que clickee en "Aceptar", su pieza estara lista para mover en el caso que sea posible. Toca que ficha queres mover y se movera. En el caso que no se mueva es porque no se la puede mover. Repetir hasta que un color lleve sus 4 fichas a la ultima casilla.
+  .4to paso: Una vez que clickee en "Aceptar", su pieza estara lista para mover en el caso que sea posible. Toca que ficha queres mover y se movera. En el caso que no se mueva es porque no se la puede mover. Repetir hasta que un color lleve sus 4 fichas a la ultima casilla.
   
   *que sean "manejados por la maquina" quiere decir que se elije aleatoriamente que ficha se a mover.
   
