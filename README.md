@@ -32,12 +32,13 @@ Patrones de diseño:
   
   .3er paso: Una vez que clickee en "Aceptar", su pieza estara lista para mover en el caso que sea posible. Toca que ficha queres mover y se movera. En el caso que no se mueva es porque no se la puede mover. Repetir hasta que un color lleve sus 4 fichas a la ultima casilla.
   
+  `Avertencias:`
   
-  Cuando el botón este habilitado es porque debe tocarlo, en caso contrario es que una acción debe llevarse a cabo (sacar o mover ficha). 
+  -Cuando el botón este habilitado es porque debe tocarlo, en caso contrario es que una acción debe llevarse a cabo (sacar o mover ficha). 
   
-  Una vez terminado el juego se le mostrara por pantalla una tabla de posiciones en base a la cantidad de fichas que llegaron a la meta. 
+  -Una vez terminado el juego se le mostrara por pantalla una tabla de posiciones en base a la cantidad de fichas que llegaron a la meta. 
   
-  Al 3er 6, `~tiene que tocar la ficha~` y alli recien se le cambiara de turno ya que al 3er 6 se cambia de turno.
+  -Al 3er 6, `tiene que tocar la ficha` y alli recien se le cambiara de turno ya que al 3er 6 se cambia de turno.
   
  
   
