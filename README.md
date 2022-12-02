@@ -41,7 +41,7 @@ Utilizamos:
   
   -Una vez terminado el juego se le mostrara por pantalla una tabla de posiciones en base a la cantidad de fichas que llegaron a la meta. 
   
-  -Al 3er 6, `tiene que tocar la ficha` y alli recien se le cambiara de turno ya que al 3er 6 se cambia de turno.
+  -Al 3er 6 se le cambiara de turno (por reglas del juego).
   
-  -El color de las fichas que titilen, es el color del jugador que deberia mover. 
+  -El color de las fichas que parpadeen, es el color del jugador que deberia mover (ademas se le avisara por pantalla). 
   
