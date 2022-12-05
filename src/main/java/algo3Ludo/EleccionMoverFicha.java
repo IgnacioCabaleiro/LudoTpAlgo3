@@ -8,9 +8,9 @@ public class EleccionMoverFicha implements Eleccion {
 	public void ejecutar(Jugador jugador,Ficha ficha ,Tablero tablero) {
 		
 		System.out.println("La ficha estaba en la posicion " + ficha.casilla.posicion);
-		System.out.println("El estado de la ficha (antes de mover) es " + ficha.estado);
+		System.out.println("El estado de la ficha (antes de mover) es " + ficha.getEstado());
 		tablero.moverFicha(ficha , jugador.movimientoARealizar);			
-		System.out.println("El estado de la ficha (dsp de mover) es " + ficha.estado);
+		System.out.println("El estado de la ficha (dsp de mover) es " + ficha.getEstado());
 		System.out.println("La ficha esta en la posicion " + ficha.casilla.posicion);
 		
 		if(tablero.fichaCome(ficha)) {

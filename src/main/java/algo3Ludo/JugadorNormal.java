@@ -1,9 +1,10 @@
 package algo3Ludo;
 
-public class JugadorNormal implements ITipoJugador{
+public class JugadorNormal implements IJugador{
 	
 	// Una vez que salio 6 en el dado y el jugador es el usuario, 
 	//desempeña la función de preguntarle al usuario si quiere sacar una ficha o moverla (si se puede).
+	@Override
 	public void salioEl6(Jugador jugador, Ficha ficha ,Tablero tablero) {
 		Eleccion eleccion;
 	
@@ -22,6 +23,12 @@ public class JugadorNormal implements ITipoJugador{
 			eleccion = new EleccionMoverFicha();
 			eleccion.ejecutar(jugador,ficha, tablero);
 		}
+	}
+
+	@Override
+	public void elegirFicha(App app) {
+		// TODO Auto-generated method stub
+		
 	}
  	
 }

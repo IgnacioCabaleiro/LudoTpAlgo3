@@ -1,6 +1,8 @@
 package algo3Ludo;
 
 import java.util.ArrayList;
+
+import algo3Ludo.Casilla.Tipo;
 import algo3Ludo.Ficha.Color;
 
 public class Ludo {
@@ -9,21 +11,18 @@ public class Ludo {
 	public ArrayList<Jugador> jugadores;
 	public Tablero tablero;
 	public Jugador jugadorActual;
-	public Eleccion eleccion;
-	private ITipoJugador jugadorNormal;
-	private ITipoJugador jugadorIA;	
+	private Eleccion eleccion;
+
 	protected int cantidadDe6;
 	public int dado;
 
 	//Se encarga de inicializar los elementos necesarios para empezar el juego (tablero, jugadores, etc).
 	public void inicializarJuego() {
 
-		this.jugadores = new ArrayList<Jugador>();
-		this.jugadorIA = new JugadorMaquina();
-		this.jugadorNormal = new JugadorNormal();
-		this.tablero = new Tablero();
-		this.cantidadDe6 = 0;
-		
+
+		tablero = new Tablero();
+		cantidadDe6 = 0;
+		jugadorActual = elegirQuienEmpieza();
 	}
 	
 	public void iniciarTurno(int resultadoDado) {
@@ -65,8 +64,10 @@ public class Ludo {
 	
 	//Procedimiento que se encarga de llamar al proceidmiento salioEl6 dependiendo si el jugador
 	//es "normal" o la "maquina"
-	public void salioEl6(Ficha ficha) {
-		//cantidadDe6++;
+	private void salioEl6(Ficha ficha) {
+		IJugador jugadorNormal = new JugadorNormal();
+		IJugador jugadorIA = new JugadorMaquina();	
+		
 		if(cantidadDe6 < 3) {
 			if(jugadorActual.tipoJugador.equals("normal")) {
 				jugadorNormal.salioEl6(jugadorActual,ficha, tablero);
@@ -81,7 +82,7 @@ public class Ludo {
 	}
 	
 	//Determina que jugador comienza de forma aleatorias y lo devuelve.
-	public Jugador elegirQuienEmpieza() {
+	private Jugador elegirQuienEmpieza() {
 		int resultado = (int)(Math.random()*4)+1;
 		
 		if(resultado == 1) {
@@ -141,6 +142,8 @@ public class Ludo {
 	//Se encarga de crear los jugadores preguntadole al usuario si quiere que sean "normal" o "maquina"
 	//y los agrega a la lista de jugadores
 	public void crearJugadores(String tipoJugadorRojo, String tipoJugadorAzul, String tipoJugadorAmarillo, String tipoJugadorVerde) {
+		
+		this.jugadores = new ArrayList<Jugador>();
 		
 		Jugador jugadorAzul = new Jugador(Color.AZUL,tipoJugadorAzul);				
 		
@@ -212,8 +215,9 @@ public class Ludo {
 
 	//Procedimiento que retorna true si la jugada a realizar es optima.
 	public boolean jugadaEnCondiciones(Ficha ficha) {
-		if((ficha.enJuego || jugadorActual.fichasEnJuego == 0 || 
+		if((ficha.enJuego || jugadorActual.fichasEnJuego == 0 ||
 				(dado == 6 &&(jugadorActual.fichasGanadas + jugadorActual.fichasEnJuego) <= 4))) {
+				System.out.println("jugada en condicioness");
 			return true;
 		}
 		return false;
@@ -222,13 +226,14 @@ public class Ludo {
 	//Procedimiento que modifica los atributos correspondientes en el caso que una ficha fue comida.
 	public void eliminarFichaComida(Jugador jugador, Ficha ficha) {
 		jugador.fichasEnJuego--;
-		jugador.fichasGanadas++;
 		ficha.enJuego = false;
+		ficha.fueComida = false;
 	}
 	
 	//Procedimiento que modifica los atributos correspondientes en el caso que una ficha ganó.
 	public void eliminarFichaGanada(Jugador jugador, Ficha ficha) {
 		jugador.fichasEnJuego--;
+		jugador.fichasGanadas++;
 		ficha.enJuego = false;
 	}
 }

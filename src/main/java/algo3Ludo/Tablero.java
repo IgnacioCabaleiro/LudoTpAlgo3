@@ -108,9 +108,7 @@ public class Tablero {
 		Casilla casillaActual = ficha.casilla;
 		Casilla casillaDestino = calcularDestino(ficha,movimiento);	
 		
-		
-		
-		if(casillaActual.posicion == casillaDestino.posicion && ficha.estado == Estado.FINAL) {
+		if(casillaActual.posicion == casillaDestino.posicion && ficha.getEstado() == Estado.FINAL) {
 			System.out.println("No se pudo mover porque tiene que sacar el numero exacto o menor para ganar");
 		}
 		else if((casillaActual.tipoCasilla == Tipo.NORMAL || casillaActual.tipoCasilla == Tipo.PROTEGIDO) && casillaDestino.tipoCasilla == Tipo.FINAL) {
@@ -151,15 +149,13 @@ public class Tablero {
 			}
 			
 			ficha.gano = true;
-		}
-		cambiarEstado(ficha);
-		
+		}		
 	}
 	
 	//devuelve la casilla donde tendria que ir la ficha de acuerdo al movimiento que se realiza
 	public Casilla calcularDestino(Ficha ficha, int movimiento) {
 		Casilla casillaActual;
-		if(ficha.estado == Estado.FINAL) {
+		if(ficha.getEstado() == Estado.FINAL) {
 			casillaActual = new Casilla(ficha.casilla.tipoCasilla,ficha.casilla.posicion,ficha.color);			
 		}
 		else {
@@ -221,45 +217,32 @@ public class Tablero {
 		}
 		return casilla;
 	}
-	//Cambia el estado de la ficha dependiendo de la casilla donde esta parada.
-	public void cambiarEstado(Ficha ficha) {
-		if(ficha.casilla.tipoCasilla == Tipo.PROTEGIDO) {
-			ficha.estado = Estado.PROTEGIDA;
-		}
-		else if(ficha.casilla.tipoCasilla == Tipo.NORMAL) {
-			ficha.estado = Estado.JUGANDO;
-		}
-		else if(ficha.casilla.tipoCasilla == Tipo.FINAL) {
-			ficha.estado = Estado.FINAL;
-		}
-		else if(ficha.casilla.tipoCasilla == Tipo.GANADA) {
-			ficha.estado = Estado.GANADO;
-		}
-	}
 	
 	//Se elimina la primera ficha que se encuentra en la posición de la ficha (que pasamos por parámetro)
 	// que tenga diferente color al de la ficha
 	public void comer(Ficha ficha) {
 		Casilla casilla = ficha.casilla;
 		for (Ficha fichaCasilla : this.listaTablero.get(casilla.posicion).fichas) {
-			if (fichaCasilla.color != ficha.color) {			
-				listaTablero.get(casilla.posicion).fichas.removeIf(x-> x == fichaCasilla);
+			if (fichaCasilla.color != ficha.color) {	
+				fichaCasilla.casilla.tipoCasilla = Tipo.BASE;
 				fichaCasilla.fueComida = true;
-				fichaCasilla.estado = Estado.BASE;
+				listaTablero.get(casilla.posicion).fichas.removeIf(x-> x == fichaCasilla);
 				break;
+			}
+			else {
+				fichaCasilla.fueComida = false;
 			}
 		}	
 	}
 	
 	//Devuelve true si en la posición de la ficha hay alguna otra ficha de distinto color.
 	public boolean fichaCome(Ficha ficha) {
-		boolean comio = false;
 		for (Ficha fichaCasilla : this.listaTablero.get(ficha.casilla.posicion).fichas) {
 			if (fichaCasilla.color != ficha.color && (ficha.casilla.tipoCasilla == Tipo.NORMAL||ficha.casilla.tipoCasilla == Tipo.ENTRADA)) {
-				return comio = true;
+				return true;
 			}
 		}			
-		return comio;
+		return false;
 	}
 	
 	public void eliminarFichasGanadasDelTablero(Jugador jugadorActual) {

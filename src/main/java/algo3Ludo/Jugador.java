@@ -10,7 +10,6 @@ import algo3Ludo.Ficha.Estado;
 public class Jugador {
 	public ArrayList<Ficha> fichas;
 	public String tipoJugador;
-	public Estado estado;
 	public Color color;
 	public boolean comio;
 	public int fichasEnJuego;
@@ -33,7 +32,7 @@ public class Jugador {
 		fichas = new ArrayList<Ficha>();
 		for(int i = 0; i < 4 ; i++) {
 			casilla = new Casilla(Tipo.BASE,i);
-			ficha = new Ficha(color,Estado.BASE, casilla, i);
+			ficha = new Ficha(color,casilla, i);
 			fichas.add(i,ficha);
 		}
 		return fichas;
@@ -42,7 +41,8 @@ public class Jugador {
 	public int primeroEnBase() {
 		int i;
 		for(i = 0; i < fichas.size();i++) {
-			if(fichas.get(i).estado == Estado.BASE) {
+			System.out.println("estado" + fichas.get(i).getEstado());
+			if(fichas.get(i).getEstado() == Estado.BASE) {
 				return i;
 			}
 			

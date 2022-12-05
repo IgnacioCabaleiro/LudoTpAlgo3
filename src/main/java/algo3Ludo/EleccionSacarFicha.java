@@ -2,7 +2,7 @@ package algo3Ludo;
 
 import algo3Ludo.Casilla.Tipo;
 import algo3Ludo.Ficha.Color;
-import algo3Ludo.Ficha.Estado;
+
 
 public class EleccionSacarFicha implements Eleccion {
 	
@@ -26,7 +26,6 @@ public class EleccionSacarFicha implements Eleccion {
 				fichaAJugar.casilla.posicion = 13;
 			}
 			fichaAJugar.enJuego = true;
-			fichaAJugar.estado = Estado.PROTEGIDA;
 			fichaAJugar.casilla.tipoCasilla = Tipo.PROTEGIDO;
 			jugador.fichasEnJuego++;
 

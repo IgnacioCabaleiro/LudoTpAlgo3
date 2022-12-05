@@ -1,10 +1,11 @@
 package algo3Ludo;
 
 
-public class JugadorMaquina implements ITipoJugador{
+public class JugadorMaquina implements IJugador{
 
 	// Una vez que salio 6 en el dado y el jugador es la máquina, 
 	//desempeña la función de ejecutar de forma aleatoria el sacar una ficha de la base o mover (si se puede).
+	@Override
 	public void salioEl6(Jugador jugador,Ficha ficha ,Tablero tablero) {
 		Eleccion eleccion;
 		
@@ -27,6 +28,12 @@ public class JugadorMaquina implements ITipoJugador{
 				eleccion.ejecutar(jugador,ficha, tablero);
 			}
 		}
+	}
+
+	@Override
+	public void elegirFicha(App app) {
+		
+		
 	}
 
 

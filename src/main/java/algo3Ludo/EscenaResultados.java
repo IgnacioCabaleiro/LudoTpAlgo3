@@ -10,11 +10,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 
-public class SceneManager {
+public class EscenaResultados {
 	
-	public Scene crearEscena3(Stage stage , Ludo ludo) {
+	public Scene crearEscena(App app) {
 		
 		Canvas canvas = new Canvas(617, 410);
     	Group root = new Group();
@@ -35,7 +34,7 @@ public class SceneManager {
 		
 		ArrayList<Color> jugadoresColores = new ArrayList<Color>();
 		List<Jugador> jugadoresOrdenados = new ArrayList<Jugador>();
-		jugadoresOrdenados = ludo.jugadores.stream().sorted((x1,x2)->x2.fichasGanadas - x1.fichasGanadas).collect(Collectors.toList());
+		jugadoresOrdenados = app.ludo.jugadores.stream().sorted((x1,x2)->x2.fichasGanadas - x1.fichasGanadas).collect(Collectors.toList());
 		for(int i = 0 ; i < jugadoresOrdenados.size(); i++) {
 			if(jugadoresOrdenados.get(i).color == algo3Ludo.Ficha.Color.ROJO) {
 				jugadoresColores.add(i, Color.RED);
@@ -64,7 +63,7 @@ public class SceneManager {
 		
 		root.getChildren().addAll(canvas,circuloPrimerLugar,circuloSegundoLugar,circuloTercerLugar,circuloCuartoLugar);
 		
-		stage.setTitle("Partida finalizada");
+
 		
 		return scene3;
 	}
