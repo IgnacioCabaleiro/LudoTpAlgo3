@@ -20,6 +20,7 @@ public class Ficha {
 		this.fueComida = false;
 		
 	}
+	//devuelve el estado de la ficha dependiendo de la casilla donde esta
 	public Estado getEstado() {
 		switch (casilla.tipoCasilla) {
 		  case PROTEGIDO: 
@@ -37,10 +38,5 @@ public class Ficha {
 		  default:
 			  return null;
 		}
-	}
-
-	public void setCasilla(Casilla casilla) {
-		this.casilla = casilla;
-		
 	}
 }

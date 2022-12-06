@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 public class EscenaInicio {
 	App app;
-	
+
 	public Scene crearEscena(Stage stage) {
 		GridPane rootInicio = new GridPane();
 		
