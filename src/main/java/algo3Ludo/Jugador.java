@@ -41,11 +41,9 @@ public class Jugador {
 	public int primeroEnBase() {
 		int i;
 		for(i = 0; i < fichas.size();i++) {
-			System.out.println("estado" + fichas.get(i).getEstado());
 			if(fichas.get(i).getEstado() == Estado.BASE) {
 				return i;
 			}
-			
 		}
 		return -1;
 		
