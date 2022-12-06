@@ -233,10 +233,7 @@ public class EscenaJuego {
     	else{
     		ArrayList<Ficha> fichasASortear = new ArrayList<Ficha>();
     		for(Ficha fichaASortear : app.ludo.jugadorActual.fichas) {
-    			if(fichaASortear.getEstado() == Estado.FINAL &&(resultadoDado + fichaASortear.casilla.posicion > 6)) {
-    				
-    			}
-    			else if(fichaASortear.enJuego){
+    			if(fichaASortear.enJuego){
     				fichasASortear.add(fichaASortear);
     			}
     		}
