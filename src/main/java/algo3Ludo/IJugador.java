@@ -6,6 +6,4 @@ public interface IJugador {
 	
 	// ejecuta la accion de que salio un 6 dependiendo si si el jugador es el usuario o se "maneja solo"
 	public void salioEl6(Jugador jugador,Ficha ficha ,Tablero tablero);
-	
-	public void elegirFicha(App app);
 }

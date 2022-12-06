@@ -11,7 +11,7 @@ public class Ficha {
 	public boolean enJuego;
 	public int posicionListaFichas;
 
-	public Ficha(Color color, Casilla casilla, int posListaFichas){
+	public Ficha(Color color,Casilla casilla, int posListaFichas){
 		this.color = color;
 		this.casilla = casilla;
 		this.posicionListaFichas = posListaFichas;

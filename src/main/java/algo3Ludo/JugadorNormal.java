@@ -24,11 +24,4 @@ public class JugadorNormal implements IJugador{
 			eleccion.ejecutar(jugador,ficha, tablero);
 		}
 	}
-
-	@Override
-	public void elegirFicha(App app) {
-		// TODO Auto-generated method stub
-		
-	}
- 	
 }

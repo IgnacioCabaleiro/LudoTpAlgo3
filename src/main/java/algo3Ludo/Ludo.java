@@ -1,8 +1,6 @@
 package algo3Ludo;
 
 import java.util.ArrayList;
-
-import algo3Ludo.Casilla.Tipo;
 import algo3Ludo.Ficha.Color;
 
 public class Ludo {
@@ -11,15 +9,11 @@ public class Ludo {
 	public ArrayList<Jugador> jugadores;
 	public Tablero tablero;
 	public Jugador jugadorActual;
-	private Eleccion eleccion;
-
 	protected int cantidadDe6;
 	public int dado;
 
 	//Se encarga de inicializar los elementos necesarios para empezar el juego (tablero, jugadores, etc).
 	public void inicializarJuego() {
-
-
 		tablero = new Tablero();
 		cantidadDe6 = 0;
 		jugadorActual = elegirQuienEmpieza();
@@ -45,7 +39,7 @@ public class Ludo {
 	
 	//Segun el numero que salio en el dado se encarga de llamar a las funciones correspondientes
 	public void accionDependiendoTiradaDado(Ficha fichaAUtilizar) {
-		
+		Eleccion eleccion;
 		if(dado == 6) {
 			salioEl6(fichaAUtilizar);
 		}

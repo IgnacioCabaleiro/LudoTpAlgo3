@@ -19,12 +19,12 @@ public class App extends Application {
         stage.setTitle("Elegir Jugadores");
         stage.setScene(escenaInicio.crearEscena(stage));
         stage.show();
-    
 	}
 	
 	public static void main(String[] args) {
 		launch();
 	}
+
 	
 	
 }

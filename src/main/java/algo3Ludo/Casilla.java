@@ -10,8 +10,6 @@ public class Casilla {
 	public ArrayList<Ficha> fichas;
 	public int posicion;
 
-	
-
 	public Casilla(Tipo tipo , int posicion){
 		this.tipoCasilla = tipo;
 		this.posicion = posicion;

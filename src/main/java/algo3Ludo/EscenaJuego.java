@@ -24,16 +24,16 @@ import javafx.util.Duration;
 public class EscenaJuego {
 	
 	private Group rootJuego;
-	private boolean movimientoRealizado;
+	public boolean movimientoRealizado;
 	private int coordenadaX;
 	private int coordenadaY;
-	private int resultadoDado;
+	public int resultadoDado;
 	private Button botonDado;
 	private ArrayList<Circle> fichasRojas;
 	private ArrayList<Circle> fichasVerdes;
 	private ArrayList<Circle> fichasAmarillas;
 	private ArrayList<Circle> fichasAzules;
-	private Map<algo3Ludo.Ficha.Color, ArrayList<Circle>> fichas; 
+	public Map<algo3Ludo.Ficha.Color, ArrayList<Circle>> fichas; 
 	
 	public Scene crearEscena(Stage stage, App app) {
 		rootJuego = new Group();
@@ -192,7 +192,6 @@ public class EscenaJuego {
 
 	//Procedimiento que se encarga de elegir la ficha a mover dependiendo del tipo de jugador
 	private void elegirFicha(algo3Ludo.Ficha.Color color , Jugador jugador, App app){	
-		
 		if(jugador.tipoJugador.equals("normal")) {
 			accionJugadorNormal(app);
 		}
@@ -252,7 +251,7 @@ public class EscenaJuego {
 	}
 	
 	//Procedimiento que se encarga de mover la ficha en el tablero y por pantalla
-	private void realizarMovimiento(Ficha ficha, Circle circulo, App app) {
+	public void realizarMovimiento(Ficha ficha, Circle circulo, App app) {
 		
 			app.ludo.accionDependiendoTiradaDado(ficha);
 			movimientoRealizado = true;
@@ -301,7 +300,7 @@ public class EscenaJuego {
 	}
 	
 	//Procedimiento que retorna el circulo que simboliza cada ficha dependiendo de la ficha que le pasen.
-	private Circle circuloElegido(Ficha ficha) {
+	public Circle circuloElegido(Ficha ficha) {
 		
 		if(ficha.color == algo3Ludo.Ficha.Color.AMARILLO) {
 			return fichasAmarillas.get(ficha.posicionListaFichas);				

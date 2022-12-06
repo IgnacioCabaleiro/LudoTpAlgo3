@@ -1,6 +1,5 @@
 package algo3Ludo;
 
-
 public class JugadorMaquina implements IJugador{
 
 	// Una vez que salio 6 en el dado y el jugador es la máquina, 
@@ -29,13 +28,4 @@ public class JugadorMaquina implements IJugador{
 			}
 		}
 	}
-
-	@Override
-	public void elegirFicha(App app) {
-		
-		
-	}
-
-
-
 }
