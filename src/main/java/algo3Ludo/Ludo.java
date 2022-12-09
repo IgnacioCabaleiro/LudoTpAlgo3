@@ -128,7 +128,7 @@ public class Ludo {
 	
 	//Se encarga de crear los jugadores preguntadole al usuario si quiere que sean "normal" o "maquina"
 	//y los agrega a la lista de jugadores
-	public void crearJugadores(String tipoJugadorRojo, String tipoJugadorAzul, String tipoJugadorAmarillo, String tipoJugadorVerde) {
+	public void crearJugadores(String tipoJugadorRojo, String tipoJugadorAzul, String tipoJugadorVerde, String tipoJugadorAmarillo) {
 		
 		this.jugadores = new ArrayList<Jugador>();
 		
