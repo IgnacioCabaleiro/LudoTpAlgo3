@@ -1,5 +1,8 @@
 package algo3Ludo;
 
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
+
 public class JugadorNormal implements IJugador{
 	
 	// Una vez que salio 6 en el dado y el jugador es el usuario, 
@@ -23,5 +26,29 @@ public class JugadorNormal implements IJugador{
 			eleccion = new EleccionMoverFicha();
 			eleccion.ejecutar(jugador,ficha, tablero);
 		}
+	}
+	
+	//Procedimiento que se encarga de realizar el movimiento correspondiente si el jugador no es la máquina
+	@Override
+	public void elegirFicha(Ludo ludo, EscenaJuego escenaJuego) {
+		
+		algo3Ludo.Ficha.Color color = ludo.jugadorActual.color;
+		
+		for(Circle circulo: escenaJuego.fichas.get(color)) {		    	
+			
+			circulo.setOnMouseClicked((MouseEvent event)-> {
+				
+				if(!escenaJuego.movimientoRealizado && color == ludo.jugadorActual.color) {
+					Ficha ficha = escenaJuego.fichaElegida(circulo.getId(),ludo.jugadores);
+					
+					if(ludo.jugadaEnCondiciones(ficha)) {
+						escenaJuego.realizarMovimiento(ficha,circulo,ludo);
+					}
+					else {
+						elegirFicha(ludo,escenaJuego);
+					}
+				}				
+			});	
+		}	
 	}
 }

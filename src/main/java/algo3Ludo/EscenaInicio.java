@@ -14,7 +14,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class EscenaInicio {
-	App app;
 
 	public Scene crearEscena(Stage stage) {
 		GridPane rootInicio = new GridPane();
@@ -112,21 +111,21 @@ public class EscenaInicio {
 
         rootInicio.add(boton, 1, 4 );
         
-        app = new App();
-        
         boton.setText("OK");
         boton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	app.ludo.crearJugadores(choiceBox.getValue(),choiceBox1.getValue(),choiceBox2.getValue(),choiceBox3.getValue());
-                app.ludo.inicializarJuego();
-                EscenaJuego escenaJuego = new EscenaJuego();
+        Ludo ludo = new Ludo();    
+    	@Override
+        public void handle(ActionEvent event) {
+        	
+        	ludo.crearJugadores(choiceBox.getValue(),choiceBox1.getValue(),choiceBox2.getValue(),choiceBox3.getValue());
+            ludo.inicializarJuego();
+            EscenaJuego escenaJuego = new EscenaJuego();
 
-                stage.setTitle("Juego");
-                stage.setScene(escenaJuego.crearEscena(stage,app));
-        		stage.show();
-        		
-            }
+            stage.setTitle("Juego");
+            stage.setScene(escenaJuego.crearEscena(stage,ludo,escenaJuego));
+    		stage.show();
+    		
+        }
         });
         
         Scene sceneInicio = new Scene(rootInicio, 500, 300);

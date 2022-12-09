@@ -5,12 +5,6 @@ import javafx.stage.Stage;
 
 
 public class App extends Application {
-	
-	public Ludo ludo;
-	
-	public App() {
-		ludo = new Ludo();
-	}
 
 	@Override
 	public void start(Stage stage) throws Exception {

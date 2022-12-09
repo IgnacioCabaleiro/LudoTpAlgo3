@@ -59,16 +59,9 @@ public class Ludo {
 	//Procedimiento que se encarga de llamar al proceidmiento salioEl6 dependiendo si el jugador
 	//es "normal" o la "maquina"
 	private void salioEl6(Ficha ficha) {
-		IJugador jugadorNormal = new JugadorNormal();
-		IJugador jugadorIA = new JugadorMaquina();	
 		
 		if(cantidadDe6 < 3) {
-			if(jugadorActual.tipoJugador.equals("normal")) {
-				jugadorNormal.salioEl6(jugadorActual,ficha, tablero);
-			}
-			else {
-				jugadorIA.salioEl6(jugadorActual,ficha ,tablero);
-			}
+			jugadorActual.salioEl6(jugadorActual, ficha, tablero);
 		}	
 		else {
 			cantidadDe6 = 0;
@@ -153,59 +146,6 @@ public class Ludo {
 		jugadores.add(jugadorAzul);
 	}
 	
-	//Procedimiento que retorna la Ficha a mover dependiendo del id que se le pase.
-	public Ficha fichaElegida(String ficha) {
-		if(ficha.equals("fichaAzul1")) {
-			return jugadores.get(3).fichas.get(0);
-		}
-		else if(ficha.equals("fichaAzul2")) {
-			return jugadores.get(3).fichas.get(1);
-		}
-		else if(ficha.equals("fichaAzul3")) {
-			return jugadores.get(3).fichas.get(2);
-		}
-		else if(ficha.equals("fichaAzul4")) {
-			return jugadores.get(3).fichas.get(3);
-		}
-		else if(ficha.equals("fichaAmarillo1")) {
-			return jugadores.get(2).fichas.get(0);
-		}
-		else if(ficha.equals("fichaAmarillo2")) {
-			return jugadores.get(2).fichas.get(1);
-		}
-		else if(ficha.equals("fichaAmarillo3")) {
-			return jugadores.get(2).fichas.get(2);
-		}
-		else if(ficha.equals("fichaAmarillo4")) {
-			return jugadores.get(2).fichas.get(3);
-		}
-		else if(ficha.equals("fichaRojo1")) {
-			return jugadores.get(1).fichas.get(0);
-		}
-		else if(ficha.equals("fichaRojo2")) {
-			return jugadores.get(1).fichas.get(1);
-		}
-		else if(ficha.equals("fichaRojo3")) {
-			return jugadores.get(1).fichas.get(2);
-		}
-		else if(ficha.equals("fichaRojo4")) {
-			return jugadores.get(1).fichas.get(3);
-		}
-		else if(ficha.equals("fichaVerde1")) {
-			return jugadores.get(0).fichas.get(0);
-		}
-		else if(ficha.equals("fichaVerde2")) {
-			return jugadores.get(0).fichas.get(1);
-		}
-		else if(ficha.equals("fichaVerde3")) {
-			return jugadores.get(0).fichas.get(2);
-		}
-		else if(ficha.equals("fichaVerde4")) {
-			return jugadores.get(0).fichas.get(3);
-		}
-		
-		return null;
-	}
 
 	//Procedimiento que retorna true si la jugada a realizar es optima.
 	public boolean jugadaEnCondiciones(Ficha ficha) {

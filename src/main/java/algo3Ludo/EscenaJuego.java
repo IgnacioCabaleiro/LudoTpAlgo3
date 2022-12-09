@@ -14,7 +14,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -27,7 +26,7 @@ public class EscenaJuego {
 	public boolean movimientoRealizado;
 	private int coordenadaX;
 	private int coordenadaY;
-	public int resultadoDado;
+	private int resultadoDado;
 	private Button botonDado;
 	private ArrayList<Circle> fichasRojas;
 	private ArrayList<Circle> fichasVerdes;
@@ -35,7 +34,7 @@ public class EscenaJuego {
 	private ArrayList<Circle> fichasAzules;
 	public Map<algo3Ludo.Ficha.Color, ArrayList<Circle>> fichas; 
 	
-	public Scene crearEscena(Stage stage, App app) {
+	public Scene crearEscena(Stage stage, Ludo ludo,EscenaJuego escenaJuego) {
 		rootJuego = new Group();
         botonDado = new Button();
         
@@ -56,7 +55,7 @@ public class EscenaJuego {
 	    Circle circuloRojo4 = new Circle(160, 580, 15, Color.RED);   
 		
 	    Circle circuloVerde1 = new Circle(115, 115, 15, Color.GREEN);
-	    Circle circuloVerde2= new Circle(160, 115, 15, Color.GREEN);
+	    Circle circuloVerde2 = new Circle(160, 115, 15, Color.GREEN);
 	    Circle circuloVerde3 = new Circle(115, 160, 15, Color.GREEN);
 	    Circle circuloVerde4 = new Circle(160, 160, 15, Color.GREEN);
 	   
@@ -143,12 +142,12 @@ public class EscenaJuego {
             	movimientoRealizado = false;
             	
                 rootJuego.getChildren().remove(texto);
-                texto.setText("El turno es del jugador "+ app.ludo.jugadorActual.color);
+                texto.setText("El turno es del jugador "+ ludo.jugadorActual.color);
                 rootJuego.getChildren().add(texto);
                 
-                efectoFadeCirculos(app);
+                efectoFadeCirculos(ludo);
                 botonDado.setGraphic(cambiarImagenDado(resultadoDado));
-                jugar(stage,app);
+                jugar(stage,ludo,escenaJuego);
                 
             }
         });
@@ -157,110 +156,60 @@ public class EscenaJuego {
 		
 		rootJuego.getChildren().addAll(canvasJuego,botonDado,circuloVerde1,circuloVerde2,circuloVerde3,circuloVerde4,circuloRojo1,circuloRojo2,circuloRojo3,circuloRojo4,circuloAzul1,circuloAzul2,circuloAzul3,circuloAzul4,circuloAmarillo1,circuloAmarillo2,circuloAmarillo3,circuloAmarillo4);		
 		
-		Scene escenaJuego = new Scene(rootJuego,691,691);
+		Scene sceneJuego = new Scene(rootJuego,691,691);
 		
-		return escenaJuego;
+		return sceneJuego;
 	}
 	
 	//Procedimiento encargado de inicializar cada turno verificando que no haya terminado la partida
-	private void jugar(Stage stage, App app) {
+	private void jugar(Stage stage, Ludo ludo, EscenaJuego escenaJuego) {
 		
 		botonDado.setDisable(true);                	
 		
-        app.ludo.iniciarTurno(resultadoDado);
-     	if((resultadoDado == 6 || app.ludo.jugadorActual.fichasEnJuego > 0) && app.ludo.cantidadDe6 < 3) {  	
-     		elegirFicha(app.ludo.jugadorActual.color, app.ludo.jugadorActual, app);     			
+        ludo.iniciarTurno(resultadoDado);
+     	if((resultadoDado == 6 || ludo.jugadorActual.fichasEnJuego > 0) && ludo.cantidadDe6 < 3) {  	
+     		elegirFicha(ludo.jugadorActual, ludo, escenaJuego);     			
      	}
      	else {
      		botonDado.setDisable(false);
-     		app.ludo.cantidadDe6 = 0;
-     		if(!app.ludo.jugadorActual.comio) {
-     			app.ludo.jugadorActual = app.ludo.cambiarTurno();	     			
+     		ludo.cantidadDe6 = 0;
+     		if(!ludo.jugadorActual.comio) {
+     			ludo.jugadorActual = ludo.cambiarTurno();	     			
      		}
      	}                	
 
-         eliminarFichas(app);
+         eliminarFichas(ludo);
          
-         if(app.ludo.termino()) {
+         if(ludo.termino()) {
         	 
         	 EscenaResultados escenaResultados = new EscenaResultados();
         	 stage.setTitle("Partida finalizada");
-        	 stage.setScene( escenaResultados.crearEscena(app));
+        	 stage.setScene(escenaResultados.crearEscena(ludo,stage));
         	 stage.show();
          }
 	}
 
 	//Procedimiento que se encarga de elegir la ficha a mover dependiendo del tipo de jugador
-	private void elegirFicha(algo3Ludo.Ficha.Color color , Jugador jugador, App app){	
-		if(jugador.tipoJugador.equals("normal")) {
-			accionJugadorNormal(app);
-		}
-		else {
-			accionJugadorMaquina(app);
-		}
+	private void elegirFicha(Jugador jugador, Ludo ludo, EscenaJuego escenaJuego){	
 		
-	}
+		jugador.elegirFicha(ludo, escenaJuego);		
 	
-	//Procedimiento que se encarga de realizar el movimiento correspondiente si el jugador no es la máquina
-	private void accionJugadorNormal(App app) {
-		
-		algo3Ludo.Ficha.Color color = app.ludo.jugadorActual.color;
-	
-		for(Circle circulo: fichas.get(color)) {		    	
-			
-			circulo.setOnMouseClicked((MouseEvent event)-> {
-				
-				if(!movimientoRealizado && color == app.ludo.jugadorActual.color) {
-					Ficha ficha = app.ludo.fichaElegida(circulo.getId());
-					
-					if(app.ludo.jugadaEnCondiciones(ficha)) {
-						realizarMovimiento(ficha,circulo, app);
-					}
-					else {
-						accionJugadorNormal(app);
-					}
-				}				
-			});
-		}	
-	}
-	
-	//Procedimiento que se encarga de realizar el movimiento correspondiente si el jugador es la máquina
-	private void accionJugadorMaquina(App app) {
-		Ficha ficha;
-    	if(resultadoDado == 6 && (app.ludo.jugadorActual.fichasEnJuego + app.ludo.jugadorActual.fichasGanadas) < 4) {
-    		ficha = app.ludo.jugadorActual.fichas.get(app.ludo.jugadorActual.primeroEnBase());
-    	}
-    	else{
-    		ArrayList<Ficha> fichasASortear = new ArrayList<Ficha>();
-    		for(Ficha fichaASortear : app.ludo.jugadorActual.fichas) {
-    			if(fichaASortear.enJuego){
-    				fichasASortear.add(fichaASortear);
-    			}
-    		}
-    		int posicionSorteada = (int)(Math.random()*fichasASortear.size());
-    		ficha = fichasASortear.get(posicionSorteada);	
-    	}
-    	
-    	Circle circulo = circuloElegido(ficha);
-    	if(app.ludo.jugadaEnCondiciones(ficha)) {
-			realizarMovimiento(ficha,circulo, app);
-    	} 
 	}
 	
 	//Procedimiento que se encarga de mover la ficha en el tablero y por pantalla
-	public void realizarMovimiento(Ficha ficha, Circle circulo, App app) {
+	public void realizarMovimiento(Ficha ficha, Circle circulo, Ludo ludo) {
 		
-			app.ludo.accionDependiendoTiradaDado(ficha);
+			ludo.accionDependiendoTiradaDado(ficha);
 			movimientoRealizado = true;
 			
 			circulo.setStroke(Color.BLACK);
 			botonDado.setDisable(false);
 			
 			setCoordenadas(ficha);				
-			if(app.ludo.tablero.listaTablero.get(ficha.casilla.posicion).fichas.size() > 2) {
+			if(ludo.tablero.listaTablero.get(ficha.casilla.posicion).fichas.size() > 2) {
 				circulo.relocate(coordenadaX + 5,coordenadaY + 5);		    			
 			}
-			else if(app.ludo.tablero.listaTablero.get(ficha.casilla.posicion).fichas.size() > 1) {
+			else if(ludo.tablero.listaTablero.get(ficha.casilla.posicion).fichas.size() > 1) {
 				circulo.relocate(coordenadaX - 5,coordenadaY - 5);
 			}
 			else{
@@ -270,20 +219,20 @@ public class EscenaJuego {
 
 	
 	//Si hay alguna ficha con el marcador gano o fueComida en true la elimina del tablero y todas las acciones pertinentes.
-	private void eliminarFichas(App app) {	
+	private void eliminarFichas(Ludo ludo) {	
 		
-		ArrayList<Jugador> jugadores = app.ludo.jugadores;
+		ArrayList<Jugador> jugadores = ludo.jugadores;
 		
 		for(int i = 0; i < jugadores.size();i++) {
 			for(int j = 0; j < jugadores.get(i).fichas.size(); j++) {
 				if(jugadores.get(i).fichas.get(j).gano) {
 					
-					app.ludo.eliminarFichaGanada(jugadores.get(i), jugadores.get(i).fichas.get(j));
+					ludo.eliminarFichaGanada(jugadores.get(i), jugadores.get(i).fichas.get(j));
 					rootJuego.getChildren().remove(circuloElegido(jugadores.get(i).fichas.get(j)));
 				
 				}
 				else if(jugadores.get(i).fichas.get(j).fueComida){
-					app.ludo.eliminarFichaComida(jugadores.get(i) , jugadores.get(i).fichas.get(j));
+					ludo.eliminarFichaComida(jugadores.get(i) , jugadores.get(i).fichas.get(j));
 					circuloElegido(jugadores.get(i).fichas.get(j))
 					.relocate(
 							circuloElegido(jugadores.get(i).fichas.get(j)).getCenterX()-15,
@@ -347,9 +296,9 @@ public class EscenaJuego {
 	}
 	
 	//Se encarga de producir un efecto "fade" en los circulos cuando es su turno.
-	public void efectoFadeCirculos(App app) {
+	public void efectoFadeCirculos(Ludo ludo) {
 	    FadeTransition fade;
-		algo3Ludo.Ficha.Color color = app.ludo.jugadorActual.color;
+		algo3Ludo.Ficha.Color color = ludo.jugadorActual.color;
 		
 		for(Circle circulo: fichas.get(color)) {		    	
 			
@@ -530,5 +479,58 @@ public class EscenaJuego {
 					coordenadaX = 285;	
 				}
 			}
+		}
+		//Procedimiento que retorna la Ficha a mover dependiendo del id que se le pase.
+		public Ficha fichaElegida(String ficha,ArrayList<Jugador> jugadores) {
+			if(ficha.equals("fichaAzul1")) {
+				return jugadores.get(3).fichas.get(0);
+			}
+			else if(ficha.equals("fichaAzul2")) {
+				return jugadores.get(3).fichas.get(1);
+			}
+			else if(ficha.equals("fichaAzul3")) {
+				return jugadores.get(3).fichas.get(2);
+			}
+			else if(ficha.equals("fichaAzul4")) {
+				return jugadores.get(3).fichas.get(3);
+			}
+			else if(ficha.equals("fichaAmarillo1")) {
+				return jugadores.get(2).fichas.get(0);
+			}
+			else if(ficha.equals("fichaAmarillo2")) {
+				return jugadores.get(2).fichas.get(1);
+			}
+			else if(ficha.equals("fichaAmarillo3")) {
+				return jugadores.get(2).fichas.get(2);
+			}
+			else if(ficha.equals("fichaAmarillo4")) {
+				return jugadores.get(2).fichas.get(3);
+			}
+			else if(ficha.equals("fichaRojo1")) {
+				return jugadores.get(1).fichas.get(0);
+			}
+			else if(ficha.equals("fichaRojo2")) {
+				return jugadores.get(1).fichas.get(1);
+			}
+			else if(ficha.equals("fichaRojo3")) {
+				return jugadores.get(1).fichas.get(2);
+			}
+			else if(ficha.equals("fichaRojo4")) {
+				return jugadores.get(1).fichas.get(3);
+			}
+			else if(ficha.equals("fichaVerde1")) {
+				return jugadores.get(0).fichas.get(0);
+			}
+			else if(ficha.equals("fichaVerde2")) {
+				return jugadores.get(0).fichas.get(1);
+			}
+			else if(ficha.equals("fichaVerde3")) {
+				return jugadores.get(0).fichas.get(2);
+			}
+			else if(ficha.equals("fichaVerde4")) {
+				return jugadores.get(0).fichas.get(3);
+			}
+			
+			return null;
 		}
 }

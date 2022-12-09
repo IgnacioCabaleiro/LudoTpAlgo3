@@ -112,7 +112,7 @@ public class TestLudo {
 	public void whenInicializarJuegothenValoresCorrectosNormal() {
 		var ludo = new Ludo();
 		boolean esUnColorValido = false;
-
+		
 		ludo.crearJugadores("normal", "normal", "normal", "normal");
 		ludo.inicializarJuego();
 		
@@ -126,7 +126,9 @@ public class TestLudo {
 		}
 		
 		assertEquals(4 , ludo.jugadores.size());
-		assertEquals("normal",ludo.jugadores.get(0).tipoJugador);
+		assertFalse(ludo.jugadores.get(0).esMaquina);
+		assertTrue(ludo.jugadores.get(0).esNormal);
+
 	}
 	
 	@Test
@@ -146,7 +148,8 @@ public class TestLudo {
 		}
 		
 		assertEquals(4 , ludo.jugadores.size());
-		assertEquals("maquina",ludo.jugadores.get(0).tipoJugador);
+		assertFalse(ludo.jugadores.get(0).esNormal);
+		assertTrue(ludo.jugadores.get(0).esMaquina);
 	}
 	
 	@Test
