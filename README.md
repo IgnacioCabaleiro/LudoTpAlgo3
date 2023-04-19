@@ -1,5 +1,5 @@
 # TpLudoAlgo3
-Este repositorio se basa en crear el juego Ludo para la materia de Algoritmos y Progrmacion III de la FIUBA. Este proyecto fue creado en Windows en el IDE Eclipse y se trata de un Maven Proyect. 
+Este repositorio se basa en crear el juego Ludo para la materia de Algoritmos y Progrmacion III de la FIUBA. Este proyecto fue creado en Windows en el IDE Eclipse y se trata de un Maven Project. 
 
 Integrantes: 
 
